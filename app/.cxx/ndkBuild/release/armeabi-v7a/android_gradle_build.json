@@ -1,0 +1,50 @@
+{
+  "buildFiles": [
+    "D:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Android.mk",
+    "D:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Application.mk"
+  ],
+  "cleanCommands": [
+    "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Application.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-23 NDK_OUT\u003dD:/Development/Android/Exprements/MyApplication/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\build\\intermediates\\ndkBuild\\release\\lib clean"
+  ],
+  "buildTargetsCommand": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Application.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-23 NDK_OUT\u003dD:/Development/Android/Exprements/MyApplication/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\build\\intermediates\\ndkBuild\\release\\lib {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "ImageTargetsNative-release-armeabi-v7a": {
+      "buildCommand": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Application.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-23 NDK_OUT\u003dD:/Development/Android/Exprements/MyApplication/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dD:\\Development\\Android\\Exprements\\MyApplication\\app\\build\\intermediates\\ndkBuild\\release\\lib D:/Development/Android/Exprements/MyApplication/app/build/intermediates/ndkBuild/release/obj/local/armeabi-v7a/libImageTargetsNative.so",
+      "toolchain": "toolchain-armeabi-v7a",
+      "abi": "armeabi-v7a",
+      "artifactName": "ImageTargetsNative",
+      "files": [
+        {
+          "src": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\ImageTargets.cpp",
+          "flags": "-target armv7-none-linux-androideabi23 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot D:/Development/Android/sdk/ndk/20.0.5594570/build//../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -fno-addrsig -fno-exceptions -fno-rtti -fpic -march\u003darmv7-a -O2 -DNDEBUG -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni/../../../../../../vuforia-sdk-android-9-0-12/build/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/../llvm-libc++abi/include -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni -std\u003dc++11 -DANDROID -Wno-write-strings -DUSE_OPENGL_ES_2_0 -std\u003dc++11 -nostdinc++ -Wa,--noexecstack -Wformat -Werror\u003dformat-security"
+        },
+        {
+          "src": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\SampleAppRenderer.cpp",
+          "flags": "-target armv7-none-linux-androideabi23 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot D:/Development/Android/sdk/ndk/20.0.5594570/build//../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -fno-addrsig -fno-exceptions -fno-rtti -fpic -march\u003darmv7-a -O2 -DNDEBUG -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni/../../../../../../vuforia-sdk-android-9-0-12/build/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/../llvm-libc++abi/include -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni -std\u003dc++11 -DANDROID -Wno-write-strings -DUSE_OPENGL_ES_2_0 -std\u003dc++11 -nostdinc++ -Wa,--noexecstack -Wformat -Werror\u003dformat-security"
+        },
+        {
+          "src": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\SampleMath.cpp",
+          "flags": "-target armv7-none-linux-androideabi23 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot D:/Development/Android/sdk/ndk/20.0.5594570/build//../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -fno-addrsig -fno-exceptions -fno-rtti -fpic -march\u003darmv7-a -O2 -DNDEBUG -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni/../../../../../../vuforia-sdk-android-9-0-12/build/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/../llvm-libc++abi/include -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni -std\u003dc++11 -DANDROID -Wno-write-strings -DUSE_OPENGL_ES_2_0 -std\u003dc++11 -nostdinc++ -Wa,--noexecstack -Wformat -Werror\u003dformat-security"
+        },
+        {
+          "src": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\SampleUtils.cpp",
+          "flags": "-target armv7-none-linux-androideabi23 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot D:/Development/Android/sdk/ndk/20.0.5594570/build//../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -fno-addrsig -fno-exceptions -fno-rtti -fpic -march\u003darmv7-a -O2 -DNDEBUG -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni/../../../../../../vuforia-sdk-android-9-0-12/build/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/../llvm-libc++abi/include -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni -std\u003dc++11 -DANDROID -Wno-write-strings -DUSE_OPENGL_ES_2_0 -std\u003dc++11 -nostdinc++ -Wa,--noexecstack -Wformat -Werror\u003dformat-security"
+        },
+        {
+          "src": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Texture.cpp",
+          "flags": "-target armv7-none-linux-androideabi23 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot D:/Development/Android/sdk/ndk/20.0.5594570/build//../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -fno-addrsig -fno-exceptions -fno-rtti -fpic -march\u003darmv7-a -O2 -DNDEBUG -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni/../../../../../../vuforia-sdk-android-9-0-12/build/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/include -ID:/Development/Android/sdk/ndk/20.0.5594570/build//../sources/cxx-stl/llvm-libc++/../llvm-libc++abi/include -ID:/Development/Android/Exprements/MyApplication/app/src/main/jni -std\u003dc++11 -DANDROID -Wno-write-strings -DUSE_OPENGL_ES_2_0 -std\u003dc++11 -nostdinc++ -Wa,--noexecstack -Wformat -Werror\u003dformat-security"
+        }
+      ],
+      "output": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\build\\intermediates\\ndkBuild\\release\\obj\\local\\armeabi-v7a\\libImageTargetsNative.so"
+    }
+  },
+  "toolchains": {
+    "toolchain-armeabi-v7a": {
+      "cppCompilerExecutable": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\build\\..\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}
