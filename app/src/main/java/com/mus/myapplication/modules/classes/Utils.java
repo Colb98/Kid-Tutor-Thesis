@@ -26,8 +26,6 @@ public class Utils {
         act.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
-
-        Log.d("What", screenHeight + " " + screenWidth);
     }
     public static float getPxByDp(float dp){
         return dp * dpToPx;

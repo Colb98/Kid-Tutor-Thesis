@@ -5,7 +5,7 @@ import android.util.Log;
 import com.mus.myapplication.modules.views.base.Sprite;
 
 public class ScaleTo extends Action {
-    private float lastScale;
+    public float lastScale;
     private float firstScale;
 
     public ScaleTo(float duration, float scale) {

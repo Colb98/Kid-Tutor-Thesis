@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
 import com.mus.myapplication.modules.classes.Point;
+import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
@@ -23,24 +24,47 @@ public class ScrollView extends Sprite {
     private long firstTouchTimestamp;
     private long lastMoveTimestamp;
     private Point floatDrag = new Point(0, 0);
+    private Size viewSize;
 
     // Distance to original position
-    private float dx = 0;
-    private float dy = 0;
+    private Point contentPosition = new Point(0,0);
 
     private float minDx = -1000;
     private float minDy = -1000;
     private float maxDx = 1000;
     private float maxDy = 1000;
 
-    public ScrollView(){
+    public ScrollView(Size size){
         super();
         scrollType = ScrollType.BOTH;
+        viewSize = new Size(size.width, size.height);
+        realContentSize = new Size(size.width, size.height);
+        setContentSize(size.width, size.height);
     }
 
-    public ScrollView(GameView parent){
+    public ScrollView(float width, float height){
+        super();
+        scrollType = ScrollType.BOTH;
+        viewSize = new Size(width, height);
+        realContentSize = new Size(width, height);
+        setContentSize(width, height);
+    }
+
+    public ScrollView(GameView parent, Size size){
         super(parent);
         scrollType = ScrollType.BOTH;
+        viewSize = new Size(size.width, size.height);
+        realContentSize = new Size(size.width, size.height);
+        setContentSize(size.width, size.height);
+        setUpLayoutSize();
+    }
+
+    public ScrollView(GameView parent, float width, float height){
+        super(parent);
+        scrollType = ScrollType.BOTH;
+        viewSize = new Size(width, height);
+        realContentSize = new Size(width, height);
+        setContentSize(width, height);
         setUpLayoutSize();
     }
 
@@ -52,13 +76,49 @@ public class ScrollView extends Sprite {
     private void setUpLayoutSize() {
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
         if(lp == null){
-            lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
+            lp = new RelativeLayout.LayoutParams((int) viewSize.width,(int) viewSize.height);
         }
         else{
-            lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-            lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            lp.width = (int) viewSize.width;
+            lp.height = (int) viewSize.height;
         }
         this.setLayoutParams(lp);
+        resetContainerBound();
+    }
+
+
+    protected void resetViewBound(){
+        Log.d("Scroll", getName() + " reset View Bound" + viewSize + realContentSize);
+        if(viewSize == null) return;
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
+        if(lp == null){
+            lp = new RelativeLayout.LayoutParams((int)viewSize.width, (int)viewSize.height);
+            this.setLayoutParams(lp);
+        }
+        else{
+            lp.width = (int)viewSize.width;
+            lp.height = (int)viewSize.height;
+        }
+        Log.d("resetViewBound", viewSize.toString());
+//        invalidate();
+
+        this.resetContainerBound();
+    }
+
+    protected void resetContainerBound(){
+//        Log.d("Scroll", getName() + " reset resetContainerBound Bound" + viewSize + realContentSize);
+        if(viewSize == null) return;
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+        if(lp == null){
+            lp = new RelativeLayout.LayoutParams((int)viewSize.width, (int)viewSize.height);
+        }
+        else{
+            lp.width = (int)viewSize.width;
+            lp.height = (int)viewSize.height;
+        }
+        Log.d("resetContainerBound", "view" + viewSize);
+        this.container.setLayoutParams(lp);
+        this.container.invalidate();
     }
 
     @Override
@@ -77,6 +137,7 @@ public class ScrollView extends Sprite {
         if(isTouching){
             Point cur = new Point(event.getRawX(), event.getRawY());
             Point distance = cur.subtract(prevTouch);
+//            Log.d(LOGTAG, "distance: " + distance + " " + contentPosition);
             if(scrollType == ScrollType.HORIZONTAL || scrollType == ScrollType.NONE){
                 distance.y = 0;
             }
@@ -84,50 +145,41 @@ public class ScrollView extends Sprite {
                 distance.x = 0;
             }
 
-            if(dx + distance.x < minDx){
-                distance.x = minDx - dx;
+            if(contentPosition.x + distance.x < minDx){
+                distance.x = minDx - contentPosition.x;
             }
-            else if(dx + distance.x > maxDx){
-                distance.x = maxDx - dx;
+            else if(contentPosition.x + distance.x > maxDx){
+                distance.x = maxDx - contentPosition.x;
             }
-            if(dy + distance.y < minDy){
-                distance.y = minDy - dy;
+            if(contentPosition.y + distance.y < minDy){
+                distance.y = minDy - contentPosition.y;
             }
-            else if(dy + distance.y > maxDy){
-                distance.y = maxDy - dy;
+            else if(contentPosition.y + distance.y > maxDy){
+                distance.y = maxDy - contentPosition.y;
             }
 
             lastMoveTimestamp = System.currentTimeMillis();
             floatVelocity = distance;
+            contentPosition = contentPosition.add(distance);
 
-            for(GameView child : getChildren()){
-                if(child.getViewType() == GameView.SPRITE){
-                    child.move(distance);
-                }
-            }
+            moveAllChild(distance);
+//            Log.d("SCR", "contentPos: " + contentPosition);
 
             prevTouch = cur;
+        }
+    }
+
+    private void moveAllChild(Point distance) {
+        for (GameView child : getChildren()) {
+            if (child.getViewType() == GameView.SPRITE) {
+                child.move(distance);
+            }
         }
     }
 
     public void setMinScroll(Point p){
         minDx = p.x;
         minDy = p.y;
-    }
-
-    public void setMinScroll(float x, float y){
-        minDx = x;
-        minDy = y;
-    }
-
-    public void setMaxScroll(Point p){
-        maxDx = p.x;
-        maxDy = p.y;
-    }
-
-    public void setMaxScroll(float x, float y){
-        maxDx = x;
-        maxDy = y;
     }
 
     public void setScrollType(ScrollType type){
@@ -138,10 +190,49 @@ public class ScrollView extends Sprite {
         return scrollType;
     }
 
+    public void setContentSize(float width, float height) {
+        if(contentSize == null) contentSize = new Size();
+        contentSize.width = width;
+        contentSize.height = height;
+
+        minDx = 0;
+        minDy = 0;
+        maxDx = contentSize.width - viewSize.width;
+        maxDy = contentSize.height - viewSize.height;
+        invalidate();
+    }
+
+    public void setViewSize(float width, float height) {
+        if(viewSize == null) viewSize = new Size();
+//        Log.d("DEBUG: ", "real: " + viewSize + ", fic: " + contentSize + ", param: " + new Size(width, height));
+        viewSize.width = width;
+        viewSize.height = height;
+
+//        if(contentPosition.x < minDx || contentPosition.x > maxDx || contentPosition.y < minDy || contentPosition.y > maxDy){
+//            moveAllChild(contentPosition.product(-1));
+//            contentPosition = new Point(0,0);
+//        }
+        minDx = 0;
+        minDy = 0;
+        maxDx = contentSize.width - viewSize.width;
+        maxDy = contentSize.height - viewSize.height;
+        invalidate();
+    }
+
+    public void debug(){
+        RelativeLayout.LayoutParams clp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
+        Log.d("DEBUG", "mRealContentSize: " + realContentSize + ", mContentSize: " + contentSize + ", viewSize: " + viewSize);
+        Log.d("DEBUG", "container width, height: " + clp.width + " " + clp.height);
+        Log.d("DEBUG", "object width, height: " + lp.width + " " + lp.height);
+    }
+
+    public void setScale(float scale){
+    }
+
     @Override
     public void addChild(GameView child) {
         super.addChild(child);
-        Log.d("Scrollview", "Add child name: "  + child.getName());
         if(child.viewType == SPRITE) {
             ((Sprite)child).setSwallowTouches(false);
         }
@@ -193,15 +284,23 @@ public class ScrollView extends Sprite {
                 }
                 Point distance = floatVelocity.product(dt);
                 Point newV = floatVelocity.add(floatDrag.product(2*dt));
-                Log.d("Scrolling", "t = " + t + " velocity: " + floatVelocity + " distance: " + distance);
+                if(contentPosition.x + distance.x > maxDx ||
+                        contentPosition.x + distance.x < minDx ||
+                        contentPosition.y + distance.y > maxDy ||
+                        contentPosition.y + distance.y < minDy){
+                    floating = false;
+                    floatDrag.x = floatDrag.y = 0;
+                }
+//                Log.d("Scrolling", "t = " + t + " velocity: " + floatVelocity + " distance: " + distance);
 
-                if(newV.x * floatVelocity.x >= 0 && newV.y * floatVelocity.y >= 0){
+                // Khi nào vector lực đổi chiều thì dừng
+                if(newV.x * floatVelocity.x >= 0
+                        && newV.y * floatVelocity.y >= 0
+                        && !((newV.x * floatVelocity.x == 0 && newV.y * floatVelocity.y == 0))){
                     floatVelocity = newV;
-                    for(GameView child : getChildren()){
-                        if(child.getViewType() == GameView.SPRITE){
-                            child.move(distance);
-                        }
-                    }
+                    moveAllChild(distance);
+                    contentPosition = contentPosition.add(distance);
+//                    Log.d("SCR", "contentPos: " + contentPosition);
                 }
                 else{
                     floating = false;

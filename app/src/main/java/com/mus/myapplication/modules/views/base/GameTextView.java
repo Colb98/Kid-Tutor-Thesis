@@ -69,15 +69,17 @@ public class GameTextView extends Sprite {
     public void setScale(float scale) {
         super.setScale(scale);
         float recurScale = getRecursiveScale();
-        Log.d("TEXTVIEW", "text view set scale " + scale + " " + fontSize);
+//        Log.d("TEXTVIEW", "text view set scale " + scale + " " + fontSize);
         view.setTextSize(fontSize * recurScale);
     }
 
     @Override
     protected void updateRecurScale() {
         super.updateRecurScale();
-        float recurScale = getRecursiveScale();
-        view.setTextSize(fontSize * recurScale);
+        if(view != null){
+            float recurScale = getRecursiveScale();
+            view.setTextSize(fontSize * recurScale);
+        }
     }
 
     public void setText(String text){

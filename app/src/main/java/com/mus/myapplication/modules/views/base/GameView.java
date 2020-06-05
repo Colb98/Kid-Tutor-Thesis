@@ -165,18 +165,21 @@ public class GameView extends AppCompatImageView {
     }
 
     public void setPosition(Point p){
-        setPosition((int)p.x, (int)p.y);
+        setPosition(p.x, p.y);
     }
 
-    public void setPosition(int x, int y){
+    public void setPosition(float x, float y){
 //        int dpX = (int)Utils.getDpByPx(x);
 //        int dpY = (int)Utils.getDpByPx(y);
 //        Log.d(LOGTAG, "dpx, dpy: " + dpX + " "  + dpY + "x, y: " + x + " "  + y);
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
-        lp.setMargins(x, y, -x, -y);
+        lp.setMargins((int)x, (int)y, 0, 0);
         position.x = x;
         position.y = y;
         this.setLayoutParams(lp);
+
+        lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+        lp.setMargins((int)x, (int)y, 0, 0);
         this.container.setLayoutParams(lp);
     }
 
@@ -208,7 +211,7 @@ public class GameView extends AppCompatImageView {
         for(GameView child : children){
             child.update(dt);
         }
-        invalidate();
+//        invalidate();
 //         Update function below
 //        Log.d("Updating", "FPS: " + 1000/dt);
     }

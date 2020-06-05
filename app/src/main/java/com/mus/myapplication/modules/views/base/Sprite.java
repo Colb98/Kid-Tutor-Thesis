@@ -2,6 +2,7 @@ package com.mus.myapplication.modules.views.base;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -29,13 +30,15 @@ public class Sprite extends GameView{
         ON_CLICK
     }
 
-    private Size contentSize;
-    private Size realContentSize;
+    protected Size contentSize = new Size(0, 0);
+    protected Size realContentSize = new Size(0, 0);
+    protected Size dSize = new Size(0, 0); // Drawable size
     private int animIdx = 0;
     private boolean isPlaying = false;
     private boolean isRepeating = true;
     private Bitmap[] animSprites = null;
     protected float trueScale = 1f;
+    private float oldRecurScale = 1f;
     protected float playTime = 0f;
     private float anchorX = 0.5f;
     private float anchorY = 0.5f;
@@ -57,7 +60,7 @@ public class Sprite extends GameView{
 
         resetViewBound();
         this.setAnchorPoint(0, 0);
-        this.setScaleType(ScaleType.FIT_CENTER);
+        this.setScaleType(ScaleType.MATRIX);
     }
 
     public Sprite(GameView parent) {
@@ -69,27 +72,40 @@ public class Sprite extends GameView{
         toBeRemovedActions = new ArrayList<>();
         resetViewBound();
         this.setAnchorPoint(0, 0);
-        this.setScaleType(ScaleType.FIT_CENTER);
+//        this.setScaleType(ScaleType.FIT_CENTER);
+        this.setScaleType(ScaleType.MATRIX);
     }
 
-    private void resetViewBound(){
-        Log.d("Sprite", getName() + " reset View Bound");
+    protected void resetViewBound(){
+//        Log.d("Sprite", getName() + " reset View Bound" + realContentSize);
         if(realContentSize == null) return;
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
         if(lp == null){
             lp = new RelativeLayout.LayoutParams((int)realContentSize.width, (int)realContentSize.height);
+            this.setLayoutParams(lp);
         }
         else{
             lp.width = (int)realContentSize.width;
             lp.height = (int)realContentSize.height;
+            requestLayout();
         }
-        Log.d("resetViewBound", realContentSize.toString());
-        this.setLayoutParams(lp);
+//        Log.d("resetViewBound", getName() + " lp: " + new Point(lp.width, lp.height) + " " + realContentSize.toString());
+//        invalidate();
 
+        Point translateVector = new Point(anchorX * dSize.width * oldRecurScale, anchorY * dSize.height * oldRecurScale);
+        float recurScale = getRecursiveScale();
+
+        translateVector = translateVector.product(1-recurScale/oldRecurScale);
+        if(getName().equals("Debug"))
+            Log.d("bug" + getName(), "dSize: " + dSize + " translate vector" + translateVector + " recur scale: " + recurScale + " old: " + oldRecurScale);
+        move(translateVector);
+
+        oldRecurScale = recurScale;
         this.resetContainerBound();
     }
 
-    private void resetContainerBound(){
+    protected void resetContainerBound(){
+//        Log.d("Sprite", getName() + " reset resetContainerBound Bound" + realContentSize);
         if(realContentSize == null) return;
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
         if(lp == null){
@@ -99,8 +115,9 @@ public class Sprite extends GameView{
             lp.width = (int)realContentSize.width;
             lp.height = (int)realContentSize.height;
         }
-        Log.d("resetContainerBound", new Size(lp.width, lp.height).toString() + " " + contentSize);
+//        Log.d("resetContainerBound", getName() + " " + new Size(lp.width, lp.height).toString() + " " + realContentSize);
         this.container.setLayoutParams(lp);
+        this.container.invalidate();
     }
 
     private void initListener() {
@@ -128,11 +145,12 @@ public class Sprite extends GameView{
         animFrameRate = frameRate;
         isRepeating = repeat;
         setImageBitmap(animSprites[0]);
+        dSize = new Size(animSprites[0].getWidth(), animSprites[0].getHeight());
         this.setContentSize(animSprites[0].getWidth(), animSprites[0].getHeight());
 //        contentSize = new Size(animSprites[0].getWidth(), animSprites[0].getHeight());
         this.container.setLayoutParams(new RelativeLayout.LayoutParams(this.getMeasuredWidth(), this.getMeasuredHeight()));
         animIdx = 0;
-        isPlaying = true;
+        isPlaying = animSprites.length > 1;
     }
 
     @Override
@@ -148,6 +166,8 @@ public class Sprite extends GameView{
             int curIdx = ((int)Math.floor(playTime*animFrameRate))%animSprites.length;
             if(curIdx != animIdx) {
                 setImageBitmap(animSprites[curIdx]);
+                dSize.width = animSprites[curIdx].getWidth();
+                dSize.height = animSprites[curIdx].getHeight();
             }
             animIdx = curIdx;
         }
@@ -271,37 +291,41 @@ public class Sprite extends GameView{
 
     // TODO: SCALE container along with view :D
     public void setScale(float scale){
+        oldRecurScale = getRecursiveScale();
         this.trueScale = scale;
         float recurScale = getRecursiveScale();
-//        this.setScaleX(recurScale);
-//        this.setScaleY(recurScale);
-        for(GameView child : children){
-            if(child.getViewType() == SPRITE){
-                child.invalidate();
-            }
-        }
         realContentSize = contentSize.multiply(recurScale);
         this.resetViewBound();
         this.setAnchorPoint(anchorX, anchorY);
+        invalidate();
     }
 
     protected void updateRecurScale(){
         // Update parent scale
         float recurScale = getRecursiveScale();
-        this.setScaleX(recurScale);
-        this.setScaleY(recurScale);
+        if(dSize.width != 0 && dSize.height != 0){
+            Matrix matrix = new Matrix();
+            matrix.setScale(recurScale, recurScale);
+//        this.setScaleX(recurScale);
+//        this.setScaleY(recurScale);
+            this.setImageMatrix(matrix);
+        }
+
+        realContentSize = contentSize.multiply(recurScale);
+        this.resetViewBound();
+        this.setAnchorPoint(anchorX, anchorY);
 
         for(GameView child : children){
             if(child.getViewType() == SPRITE){
-                child.invalidate();
+                ((Sprite)child).updateRecurScale();
             }
         }
     }
 
     @Override
     public void invalidate() {
-        super.invalidate();
         updateRecurScale();
+        super.invalidate();
     }
 
     public float getRecursiveScale(){
@@ -325,7 +349,7 @@ public class Sprite extends GameView{
     }
 
     @Override
-    public void setPosition(int x, int y) {
+    public void setPosition(float x, float y) {
 //        setPivotX(0f);
 //        setPivotY(0f);
         super.setPosition(x, y);
@@ -335,10 +359,14 @@ public class Sprite extends GameView{
         float recurScale = getRecursiveScale();
         anchorX = x;
         anchorY = y;
-        if(contentSize != null){
-            setPivotX(anchorX * contentSize.width);
-            setPivotY(anchorY * contentSize.height);
+        if(realContentSize != null){
+            setPivotX(anchorX * realContentSize.width);
+            setPivotY(anchorY * realContentSize.height);
         }
+    }
+
+    public void setContentSize(Size size){
+        setContentSize(size.width, size.height);
     }
 
     public void setContentSize(float width, float height){
@@ -352,11 +380,22 @@ public class Sprite extends GameView{
         return new Point(anchorX, anchorY);
     }
 
+    protected Bitmap[] getAnimSprites(){
+        return animSprites;
+    }
+
     public void setSwallowTouches(boolean value){
         swallowTouches = value;
     }
 
     public void setLayoutAnchor(ImageView.ScaleType type){
         setScaleType(type);
+    }
+
+
+    public void debug(){
+        Log.d("Button", "scale " + getRecursiveScale() + "contentSize " + contentSize + "real " + realContentSize);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
+        Log.d("Layout", lp.leftMargin + " " + lp.topMargin + " " + lp.rightMargin + " " + lp.bottomMargin);
     }
 }

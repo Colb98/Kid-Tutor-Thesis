@@ -9,10 +9,12 @@ import android.view.View;
 
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.Director;
-import com.mus.myapplication.modules.views.ScrollViewTestScene;
+import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.views.base.GameView;
-import com.mus.myapplication.modules.views.MonsterScene;
 import com.mus.myapplication.modules.views.base.ViewContainer;
+import com.mus.myapplication.modules.views.scene.TestMenuScene;
+
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Must have. Setting up everything
         Utils.init(this);
+        try {
+            Sounds.init(this);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
@@ -39,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         Director.getInstance().setMainGameView(mainView);
 
         // Main Scene
-        ScrollViewTestScene main = new ScrollViewTestScene();
+        TestMenuScene main = new TestMenuScene();
         mainView.addChild(main);
         main.setName("Scroll Scene");
 

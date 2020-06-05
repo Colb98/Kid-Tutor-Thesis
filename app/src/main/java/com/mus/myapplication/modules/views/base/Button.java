@@ -1,5 +1,6 @@
 package com.mus.myapplication.modules.views.base;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.mus.myapplication.R;
@@ -14,24 +15,32 @@ public class Button extends Sprite {
     private ScaleTo scaleUpAction = null;
     private ScaleTo scaleDownAction = null;
     private Point anchorPointBefore;
+    private boolean touchAnim = false;
     private GameTextView label;
 
 
     public Button(GameView parent) {
         super(parent);
         setSpriteAnimation(new int[]{R.drawable.button});
+        init();
         initLabel("");
     }
     public Button(){
         super();
         setSpriteAnimation(new int[]{R.drawable.button});
+        init();
         initLabel("");
     }
 
     public Button(String label){
         super();
         setSpriteAnimation(new int[]{R.drawable.button});
+        init();
         initLabel(label);
+    }
+
+    private void init(){
+        setAnchorPoint(0.5f, 0.5f);
     }
 
     private void initLabel(String s){
@@ -59,15 +68,20 @@ public class Button extends Sprite {
         if(!bOnClickEffect)
             return;
         // Scale + glow on Click
-
-        if(scaleDownAction != null){
+        if(scaleDownAction != null) {
+            scaleDownAction.addOnFinishedCallback(new Runnable() {
+                @Override
+                public void run() {
+                    touchAnim = true;
+                    scaleDownAction.removeOnFinishedCallback("resetAnim");
+                }
+            }, "resetAnim");
             scaleDownAction.forceFinish(this);
         }
 
-        scaleBeforeEffect = trueScale;
-
         anchorPointBefore = getAnchorPoint();
-        this.setAnchorPoint(0.5f, 0.5f);
+
+        setAnchorPoint(0.5f, 0.5f);
 
         if(scaleUpAction == null){
             scaleUpAction = new ScaleTo(0.2f, trueScale * 0.8f);
@@ -76,16 +90,9 @@ public class Button extends Sprite {
             scaleUpAction.reset();
             scaleUpAction.setLastScale(trueScale * 0.8f);
         }
-//        scaleUpAction.addOnFinishedCallback(new Runnable() {
-//            @Override
-//            public void run() {
-//                setAnchorPoint(anchor.x, anchor.y);
-//            }
-//        });
 
-        this.runAction(scaleUpAction);
-//        setScaleX(trueScale * 0.8f);
-//        setScaleY(trueScale * 0.8f);
+        touchAnim = true;
+        runAction(scaleUpAction);
     }
 
     protected void onClickEndedEffect(){
@@ -104,12 +111,14 @@ public class Button extends Sprite {
         }
         else{
             scaleDownAction.reset();
+            scaleDownAction.removeAllCallbacks();
             scaleDownAction.setLastScale(scaleBeforeEffect);
         }
         scaleDownAction.addOnFinishedCallback(new Runnable() {
             @Override
             public void run() {
                 setAnchorPoint(anchorPointBefore.x, anchorPointBefore.y);
+                touchAnim = false;
             }
         });
         this.runAction(scaleDownAction);
@@ -133,7 +142,16 @@ public class Button extends Sprite {
         label.setText(s);
     }
 
+    @Override
+    public void setScale(float scale) {
+        super.setScale(scale);
+        if(!touchAnim){
+            scaleBeforeEffect = scale;
+        }
+    }
+
     public void setLabelFontSize(int size){
         label.setFontSize(size);
     }
+
 }

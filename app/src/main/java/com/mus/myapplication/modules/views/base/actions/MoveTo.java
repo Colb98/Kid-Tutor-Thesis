@@ -33,15 +33,15 @@ public class MoveTo extends Action {
     public void updateEveryFrame(float dt, Sprite sprite) {
         if(timeElapsed == 0){
             startPoint = sprite.getPosition();
-            Log.d("MOVE TO", "total move: " + destination.subtract(startPoint));
+//            Log.d("MOVE TO", "total move: " + destination.subtract(startPoint));
         }
         super.updateEveryFrame(dt, sprite);
         if(!started) return;
 
         if(running){
-            Log.d("MOVE TO", "destination: " + destination + ", start: " + startPoint);
-            Log.d("MOVE TO", "fractal: " + timeElapsed);
-            Log.d("MOVE TO", "d move: " + (destination.subtract(startPoint)).product(timeElapsed/duration));
+//            Log.d("MOVE TO", "destination: " + destination + ", start: " + startPoint);
+//            Log.d("MOVE TO", "fractal: " + timeElapsed);
+//            Log.d("MOVE TO", "d move: " + (destination.subtract(startPoint)).product(timeElapsed/duration));
             Point curPos = startPoint.add((destination.subtract(startPoint)).product(timeElapsed/duration));
             sprite.setPosition(curPos);
         }

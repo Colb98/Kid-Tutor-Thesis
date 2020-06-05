@@ -61,6 +61,10 @@ public abstract class Action {
         }
     }
 
+    public void removeAllCallbacks(){
+        callbacks.clear();
+    }
+
     public String addOnFinishedCallback(Runnable callback){
         return addOnFinishedCallback(callback, String.valueOf(callbacks.size()));
     }
@@ -75,7 +79,7 @@ public abstract class Action {
     }
 
     protected void onFinished(){
-        Log.d(this.getClass().getName(), " ON FINISH with callbacks: " + callbacks.values().size());
+//        Log.d(this.getClass().getName(), " ON FINISH with callbacks: " + callbacks.values().size());
         for(Runnable callback : callbacks.values()){
             callback.run();
         }

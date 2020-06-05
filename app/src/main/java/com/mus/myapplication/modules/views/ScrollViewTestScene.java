@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameTextView;
@@ -31,7 +32,7 @@ public class ScrollViewTestScene extends GameScene {
     }
 
     private void initSections(){
-        ScrollView container = new ScrollView(this);
+        ScrollView container = new ScrollView(this, new Size(1000, 500));
         final SectionSprite cat = new SectionSprite();
         SectionSprite rabbit = new SectionSprite ();
         GameTextView text = new GameTextView();
