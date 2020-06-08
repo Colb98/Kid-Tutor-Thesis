@@ -1,20 +1,14 @@
 package com.mus.myapplication.modules.views.scene;
 
-import android.media.MediaPlayer;
-import android.os.Handler;
 import android.util.Log;
 
+import com.vuforia.engine.ImageTargets.ImageTargets;
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.controllers.Director;
-import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.views.base.Button;
-import com.mus.myapplication.modules.views.base.GameImageView;
 import com.mus.myapplication.modules.views.base.GameScene;
-import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.ScrollView;
 import com.mus.myapplication.modules.views.base.Sprite;
-import com.mus.myapplication.modules.views.base.actions.MoveTo;
-import com.mus.myapplication.modules.views.base.actions.ScaleTo;
 
 public class TestMenuScene extends GameScene {
     public TestMenuScene(){
@@ -115,6 +109,13 @@ public class TestMenuScene extends GameScene {
                 imgView.setScale(1f);
                 Log.d("Test", "scale 1.5");
                 imgView.debug();
+            }
+        });
+
+        test1.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                Director.getInstance().runActivity(ImageTargets.class);
             }
         });
     }

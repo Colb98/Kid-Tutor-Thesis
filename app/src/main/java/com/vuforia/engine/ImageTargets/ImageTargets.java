@@ -7,7 +7,7 @@ Vuforia is a trademark of PTC Inc., registered in the United States and other
 countries.
 ===============================================================================*/
 
-package com.mus.myapplication;
+package com.vuforia.engine.ImageTargets;
 
 import java.lang.ref.WeakReference;
 import java.util.Vector;
@@ -37,9 +37,14 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 
+import com.mus.myapplication.R;
+import com.mus.myapplication.Texture;
+import com.mus.myapplication.VuforiaSampleGLView;
 import com.vuforia.Vuforia;
 import com.vuforia.INIT_ERRORCODE;
 import com.vuforia.INIT_FLAGS;
+
+import androidx.annotation.NonNull;
 
 
 /** The main activity for the ImageTargets sample. */
@@ -184,7 +189,7 @@ public class ImageTargets extends Activity
             // Prevent the concurrent lifecycle operations:
             synchronized (activityRef.get().mLifecycleLock)
             {
-                Vuforia.setInitParameters(activityRef.get(), activityRef.get().mVuforiaFlags, "");
+                Vuforia.setInitParameters(activityRef.get(), activityRef.get().mVuforiaFlags, "AT4AmLr/////AAABmSoFE3AXiUgHgUIMv2goaS83mv7wgkZQ32OVxA/7opZKUNpcYiBghFknxXlKfnb9n+g+xZkbPEppbiIV2kMPn3m8e9v6KVn1m8cGDXmq8oqhixFyFBsmCPftMno2rxbMjZTN6vujgUuo/VAC7mOUhOXSe5x6gk8A/gfIH1GpHNlnkSuPXwPmteotSL1r5CxuqoTH5LnK0DTiUYOr9t9x7F5inxskhRPGThOrHGFcdwYnLGO3UONiHD77WPT6Z9E26K6R6lAAc5PZBFPkdbI1dFGoeInacOseY0cCYN8M8F8gBxeqDlPqoRIQ5mZMABAEPrqCvHda8fXXzv247s8yc8Ax/TXPjwAMj06GaKgl/I1y");
 
                 do
                 {
@@ -284,6 +289,7 @@ public class ImageTargets extends Activity
             return getString(R.string.INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH);
         else
         {
+            Log.d("something wrong", "ecode " + code);
             return getString(R.string.INIT_LICENSE_ERROR_UNKNOWN_ERROR);
         }
     }
@@ -528,7 +534,19 @@ public class ImageTargets extends Activity
                 "droid");
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+//        if (requestCode == 0) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Intent intent = new Intent(MainActivity.this, VuforiaActivity.class);
+//                startActivity(intent);
+//            } else {
+//                Toast.makeText(getApplicationContext(), getString(R.string.error_permission_needed), Toast.LENGTH_LONG).show();
+//            }
+//        }
+    }
 
     /**
      * We want to load specific textures from the APK, which we will later use
@@ -970,6 +988,7 @@ public class ImageTargets extends Activity
         {
             Log.e(LOGTAG, "The library lib" + nLibName
                     + ".so could not be loaded");
+            Log.e(LOGTAG, ulee.getLocalizedMessage());
         } catch (SecurityException se)
         {
             Log.e(LOGTAG, "The library lib" + nLibName

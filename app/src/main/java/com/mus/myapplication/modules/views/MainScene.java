@@ -1,11 +1,10 @@
 package com.mus.myapplication.modules.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.mus.myapplication.ImageTargets;
+import com.vuforia.engine.ImageTargets.ImageTargets;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.SectionSprite;
