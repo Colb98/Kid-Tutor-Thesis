@@ -7,7 +7,7 @@ Vuforia is a trademark of PTC Inc., registered in the United States and other
 countries.
 ===============================================================================*/
 
-package com.mus.myapplication;
+package com.vuforia.engine.ImageTargets;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -45,7 +45,7 @@ public class Texture
     
     /** Factory function to load a texture from the APK. */
     static Texture loadTextureFromApk(String fileName,
-                                      AssetManager assets)
+                                             AssetManager assets)
     {
         InputStream inputStream;
         try

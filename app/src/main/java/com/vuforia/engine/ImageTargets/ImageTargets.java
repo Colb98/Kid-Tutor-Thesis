@@ -38,7 +38,6 @@ import android.widget.Toast;
 
 
 import com.mus.myapplication.R;
-import com.mus.myapplication.Texture;
 import com.mus.myapplication.VuforiaSampleGLView;
 import com.vuforia.Vuforia;
 import com.vuforia.INIT_ERRORCODE;
@@ -387,18 +386,18 @@ public class ImageTargets extends Activity
                         activity.setFocusMode(FOCUS_MODE_NORMAL);
 
                         // Update toggle state
-                        activity.setMenuToggle(activity.mFocusOptionView, false);
+//                        activity.setMenuToggle(activity.mFocusOptionView, false);
                     }
                     else
                     {
                         // Update toggle state
-                        activity.setMenuToggle(activity.mFocusOptionView, true);
+//                        activity.setMenuToggle(activity.mFocusOptionView, true);
                     }
                 }
                 else
                 {
                     // Update toggle state
-                    activity.setMenuToggle(activity.mFocusOptionView, false);
+//                    activity.setMenuToggle(activity.mFocusOptionView, false);
                 }
 
             }
@@ -554,14 +553,14 @@ public class ImageTargets extends Activity
      */
     private void loadTextures()
     {
-//        mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
-//                getAssets()));
-//        mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
-//                getAssets()));
-//        mTextures.add(Texture.loadTextureFromApk("TextureTeapotRed.png",
-//                getAssets()));
-//        mTextures
-//                .add(Texture.loadTextureFromApk("Buildings.png", getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("TextureTeapotRed.png",
+                getAssets()));
+        mTextures
+                .add(Texture.loadTextureFromApk("Buildings.png", getAssets()));
     }
 
 
