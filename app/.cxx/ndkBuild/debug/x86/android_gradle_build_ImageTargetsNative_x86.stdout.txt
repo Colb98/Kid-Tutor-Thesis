@@ -4,4 +4,5 @@
 [x86] Compile++      : ImageTargetsNative <= Texture.cpp
 [x86] Compile++      : ImageTargetsNative <= SampleMath.cpp
 [x86] Prebuilt       : libVuforia.so <= D:/Development/Android/Exprements/MyApplication/app/src/main/jni/../../../../../../vuforia-sdk-android-9-0-12/build/lib/x86/
+[x86] StaticLibrary  : libstdc++.a
 [x86] SharedLibrary  : libImageTargetsNative.so

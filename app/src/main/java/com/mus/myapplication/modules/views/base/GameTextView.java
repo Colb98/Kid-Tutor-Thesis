@@ -8,6 +8,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mus.myapplication.modules.classes.FontCache;
+import com.mus.myapplication.modules.classes.Size;
+import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.Director;
 
 import androidx.annotation.ColorInt;
 
@@ -18,22 +21,28 @@ public class GameTextView extends Sprite {
 
 
     public GameTextView(GameView parent){
-        super();
+        super(parent);
         this.text = "";
+        this.container = new TextViewContainer(this.getContext());
         initTextView();
         setFontColor(Color.BLACK);
     }
 
     public GameTextView(String text){
         super();
+        this.container = new TextViewContainer(this.getContext());
         this.text = text;
-        initTextView();
-        setFontColor(Color.BLACK);
     }
 
     public GameTextView(){
         super();
+        this.container = new TextViewContainer(this.getContext());
         this.text = "";
+    }
+
+    @Override
+    protected void afterAddChild() {
+        super.afterAddChild();
         initTextView();
         setFontColor(Color.BLACK);
     }
@@ -42,13 +51,8 @@ public class GameTextView extends Sprite {
         view = new TextView(this.getContext());
         view.setText(text);
         fontSize = view.getTextSize();
-        this.container = new TextViewContainer(this.getContext());
-        this.container.setLayoutParams(
-                new RelativeLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                )
-        );
+
+        updateBound();
         this.container.addView(view);
     }
 
@@ -75,15 +79,47 @@ public class GameTextView extends Sprite {
 
     @Override
     protected void updateRecurScale() {
-        super.updateRecurScale();
         if(view != null){
             float recurScale = getRecursiveScale();
+            updateBound();
             view.setTextSize(fontSize * recurScale);
         }
+        super.updateRecurScale();
+
+//        if(view != null){
+//
+//            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) ((RelativeLayout)this.view.getParent()).getLayoutParams();
+////            Log.d("GameTextView", "Debug recur scale " + lp.width + " " + lp.height);
+//        }
+    }
+
+    private void updateBound() {
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+        if(lp == null){
+            lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+
+        int width, height;
+        if(parent.getViewType() == SPRITE){
+            Sprite p = (Sprite) parent;
+            width = (int) p.realContentSize.width;
+            height = (int) p.realContentSize.height;
+        }
+        else{
+            width = Utils.getScreenWidth();
+            height = Utils.getScreenHeight();
+        }
+        realContentSize.width = lp.width = width;
+        realContentSize.height = lp.height = height;
+
+        float recurScale = getRecursiveScale();
+        contentSize = realContentSize.multiply(1/recurScale);
+
+        this.container.setLayoutParams(lp);
     }
 
     public void setText(String text){
-        text = text;
+        this.text = text;
         view.setText(text);
     }
 }

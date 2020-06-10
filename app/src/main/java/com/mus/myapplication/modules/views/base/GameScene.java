@@ -25,5 +25,6 @@ public class GameScene extends GameView{
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
         lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
         lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        this.setLayoutParams(lp);
     }
 }

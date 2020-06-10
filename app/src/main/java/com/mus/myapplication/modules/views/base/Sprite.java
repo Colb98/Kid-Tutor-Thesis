@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -96,8 +97,8 @@ public class Sprite extends GameView{
         float recurScale = getRecursiveScale();
 
         translateVector = translateVector.product(1-recurScale/oldRecurScale);
-        if(getName().equals("Debug"))
-            Log.d("bug" + getName(), "dSize: " + dSize + " translate vector" + translateVector + " recur scale: " + recurScale + " old: " + oldRecurScale);
+//        if(getName().equals("Debug"))
+//            Log.d("bug" + getName(), "dSize: " + dSize + " translate vector" + translateVector + " recur scale: " + recurScale + " old: " + oldRecurScale);
         move(translateVector);
 
         oldRecurScale = recurScale;
@@ -300,6 +301,7 @@ public class Sprite extends GameView{
         invalidate();
     }
 
+
     protected void updateRecurScale(){
         // Update parent scale
         float recurScale = getRecursiveScale();
@@ -394,8 +396,14 @@ public class Sprite extends GameView{
 
 
     public void debug(){
-        Log.d("Button", "scale " + getRecursiveScale() + "contentSize " + contentSize + "real " + realContentSize);
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
-        Log.d("Layout", lp.leftMargin + " " + lp.topMargin + " " + lp.rightMargin + " " + lp.bottomMargin);
+////        Log.d("Button", "scale " + getRecursiveScale() + "contentSize " + contentSize + "real " + realContentSize);
+////        Log.d("Layout", lp.leftMargin + " " + lp.topMargin + " " + lp.rightMargin + " " + lp.bottomMargin);
+//        Log.d("Sprite", "debug()");
+//        int n = this.container.getChildCount();
+//        for(int i=0;i<n;i++){
+//            View v = this.container.getChildAt(i);
+//            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) v.getLayoutParams();
+//            Log.d("Debug()", "View class: " + v.getClass().toString() + " " + lp.width + ", " + lp.height);
+//        }
     }
 }

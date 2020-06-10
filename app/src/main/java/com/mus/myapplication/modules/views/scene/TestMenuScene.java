@@ -1,7 +1,9 @@
 package com.mus.myapplication.modules.views.scene;
 
+import android.graphics.Color;
 import android.util.Log;
 
+import com.mus.myapplication.modules.views.base.GameTextView;
 import com.vuforia.engine.ImageTargets.ImageTargets;
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.controllers.Director;
@@ -89,9 +91,15 @@ public class TestMenuScene extends GameScene {
 //            }
 //        });
 
+//        GameTextView text = new GameTextView(this);
+//        text.setText("Hello World");
+//        text.setFontSize(14);
+//        text.setFontColor(Color.BLACK);
+
         Button test1 = new Button();
         bg.addChild(test1);
         test1.setName("test1234");
+        test1.setLabel("Scale Sprite");
         test1.setScale(3);
         test1.setPosition(900, 500);
         test1.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
@@ -99,7 +107,7 @@ public class TestMenuScene extends GameScene {
             public void run() {
                 imgView.setScale(1.8f);
                 Log.d("Test", "scale 1");
-                imgView.debug();
+//                imgView.debug();
             }
         });
 
@@ -108,15 +116,18 @@ public class TestMenuScene extends GameScene {
             public void run() {
                 imgView.setScale(1f);
                 Log.d("Test", "scale 1.5");
-                imgView.debug();
+//                imgView.debug();
             }
         });
 
+        final Button btn = test1;
         test1.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
             @Override
             public void run() {
-                Director.getInstance().runActivity(ImageTargets.class);
+                btn.debug();
             }
         });
+        Button b = new Button(this);
+        b.setPosition(200, 200);
     }
 }
