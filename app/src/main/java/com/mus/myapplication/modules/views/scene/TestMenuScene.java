@@ -3,6 +3,7 @@ package com.mus.myapplication.modules.views.scene;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.mus.myapplication.modules.views.base.GameTextEdit;
 import com.mus.myapplication.modules.views.base.GameTextView;
 import com.vuforia.engine.ImageTargets.ImageTargets;
 import com.mus.myapplication.R;
@@ -91,10 +92,10 @@ public class TestMenuScene extends GameScene {
 //            }
 //        });
 
-//        GameTextView text = new GameTextView(this);
-//        text.setText("Hello World");
-//        text.setFontSize(14);
-//        text.setFontColor(Color.BLACK);
+
+        GameTextEdit textEdit = new GameTextEdit(imgView);
+        textEdit.setPosition(100, 200);
+        textEdit.setFontSize(20);
 
         Button test1 = new Button();
         bg.addChild(test1);
@@ -120,14 +121,8 @@ public class TestMenuScene extends GameScene {
             }
         });
 
-        final Button btn = test1;
-        test1.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
-            @Override
-            public void run() {
-                btn.debug();
-            }
-        });
-        Button b = new Button(this);
-        b.setPosition(200, 200);
+        final Button btn = new Button(bg);
+        btn.setPosition(300, 200);
+        btn.setLabel("YA");
     }
 }

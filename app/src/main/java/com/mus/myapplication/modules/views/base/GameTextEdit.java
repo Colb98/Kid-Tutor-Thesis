@@ -2,26 +2,24 @@ package com.mus.myapplication.modules.views.base;
 
 
 import android.graphics.Color;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mus.myapplication.modules.classes.FontCache;
-import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.classes.Utils;
-import com.mus.myapplication.modules.controllers.Director;
 
 import androidx.annotation.ColorInt;
 
-public class GameTextView extends Sprite {
+public class GameTextEdit extends Sprite {
     TextView view;
     String text;
-    float fontSize;
+    float fontSize = 15f;
 
 
-    public GameTextView(GameView parent){
+    public GameTextEdit(GameView parent){
         super();
         this.text = "";
         this.container = new TextViewContainer(this.getContext());
@@ -30,13 +28,13 @@ public class GameTextView extends Sprite {
 //        setFontColor(Color.BLACK);
     }
 
-    public GameTextView(String text){
+    public GameTextEdit(String text){
         super();
         this.container = new TextViewContainer(this.getContext());
         this.text = text;
     }
 
-    public GameTextView(){
+    public GameTextEdit(){
         super();
         this.container = new TextViewContainer(this.getContext());
         this.text = "";
@@ -49,9 +47,27 @@ public class GameTextView extends Sprite {
         setFontColor(Color.BLACK);
     }
 
+    public void setFontSize(float size){
+        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        fontSize = size;
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        if(lp != null){
+            lp.height = (int)fontSize/15*120;
+            view.setLayoutParams(lp);
+        }
+    }
+
+    public String getText(){
+        return (String) view.getText();
+    }
+
     private void initTextView(){
-        view = new TextView(this.getContext());
+        view = new EditText(this.getContext());
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(500, 120);
         view.setText(text);
+        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, 15);
+        view.setLayoutParams(lp);
+
         fontSize = view.getTextSize();
 
         updateBound();
@@ -62,13 +78,8 @@ public class GameTextView extends Sprite {
         view.setTextColor(color);
     }
 
-    public void setFont(){
-        view.setTypeface(FontCache.get("fonts/Radens.ttf", this.getContext()));
-    }
-
-    public void setFontSize(float size){
-        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-        fontSize = size;
+    public void setFont(String fontName){
+        view.setTypeface(FontCache.get(fontName, this.getContext()));
     }
 
     @Override
@@ -84,7 +95,7 @@ public class GameTextView extends Sprite {
         if(view != null){
             float recurScale = getRecursiveScale();
             updateBound();
-            view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * recurScale);
+            view.setTextSize(fontSize * recurScale);
         }
         super.updateRecurScale();
 

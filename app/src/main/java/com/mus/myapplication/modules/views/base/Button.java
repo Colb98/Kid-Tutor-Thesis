@@ -23,13 +23,13 @@ public class Button extends Sprite {
         super(parent);
         setSpriteAnimation(new int[]{R.drawable.button});
         init();
-        initLabel("A");
+        initLabel("");
     }
     public Button(){
         super();
         setSpriteAnimation(new int[]{R.drawable.button});
         init();
-        initLabel("a");
+        initLabel("");
     }
 
     public Button(String label){
@@ -47,7 +47,7 @@ public class Button extends Sprite {
         label = new GameTextView(s);
         this.addChild(label);
         label.setSwallowTouches(false);
-        label.setFontSize(11);
+        label.setFontSize(30);
     }
 
     @Override
