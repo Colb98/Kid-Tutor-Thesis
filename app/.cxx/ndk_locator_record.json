@@ -1,5 +1,5 @@
 {
-  "ndkFolder": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570",
+  "ndkFolder": "C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\20.0.5594570",
   "messages": [
     {
       "level": "INFO",
@@ -15,7 +15,7 @@
     },
     {
       "level": "INFO",
-      "message": "sdkFolder is D:\\Development\\Android\\sdk"
+      "message": "sdkFolder is C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk"
     },
     {
       "level": "INFO",
@@ -23,19 +23,27 @@
     },
     {
       "level": "INFO",
-      "message": "Considering D:\\Development\\Android\\sdk\\ndk-bundle in SDK ndk-bundle folder"
+      "message": "Considering C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk-bundle in SDK ndk-bundle folder"
     },
     {
       "level": "INFO",
-      "message": "Considering D:\\Development\\Android\\sdk\\ndk\\20.0.5594570 in SDK ndk folder"
+      "message": "Considering C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\20.0.5594570 in SDK ndk folder"
     },
     {
       "level": "INFO",
-      "message": "Considering D:\\Development\\Android\\sdk\\ndk\\21.0.6113669 in SDK ndk folder"
+      "message": "Considering C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669 in SDK ndk folder"
     },
     {
       "level": "INFO",
-      "message": "Found requested NDK version 20.0.5594570 at D:\\Development\\Android\\sdk\\ndk\\20.0.5594570"
+      "message": "Considering C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\21.3.6528147 in SDK ndk folder"
+    },
+    {
+      "level": "INFO",
+      "message": "Rejected C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk-bundle in SDK ndk-bundle folder because that location has no source.properties"
+    },
+    {
+      "level": "INFO",
+      "message": "Found requested NDK version 20.0.5594570 at C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\20.0.5594570"
     }
   ]
 }
