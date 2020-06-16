@@ -199,6 +199,7 @@ public class ScrollView extends Sprite {
         minDy = 0;
         maxDx = contentSize.width - viewSize.width;
         maxDy = contentSize.height - viewSize.height;
+        contentPosition = new Point(maxDx, maxDy);
         invalidate();
     }
 

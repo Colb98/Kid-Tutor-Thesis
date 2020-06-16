@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.mus.myapplication.modules.classes.LayoutPosition;
 import com.mus.myapplication.modules.classes.Point;
 import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.views.base.actions.Action;
@@ -37,12 +39,16 @@ public class Sprite extends GameView{
     private int animIdx = 0;
     private boolean isPlaying = false;
     private boolean isRepeating = true;
+    private boolean debugMode = false;
     private Bitmap[] animSprites = null;
     protected float trueScale = 1f;
     private float oldRecurScale = 1f;
     protected float playTime = 0f;
     private float anchorX = 0.5f;
     private float anchorY = 0.5f;
+    private LayoutPosition layoutRule;
+    private Point prevTouch;
+    private float prevTouchDistance = 0;
 
     private List<Action> actions;
     private List<Action> toBeRemovedActions;
@@ -128,6 +134,22 @@ public class Sprite extends GameView{
         listenerCallbacks.put(CallbackType.ON_TOUCH_MOVE, new ArrayList<Runnable>());
         listenerCallbacks.put(CallbackType.ON_TOUCH_CANCEL, new ArrayList<Runnable>());
         listenerCallbacks.put(CallbackType.ON_CLICK, new ArrayList<Runnable>());
+    }
+
+    public void setSpriteAnimation(int resId){
+        this.animSprites = new Bitmap[1];
+        animSprites[0] = BitmapFactory.decodeResource(getContext().getResources(), resId);
+        if(animSprites[0] == null) throw new NullPointerException("Resource id: " + resId + " cannot be found.");
+
+        animFrameRate = 0;
+        isRepeating = false;
+        setImageBitmap(animSprites[0]);
+        dSize = new Size(animSprites[0].getWidth(), animSprites[0].getHeight());
+        this.setContentSize(animSprites[0].getWidth(), animSprites[0].getHeight());
+//        contentSize = new Size(animSprites[0].getWidth(), animSprites[0].getHeight());
+        this.container.setLayoutParams(new RelativeLayout.LayoutParams(this.getMeasuredWidth(), this.getMeasuredHeight()));
+        animIdx = 0;
+        isPlaying = false;
     }
 
     public void setSpriteAnimation(int[] resIds){
@@ -242,12 +264,35 @@ public class Sprite extends GameView{
         for(Runnable r : listenerCallbacks.get(CallbackType.ON_TOUCH_MOVE)){
             r.run();
         }
+        if(debugMode && isTouched){
+            // Move the sprite
+            if(event.getPointerCount() == 1){
+                Point cur = new Point(event.getRawX(), event.getRawY());
+                Point distance = cur.subtract(prevTouch);
+                move(distance);
+                prevTouch = cur;
+            }
+            // Scale the sprite
+            else{
+                Point cur1 = new Point(event.getX(0), event.getY(0));
+                Point cur2 = new Point(event.getX(1), event.getY(1));
+                float curDistance = cur1.distanceTo(cur2);
+                if(prevTouchDistance >= 10){
+                    setScale(curDistance/prevTouchDistance*trueScale);
+                }
+                prevTouchDistance = curDistance;
+            }
+        }
     }
 
     protected void onTouchSucceed(MotionEvent event) {
         isTouched = false;
         for(Runnable r : listenerCallbacks.get(CallbackType.ON_TOUCH_UP)){
             r.run();
+        }
+
+        if(debugMode){
+            Log.d("DEBUG", "object: " + getName() + " pos at " + getPosition() + " scale: " + trueScale);
         }
 
         int[] viewOrder = container.getDrawOrderIndexing();
@@ -270,6 +315,10 @@ public class Sprite extends GameView{
     protected void onTouchBegan(MotionEvent event) {
         for(Runnable r : listenerCallbacks.get(CallbackType.ON_TOUCH_DOWN)){
             r.run();
+        }
+
+        if(debugMode){
+            prevTouch = new Point(event.getRawX(), event.getRawY());
         }
     }
 
@@ -394,6 +443,37 @@ public class Sprite extends GameView{
         setScaleType(type);
     }
 
+    public void setLayoutRule(LayoutPosition rule){
+        layoutRule = rule;
+        updateLayoutRule();
+    }
+
+    public void updateLayoutRule(){
+        final LayoutPosition.LayoutRule[] rules = layoutRule.getRules();
+        parent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                float x = getPosition().x, y = getPosition().y;
+                for(LayoutPosition.LayoutRule rule : rules){
+                    Size pSize = new Size(parent.container.getWidth(), parent.container.getHeight());
+                    Log.d("updateLayoutRule", "size: " + pSize);
+                    switch(rule.rule){
+                        case TOP: y = rule.val; break;
+                        case BOTTOM: y = pSize.height - rule.val; break;
+                        case RIGHT: x = pSize.width - rule.val; break;
+                        case LEFT: x = rule.val; break;
+                    }
+                }
+                setPosition(x, y);
+            }
+        });
+
+    }
+
+    public void setDebugMode(boolean value){
+        debugMode = value;
+    }
 
     public void debug(){
 ////        Log.d("Button", "scale " + getRecursiveScale() + "contentSize " + contentSize + "real " + realContentSize);

@@ -64,6 +64,11 @@
             android:configChanges="orientation|keyboardHidden">
 
         </activity>
+
+        <receiver android:name=".modules.controllers.AlarmBroadcastReceiver">
+
+        </receiver>
+        <service android:name=".modules.controllers.AppAlarmService" />
     </application>
 
 </manifest>

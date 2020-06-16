@@ -1,9 +1,7 @@
 package com.mus.myapplication.modules.views;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.mus.myapplication.modules.classes.Size;
@@ -11,16 +9,9 @@ import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameTextView;
 import com.mus.myapplication.modules.views.base.ScrollView;
-import com.mus.myapplication.modules.views.base.SectionSprite;
 import com.mus.myapplication.modules.views.base.Sprite;
-import com.mus.myapplication.modules.views.base.actions.Action;
-import com.mus.myapplication.modules.views.base.actions.MoveTo;
-import com.mus.myapplication.modules.views.base.actions.ScaleTo;
-import com.mus.myapplication.modules.views.base.actions.Sequence;
 import com.mus.myapplication.spriteanimation.MonsterCat;
 import com.mus.myapplication.spriteanimation.MonsterRabbit;
-
-import java.util.ArrayList;
 
 public class ScrollViewTestScene extends GameScene {
 
@@ -32,50 +23,50 @@ public class ScrollViewTestScene extends GameScene {
     }
 
     private void initSections(){
-        ScrollView container = new ScrollView(this, new Size(1000, 500));
-        final SectionSprite cat = new SectionSprite();
-        SectionSprite rabbit = new SectionSprite ();
-        GameTextView text = new GameTextView();
-
-//        container.setScrollType(ScrollView.ScrollType.BOTH);
-        container.setName("ScrollView");
-
-        cat.setName("CAT");
-        rabbit.setName("RABBIT");
-
-        container.addChild(cat);
-        container.addChild(rabbit);
-        cat.addChild(text);
-        text.setText("Hello world");
-        text.setFont();
-        text.setFontSize(30);
-
-        try {
-            cat.setSpriteAnimation(MonsterCat.IDLE, 12);
-            rabbit.setSpriteAnimation(MonsterRabbit.IDLE, 12);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        cat.setScale(0.41f);
-        cat.setPosition(200, 400);
-//        rabbit.setScale(0.3f);
-        rabbit.setPosition(50, 100);
-
-        Log.d("MAIN", "set Z ORDER");
-        cat.setZOrder(10);
-
-        Button button = new Button(this);
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        lp.rightMargin = 50;
-        lp.bottomMargin = 100;
-        button.setLayoutParams(lp);
-
-//        createScaleTypeButtons(cat);
-        createScaleButtons(cat);
-        createAlignParentButtons(cat);
+//        ScrollView container = new ScrollView(this, new Size(1000, 500));
+//        final SectionSprite cat = new SectionSprite();
+//        SectionSprite rabbit = new SectionSprite ();
+//        GameTextView text = new GameTextView();
+//
+////        container.setScrollType(ScrollView.ScrollType.BOTH);
+//        container.setName("ScrollView");
+//
+//        cat.setName("CAT");
+//        rabbit.setName("RABBIT");
+//
+//        container.addChild(cat);
+//        container.addChild(rabbit);
+//        cat.addChild(text);
+//        text.setText("Hello world");
+//        text.setFont();
+//        text.setFontSize(30);
+//
+//        try {
+//            cat.setSpriteAnimation(MonsterCat.IDLE, 12);
+//            rabbit.setSpriteAnimation(MonsterRabbit.IDLE, 12);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        cat.setScale(0.41f);
+//        cat.setPosition(200, 400);
+////        rabbit.setScale(0.3f);
+//        rabbit.setPosition(50, 100);
+//
+//        Log.d("MAIN", "set Z ORDER");
+//        cat.setZOrder(10);
+//
+//        Button button = new Button(this);
+//        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        lp.rightMargin = 50;
+//        lp.bottomMargin = 100;
+//        button.setLayoutParams(lp);
+//
+////        createScaleTypeButtons(cat);
+//        createScaleButtons(cat);
+//        createAlignParentButtons(cat);
     }
 
     private void createAlignParentButtons(final Sprite cat){

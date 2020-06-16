@@ -26,7 +26,7 @@ public class GameView extends AppCompatImageView {
     GameView parent = null;
     boolean isUpdating = false;
     protected int zOrder;
-    ViewContainer container = null;
+    protected ViewContainer container = null;
     private String name = "Default Name";
     protected int viewType = GameView.VIEW;
     GameScene curScene = null;

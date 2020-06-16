@@ -6,19 +6,25 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.AppAlarmService;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.ViewContainer;
+import com.mus.myapplication.modules.views.scene.MapScene;
 import com.mus.myapplication.modules.views.scene.TestMenuScene;
 import com.vuforia.engine.ImageTargets.ImageTargets;
 
@@ -30,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, AppAlarmService.class);
+        intent.setAction("com.mus.myapplication.AlarmIntent");
+        startService(intent);
 
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
@@ -55,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         Director.getInstance().setMainGameView(mainView);
 
         // Main Scene
-        TestMenuScene main = new TestMenuScene();
+        MapScene main = new MapScene();
         mainView.addChild(main);
-        main.setName("Scroll Scene");
+        main.setName("Map Scene");
 
         Thread thread = new Thread(){
             private long lastUpdate = System.currentTimeMillis();
@@ -86,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
         };
 
         thread.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     public void startImageTargetsActivity(){

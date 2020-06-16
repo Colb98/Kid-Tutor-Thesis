@@ -9,6 +9,9 @@
     <string name="INIT_LICENSE_ERROR_CANCELED_KEY">This app license key has been canceled and may no longer be used. Please get a new license key.</string>
     <string name="INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH">Vuforia Engine App key is not valid for this product. Please get a valid key, by logging into your account at developer.vuforia.com and choosing the right product type during project creation.</string>
     <string name="INIT_LICENSE_ERROR_UNKNOWN_ERROR">Failed to initialize Vuforia Engine.</string>
+    <string name="NOTIFY_TEST">Test notify 1</string>
+    <string name="NOTIFY_CONTENT">Test content 1</string>
+    <string name="NOTIFY_FOO">Test content 2</string>
 
 
 </resources>

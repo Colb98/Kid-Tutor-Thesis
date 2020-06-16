@@ -2,7 +2,9 @@ package com.mus.myapplication.modules.views.scene;
 
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.views.base.GameTextEdit;
 import com.mus.myapplication.modules.views.base.GameTextView;
 import com.vuforia.engine.ImageTargets.ImageTargets;
@@ -12,6 +14,8 @@ import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.ScrollView;
 import com.mus.myapplication.modules.views.base.Sprite;
+
+import androidx.core.content.res.ColorStateListInflaterCompat;
 
 public class TestMenuScene extends GameScene {
     public TestMenuScene(){
@@ -118,6 +122,14 @@ public class TestMenuScene extends GameScene {
                 imgView.setScale(1f);
                 Log.d("Test", "scale 1.5");
 //                imgView.debug();
+            }
+        });
+
+        test1.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(Director.getInstance().getContext(), "Alarm in 10 sec", Toast.LENGTH_SHORT).show();
+                Director.getInstance().startAlarmBroadcastReceiver(10000);
             }
         });
 
