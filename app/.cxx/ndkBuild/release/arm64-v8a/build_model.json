@@ -4,14 +4,14 @@
   "buildSettings": {
     "environmentVariables": []
   },
-  "cxxBuildFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\.cxx\\ndkBuild\\release\\arm64-v8a",
+  "cxxBuildFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\.cxx\\ndkBuild\\release\\arm64-v8a",
   "info": {
     "abi": "ARM64_V8A",
     "bitness": 64,
     "deprecated": false,
     "default": true
   },
-  "originalCxxBuildFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\.cxx\\ndkBuild\\release\\arm64-v8a",
+  "originalCxxBuildFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\.cxx\\ndkBuild\\release\\arm64-v8a",
   "variant": {
     "buildSystemArgumentList": [],
     "buildTargetSet": [],
@@ -21,20 +21,20 @@
     "isDebuggableEnabled": false,
     "module": {
       "buildSystem": "NDK_BUILD",
-      "cmakeToolchainFile": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake",
-      "cxxFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\.cxx",
+      "cmakeToolchainFile": "C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\build\\cmake\\android.toolchain.cmake",
+      "cxxFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\.cxx",
       "gradleModulePathName": ":app",
-      "intermediatesFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\build\\intermediates",
-      "makeFile": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\src\\main\\jni\\Android.mk",
-      "moduleBuildFile": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\build.gradle",
-      "moduleRootFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app",
+      "intermediatesFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\build\\intermediates",
+      "makeFile": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\src\\main\\jni\\Android.mk",
+      "moduleBuildFile": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\build.gradle",
+      "moduleRootFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app",
       "ndkDefaultAbiList": [
         "ARMEABI_V7A",
         "ARM64_V8A",
         "X86",
         "X86_64"
       ],
-      "ndkFolder": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570",
+      "ndkFolder": "C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669",
       "ndkMetaAbiList": [
         {
           "abi": "ARMEABI_V7A",
@@ -88,35 +88,40 @@
         "X86",
         "X86_64"
       ],
-      "ndkVersion": "20.0.5594570",
+      "ndkDefaultStl": "SYSTEM",
+      "ndkVersion": "21.0.6113669",
       "project": {
-        "compilerSettingsCacheFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\.cxx",
-        "cxxFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\.cxx",
+        "compilerSettingsCacheFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\.cxx",
+        "cxxFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\.cxx",
         "isBuildOnlyTargetAbiEnabled": true,
         "isCmakeBuildCohabitationEnabled": false,
         "isNativeCompilerSettingsCacheEnabled": false,
-        "rootBuildGradleFolder": "D:\\Development\\Android\\Exprements\\MyApplication",
-        "sdkFolder": "D:\\Development\\Android\\sdk"
+        "rootBuildGradleFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis",
+        "sdkFolder": "C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk",
+        "isPrefabEnabled": false
       },
       "splitsAbiFilterSet": [],
       "stlSharedObjectMap": {
         "LIBCXX_SHARED": {
-          "ARMEABI_V7A": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
-          "ARM64_V8A": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
-          "X86": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
-          "X86_64": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
+          "ARMEABI_V7A": "C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
+          "ARM64_V8A": "C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+          "X86": "C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
+          "X86_64": "C:\\Users\\NamTran\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
         },
         "LIBCXX_STATIC": {},
         "NONE": {},
         "SYSTEM": {}
       }
     },
-    "objFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\build\\intermediates\\ndkBuild\\release\\obj\\local",
+    "objFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\build\\intermediates\\ndkBuild\\release\\obj\\local",
     "variantName": "release",
     "validAbiList": [
       "ARMEABI_V7A",
       "ARM64_V8A",
       "X86"
-    ]
-  }
+    ],
+    "prefabDirectory": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\.cxx\\ndkBuild\\release\\prefab",
+    "prefabPackageDirectoryList": []
+  },
+  "prefabFolder": "E:\\Education\\HK_VIII\\src\\KidTutorThesis\\app\\.cxx\\ndkBuild\\release\\prefab\\arm64-v8a"
 }
