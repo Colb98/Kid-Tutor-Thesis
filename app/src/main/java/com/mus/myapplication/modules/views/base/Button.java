@@ -47,7 +47,7 @@ public class Button extends Sprite {
         label = new GameTextView(s);
         this.addChild(label);
         label.setSwallowTouches(false);
-        label.setFontSize(30);
+        label.setFontSize(24);
     }
 
     @Override
@@ -155,4 +155,19 @@ public class Button extends Sprite {
         label.setFontSize(size);
     }
 
+    public void setLabelFont(String fontName){
+        label.setFont(fontName);
+    }
+
+    public void setLabelPosition(Point p){
+        label.setPosition(p);
+    }
+
+    public void setLabelPosition(float x, float y){
+        label.setPosition(x, y);
+    }
+
+    public void setText(String text){
+        setLabel(text);
+    }
 }

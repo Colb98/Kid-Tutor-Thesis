@@ -2,7 +2,10 @@ package com.mus.myapplication.modules.views.base;
 
 import android.widget.RelativeLayout;
 
+import java.util.HashMap;
+
 public class GameScene extends GameView{
+    protected HashMap<String, GameView> childrenMap = new HashMap<>();
 
     public GameScene(GameView parent) {
         super(parent);
@@ -26,5 +29,14 @@ public class GameScene extends GameView{
         lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
         lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
         this.setLayoutParams(lp);
+    }
+
+    protected void mappingChild(GameView child, String name){
+        childrenMap.put(name, child);
+        child.setName(name);
+    }
+
+    protected GameView getChild(String name){
+        return childrenMap.get(name);
     }
 }

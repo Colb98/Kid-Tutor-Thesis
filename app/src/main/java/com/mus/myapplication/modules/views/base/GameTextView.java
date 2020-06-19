@@ -53,6 +53,7 @@ public class GameTextView extends Sprite {
         view = new TextView(this.getContext());
         view.setText(text);
         fontSize = view.getTextSize();
+        setFontSize(14);
 
         updateBound();
         this.container.addView(view);
@@ -62,12 +63,12 @@ public class GameTextView extends Sprite {
         view.setTextColor(color);
     }
 
-    public void setFont(){
-        view.setTypeface(FontCache.get("fonts/Radens.ttf", this.getContext()));
+    public void setFont(String fontName){
+        view.setTypeface(FontCache.get(fontName, this.getContext()));
     }
 
     public void setFontSize(float size){
-        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
         fontSize = size;
     }
 
@@ -84,7 +85,7 @@ public class GameTextView extends Sprite {
         if(view != null){
             float recurScale = getRecursiveScale();
             updateBound();
-            view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * recurScale);
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize * recurScale);
         }
         super.updateRecurScale();
 

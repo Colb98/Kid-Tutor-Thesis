@@ -117,14 +117,15 @@ public class Sprite extends GameView{
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
         if(lp == null){
             lp = new RelativeLayout.LayoutParams((int)realContentSize.width, (int)realContentSize.height);
+            this.container.setLayoutParams(lp);
         }
         else{
             lp.width = (int)realContentSize.width;
             lp.height = (int)realContentSize.height;
         }
 //        Log.d("resetContainerBound", getName() + " " + new Size(lp.width, lp.height).toString() + " " + realContentSize);
-        this.container.setLayoutParams(lp);
-        this.container.invalidate();
+
+        this.container.requestLayout();
     }
 
     private void initListener() {
@@ -456,6 +457,7 @@ public class Sprite extends GameView{
                 parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 float x = getPosition().x, y = getPosition().y;
                 for(LayoutPosition.LayoutRule rule : rules){
+                    if(rule == null) continue;
                     Size pSize = new Size(parent.container.getWidth(), parent.container.getHeight());
                     Log.d("updateLayoutRule", "size: " + pSize);
                     switch(rule.rule){

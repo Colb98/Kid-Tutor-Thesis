@@ -21,7 +21,7 @@
     "isDebuggableEnabled": true,
     "module": {
       "buildSystem": "NDK_BUILD",
-      "cmakeToolchainFile": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake",
+      "cmakeToolchainFile": "D:\\Development\\Android\\sdk\\ndk\\21.0.6113669\\build\\cmake\\android.toolchain.cmake",
       "cxxFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\.cxx",
       "gradleModulePathName": ":app",
       "intermediatesFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\build\\intermediates",
@@ -34,7 +34,7 @@
         "X86",
         "X86_64"
       ],
-      "ndkFolder": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570",
+      "ndkFolder": "D:\\Development\\Android\\sdk\\ndk\\21.0.6113669",
       "ndkMetaAbiList": [
         {
           "abi": "ARMEABI_V7A",
@@ -88,7 +88,8 @@
         "X86",
         "X86_64"
       ],
-      "ndkVersion": "20.0.5594570",
+      "ndkDefaultStl": "SYSTEM",
+      "ndkVersion": "21.0.6113669",
       "project": {
         "compilerSettingsCacheFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\.cxx",
         "cxxFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\.cxx",
@@ -96,15 +97,16 @@
         "isCmakeBuildCohabitationEnabled": false,
         "isNativeCompilerSettingsCacheEnabled": false,
         "rootBuildGradleFolder": "D:\\Development\\Android\\Exprements\\MyApplication",
-        "sdkFolder": "D:\\Development\\Android\\sdk"
+        "sdkFolder": "D:\\Development\\Android\\sdk",
+        "isPrefabEnabled": false
       },
       "splitsAbiFilterSet": [],
       "stlSharedObjectMap": {
         "LIBCXX_SHARED": {
-          "ARMEABI_V7A": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
-          "ARM64_V8A": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
-          "X86": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
-          "X86_64": "D:\\Development\\Android\\sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
+          "ARMEABI_V7A": "D:\\Development\\Android\\sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
+          "ARM64_V8A": "D:\\Development\\Android\\sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+          "X86": "D:\\Development\\Android\\sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
+          "X86_64": "D:\\Development\\Android\\sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
         },
         "LIBCXX_STATIC": {},
         "NONE": {},
@@ -117,6 +119,9 @@
       "ARMEABI_V7A",
       "ARM64_V8A",
       "X86"
-    ]
-  }
+    ],
+    "prefabDirectory": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\.cxx\\ndkBuild\\debug\\prefab",
+    "prefabPackageDirectoryList": []
+  },
+  "prefabFolder": "D:\\Development\\Android\\Exprements\\MyApplication\\app\\.cxx\\ndkBuild\\debug\\prefab\\armeabi-v7a"
 }

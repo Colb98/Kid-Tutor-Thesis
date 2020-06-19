@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.AppAlarmService;
 import com.mus.myapplication.modules.controllers.Director;
@@ -26,8 +27,10 @@ import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.ViewContainer;
 import com.mus.myapplication.modules.views.scene.MapScene;
 import com.mus.myapplication.modules.views.scene.TestMenuScene;
+import com.mus.myapplication.modules.views.setting.SettingUI;
 import com.vuforia.engine.ImageTargets.ImageTargets;
 
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {

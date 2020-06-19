@@ -12,6 +12,14 @@
     <string name="NOTIFY_TEST">Test notify 1</string>
     <string name="NOTIFY_CONTENT">Test content 1</string>
     <string name="NOTIFY_FOO">Test content 2</string>
+    <string name="text_back">Back</string>
+    <string name="text_music">Music</string>
+    <string name="text_sfx">SFX</string>
+    <string name="text_vibration">Vibration</string>
+    <string name="text_about">About</string>
+    <string name="text_alarm">Alarm</string>
+    <string name="text_language">Language</string>
+    <string name="text_login">Login</string>
 
 
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="text_back">Quay lại</string>
+    <string name="text_music">Nhạc nền</string>
+    <string name="text_sfx">Hiệu ứng</string>
+    <string name="text_vibration">Rung</string>
+    <string name="text_about">Thông tin</string>
+    <string name="text_alarm">Báo thức</string>
+    <string name="text_language">Ngôn ngữ</string>
+    <string name="text_login">Liên kết</string>
+</resources>

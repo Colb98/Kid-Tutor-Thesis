@@ -164,6 +164,14 @@ public class GameView extends AppCompatImageView {
         this.container.setLayoutParams(lp);
     }
 
+    public void setPositionX(float x){
+        setPosition(x, position.y);
+    }
+
+    public void setPositionY(float y){
+        setPosition(position.x, y);
+    }
+
     public void setPosition(Point p){
         setPosition(p.x, p.y);
     }
@@ -226,6 +234,25 @@ public class GameView extends AppCompatImageView {
         }
         else{
             scene.setVisibility(VISIBLE);
+        }
+    }
+
+    public void show(){
+        setVisible(true);
+    }
+
+    public void hide(){
+        setVisible(false);
+    }
+
+    public void setVisible(boolean val){
+        if(val){
+            setVisibility(VISIBLE);
+            container.setVisibility(VISIBLE);
+        }
+        else{
+            setVisibility(INVISIBLE);
+            container.setVisibility(INVISIBLE);
         }
     }
 

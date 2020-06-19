@@ -6,12 +6,14 @@ import android.widget.RelativeLayout;
 
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.LayoutPosition;
+import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameImageView;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.ScrollView;
 import com.mus.myapplication.modules.views.base.Sprite;
+import com.mus.myapplication.modules.views.setting.SettingUI;
 
 public class MapScene extends GameScene {
     public MapScene(){
@@ -23,6 +25,23 @@ public class MapScene extends GameScene {
             }
         });
         initScene();
+        initButtons();
+    }
+
+    private void initButtons(){
+        final MapScene that = this;
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Button btnSetting = (Button)getChild("setting");
+                btnSetting.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getUI(SettingUI.class, that).show();
+                    }
+                });
+            }
+        });
     }
 
     private void initScene(){
@@ -38,10 +57,14 @@ public class MapScene extends GameScene {
         Button btn_achievement = new Button(this);
         btn_achievement.setSpriteAnimation(R.drawable.map_achievement);
         btn_achievement.setScale(0.3f);
-        btn_achievement.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", 250)));
-//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) btn_achievement.getLayoutParams();
-//        btn_achievement.requestLayout();
-//        btn_achievement.move(-50,50);
+        btn_achievement.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", 350)));
+
+        Button btn_setting = new Button(this);
+        btn_setting.setSpriteAnimation(R.drawable.map_setting);
+        btn_setting.setScale(0.3f);
+        btn_setting.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", 150)));
+        mappingChild(btn_setting, "setting");
+
         Button home = new Button(bg);
         home.setSpriteAnimation(R.drawable.map_home);
         home.setEnableClickEffect(false);
@@ -95,6 +118,5 @@ public class MapScene extends GameScene {
         zoo.setName("Zoo");
         zoo.setScale(0.98910654f);
         zoo.setPosition(792.2727f, 761.769f);
-
     }
 }

@@ -25,6 +25,7 @@ public class Utils {
     private static float dpToPx = 0f;
     private static int screenHeight;
     private static int screenWidth;
+    private static Context context = null;
 
     public static void init(Activity act){
         float dip = 1f;
@@ -70,5 +71,12 @@ public class Utils {
 
     public static int getScreenWidth(){
         return screenWidth;
+    }
+
+    public static String getString(int resId){
+        if(context == null){
+            context = Director.getInstance().getContext();
+        }
+        return context.getString(resId);
     }
 }

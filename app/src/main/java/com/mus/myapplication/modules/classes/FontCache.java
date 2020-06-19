@@ -8,6 +8,7 @@ import java.util.Hashtable;
 public class FontCache {
     public static class Font{
         public static String RADENS = "fonts/Radens.ttf";
+        public static String UVNNguyenDu = "fonts/UVNNguyenDu.ttf";
     }
 
     private static Hashtable<String, Typeface> fontCache = new Hashtable<String, Typeface>();
