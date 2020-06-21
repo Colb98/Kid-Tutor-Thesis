@@ -68,11 +68,12 @@ public class MainActivity extends AppCompatActivity {
         Director.getInstance().setMainGameView(mainView);
 
         // Main Scene
-        MapScene main = new MapScene();
-        mainView.addChild(main);
+        MapScene main = new MapScene(mainView);
+//        mainView.addChild(main);
         main.setName("Map Scene");
 
         Thread thread = new Thread(){
+            private long first = System.currentTimeMillis();
             private long lastUpdate = System.currentTimeMillis();
 
             @Override
@@ -88,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                                     return;
                                 }
                                 mainView.update((cur - lastUpdate)/1000f);
+                                if(cur - first > 5000){
+                                    ((ViewContainer) findViewById(R.id.mainContainer)).getDrawOrder();
+                                }
                                 lastUpdate = cur;
                             }
                         });

@@ -21,6 +21,10 @@ public class Point {
         return new Point(x + p.x, y + p.y);
     }
 
+    public Point add(float x, float y){
+        return new Point(this.x + x, this.y + y);
+    }
+
     public float dotProduct(Point p){
         return x*p.x + y*p.y;
     }

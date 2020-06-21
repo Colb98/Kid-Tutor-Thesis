@@ -21,20 +21,20 @@ public class Button extends Sprite {
 
     public Button(GameView parent) {
         super(parent);
-        setSpriteAnimation(new int[]{R.drawable.button});
+        setSpriteAnimation(R.drawable.button);
         init();
         initLabel("");
     }
     public Button(){
         super();
-        setSpriteAnimation(new int[]{R.drawable.button});
+        setSpriteAnimation(R.drawable.button);
         init();
         initLabel("");
     }
 
     public Button(String label){
         super();
-        setSpriteAnimation(new int[]{R.drawable.button});
+        setSpriteAnimation(R.drawable.button);
         init();
         initLabel(label);
     }
@@ -44,10 +44,10 @@ public class Button extends Sprite {
     }
 
     private void initLabel(String s){
-        label = new GameTextView(s);
-        this.addChild(label);
-        label.setSwallowTouches(false);
-        label.setFontSize(24);
+//        label = new GameTextView(s);
+//        this.addChild(label);
+//        label.setSwallowTouches(false);
+//        label.setFontSize(24);
     }
 
     @Override

@@ -51,25 +51,28 @@ public class ScrollView extends Sprite {
     }
 
     public ScrollView(GameView parent, Size size){
-        super(parent);
+        super();
         scrollType = ScrollType.BOTH;
         viewSize = new Size(size.width, size.height);
         realContentSize = new Size(size.width, size.height);
+        parent.addChild(this);
         setContentSize(size.width, size.height);
         setUpLayoutSize();
     }
 
     public ScrollView(GameView parent, float width, float height){
-        super(parent);
+        super();
         scrollType = ScrollType.BOTH;
         viewSize = new Size(width, height);
         realContentSize = new Size(width, height);
+        parent.addChild(this);
         setContentSize(width, height);
         setUpLayoutSize();
     }
 
     @Override
     protected void afterAddChild(){
+        super.afterAddChild();
         setUpLayoutSize();
     }
 
@@ -106,19 +109,19 @@ public class ScrollView extends Sprite {
     }
 
     protected void resetContainerBound(){
-//        Log.d("Scroll", getName() + " reset resetContainerBound Bound" + viewSize + realContentSize);
-        if(viewSize == null) return;
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
-        if(lp == null){
-            lp = new RelativeLayout.LayoutParams((int)viewSize.width, (int)viewSize.height);
-        }
-        else{
-            lp.width = (int)viewSize.width;
-            lp.height = (int)viewSize.height;
-        }
-        Log.d("resetContainerBound", "view" + viewSize);
-        this.container.setLayoutParams(lp);
-        this.container.invalidate();
+////        Log.d("Scroll", getName() + " reset resetContainerBound Bound" + viewSize + realContentSize);
+//        if(viewSize == null) return;
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+//        if(lp == null){
+//            lp = new RelativeLayout.LayoutParams((int)viewSize.width, (int)viewSize.height);
+//        }
+//        else{
+//            lp.width = (int)viewSize.width;
+//            lp.height = (int)viewSize.height;
+//        }
+//        Log.d("resetContainerBound", "view" + viewSize);
+//        this.container.setLayoutParams(lp);
+//        this.container.invalidate();
     }
 
     @Override

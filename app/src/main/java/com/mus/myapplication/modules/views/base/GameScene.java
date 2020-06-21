@@ -5,29 +5,38 @@ import android.widget.RelativeLayout;
 import java.util.HashMap;
 
 public class GameScene extends GameView{
-    protected HashMap<String, GameView> childrenMap = new HashMap<>();
+    protected HashMap<String, GameView> childrenMap;
 
     public GameScene(GameView parent) {
-        super(parent);
+        super();
+        childrenMap = new HashMap<>();
         this.viewType = SCENE;
-        setUpLayoutSize();
+        parent.addChild(this);
+//        setUpLayoutSize();
     }
 
     public GameScene(){
         super();
+        childrenMap = new HashMap<>();
         viewType = SCENE;
 //        setUpLayoutWidth();
     }
 
     @Override
     protected void afterAddChild(){
+        super.afterAddChild();
         setUpLayoutSize();
     }
 
     private void setUpLayoutSize() {
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
-        lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-        lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        if(lp == null){
+            lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        }
+        else{
+            lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        }
         this.setLayoutParams(lp);
     }
 

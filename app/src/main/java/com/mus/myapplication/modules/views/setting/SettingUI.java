@@ -21,7 +21,7 @@ public class SettingUI extends ComplexUI {
 
     public SettingUI(GameView parent){
         super(parent);
-        afterAddChild();
+//        afterAddChild();
     }
 
     public SettingUI(){
@@ -37,6 +37,9 @@ public class SettingUI extends ComplexUI {
 
         moveInAction = new MoveTo(0.5f, new Point(0,0));
         moveOutAction = new MoveTo(0.5f, new Point(Utils.getScreenWidth(), 0));
+
+
+        setZOrder(100);
     }
 
     private void initButtons(){
@@ -65,6 +68,7 @@ public class SettingUI extends ComplexUI {
 
     private void initViews(){
         setSpriteAnimation(R.drawable.setting_bg);
+//        setAlpha(0.5f);
         Sprite topBar = new Sprite(this);
 
         topBar.setSpriteAnimation(R.drawable.setting_topbar);
@@ -99,21 +103,21 @@ public class SettingUI extends ComplexUI {
         lbVib.setFontSize(18);
 
         Button btnAlarm = new Button(this);
-        btnAlarm.setLabel(Utils.getString(R.string.text_alarm));
+//        btnAlarm.setLabel(Utils.getString(R.string.text_alarm));
         btnAlarm.setPositionDp(210, 220);
-        btnAlarm.setLabelFont(FontCache.Font.UVNNguyenDu);
+//        btnAlarm.setLabelFont(FontCache.Font.UVNNguyenDu);
         mappingChild(btnAlarm, "btnAlarm");
 
         Button btnLanguage = new Button(this);
-        btnLanguage.setLabel(Utils.getString(R.string.text_language));
+//        btnLanguage.setLabel(Utils.getString(R.string.text_language));
         btnLanguage.setPositionDp(350, 220);
-        btnLanguage.setLabelFont(FontCache.Font.UVNNguyenDu);
+//        btnLanguage.setLabelFont(FontCache.Font.UVNNguyenDu);
         mappingChild(btnLanguage, "btnLanguage");
 
         Button btnAbout = new Button(this);
-        btnAbout.setLabel(Utils.getString(R.string.text_about));
+//        btnAbout.setLabel(Utils.getString(R.string.text_about));
         btnAbout.setPositionDp(490, 220);
-        btnAbout.setLabelFont(FontCache.Font.UVNNguyenDu);
+//        btnAbout.setLabelFont(FontCache.Font.UVNNguyenDu);
         mappingChild(btnAbout, "btnAbout");
 
 

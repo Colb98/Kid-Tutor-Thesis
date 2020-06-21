@@ -3,6 +3,8 @@ package com.mus.myapplication.modules.views.base;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.mus.myapplication.modules.classes.Point;
@@ -29,6 +31,9 @@ public class GameView extends AppCompatImageView {
     protected ViewContainer container = null;
     private String name = "Default Name";
     protected int viewType = GameView.VIEW;
+    public ViewContainer.Node viewTreeNode;
+    private boolean visibility = true;
+
     GameScene curScene = null;
 
     protected int animFrameRate = 60;
@@ -53,7 +58,9 @@ public class GameView extends AppCompatImageView {
     }
 
     public void setViewGroup(ViewContainer view){
+        ((ViewGroup)getParent()).removeView(this);
         this.container = view;
+        this.container.addGameView(this, null);
     }
 
     public GameView(){
@@ -62,12 +69,12 @@ public class GameView extends AppCompatImageView {
 
 
         this.zOrder = 0;
-        this.container = new ViewContainer(context);
-
-        this.container.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT
-        ));
+//        this.container = new ViewContainer(context);
+//
+//        this.container.setLayoutParams(new RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.MATCH_PARENT,
+//                RelativeLayout.LayoutParams.MATCH_PARENT
+//        ));
         initUpdate();
     }
 
@@ -76,11 +83,7 @@ public class GameView extends AppCompatImageView {
         super(parent.getContext());
         this.parent = parent;
         this.zOrder = 0;
-        this.container = new ViewContainer(parent.getContext());
-        this.container.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT
-        ));
+        this.container = parent.container;
         initUpdate();
         parent.addChild(this);
     }
@@ -90,11 +93,7 @@ public class GameView extends AppCompatImageView {
         this.parent = parent;
 
         this.zOrder = zOrder;
-        this.container = new ViewContainer(parent.getContext());
-        this.container.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT
-        ));
+        this.container = parent.container;
         initUpdate();
         parent.addChild(this);
     }
@@ -104,15 +103,15 @@ public class GameView extends AppCompatImageView {
     }
 
     public void addChild(GameView child, int zOrder){
+        if(child.parent != null && child.parent != this){
+            return;
+        }
         if(this.container != null){
             children.add(child);
             childrenOrder.add(zOrder);
-            container.addGameView(child, child.container, childrenOrder);
         }
-        if(child.parent == null){
-            child.parent = this;
-            child.afterAddChild();
-        }
+        child.parent = this;
+        child.afterAddChild();
         if(child.viewType == SCENE){
             if(this.curScene != null){
                 child.setVisibility(INVISIBLE);
@@ -125,6 +124,8 @@ public class GameView extends AppCompatImageView {
 
     protected void afterAddChild(){
         // Override this function
+        this.container = parent.container;
+        container.addGameView(this, parent);
     }
 
     public void setName(String name){
@@ -144,6 +145,33 @@ public class GameView extends AppCompatImageView {
         return position.clone();
     }
 
+    // Recursive, looks good but don't use it
+    public Point getWorldPosition_old(){
+        Point ans = position.clone();
+        GameView parent = this.parent;
+        if(parent != null){
+            ans = ans.add(parent.getWorldPosition_old());
+        }
+        return ans;
+    }
+
+    public Point getWorldPosition(){
+        Point ans = position.clone();
+        GameView parent = this.parent;
+        while(parent != null){
+            ans = ans.add(parent.position);
+            parent = parent.parent;
+        }
+        return ans;
+    }
+
+    protected Point getParentWorldPosition(){
+        if(parent != null){
+            return parent.getWorldPosition();
+        }
+        return new Point(0,0);
+    }
+
     public void setPositionDp(Point p) {
         setPositionDp((int)p.x, (int)p.y);
     }
@@ -151,17 +179,36 @@ public class GameView extends AppCompatImageView {
     public void setPositionDp(int x, int y){
         int dpX = (int)Utils.getPxByDp(x);
         int dpY = (int)Utils.getPxByDp(y);
+        Point worldPos = getParentWorldPosition();
+        worldPos = worldPos.add(dpX, dpY);
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
-        lp.setMargins(dpX, dpY, -dpX, -dpY);
+        lp.setMargins((int)worldPos.x, (int)worldPos.y, 0, 0);
         position.x = dpX;
         position.y = dpY;
+        for(View v : getSubViews()){
+            v.setLayoutParams(lp);
+        }
         this.setLayoutParams(lp);
-        this.container.setLayoutParams(lp);
+//        this.container.setLayoutParams(lp);
+        for(GameView child : children){
+            child.updatePosition();
+        }
+    }
+
+    private void updatePosition(){
+        Point worldPos = getParentWorldPosition();
+        worldPos = worldPos.add(position);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
+        lp.setMargins((int)worldPos.x, (int)worldPos.y, -(int)worldPos.x, -(int)worldPos.y);
+        this.setLayoutParams(lp);
+        for(GameView child : children){
+            child.updatePosition();
+        }
     }
 
     public void applyLayoutParam(RelativeLayout.LayoutParams lp){
         this.setLayoutParams(lp);
-        this.container.setLayoutParams(lp);
+//        this.container.setLayoutParams(lp);
     }
 
     public void setPositionX(float x){
@@ -180,15 +227,20 @@ public class GameView extends AppCompatImageView {
 //        int dpX = (int)Utils.getDpByPx(x);
 //        int dpY = (int)Utils.getDpByPx(y);
 //        Log.d(LOGTAG, "dpx, dpy: " + dpX + " "  + dpY + "x, y: " + x + " "  + y);
+        Point worldPos = getParentWorldPosition();
+        worldPos = worldPos.add(x, y);
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
-        lp.setMargins((int)x, (int)y, 0, 0);
+        lp.setMargins((int)worldPos.x, (int)worldPos.y, 0, 0);
         position.x = x;
         position.y = y;
         this.setLayoutParams(lp);
+        for(GameView child : children){
+            child.updatePosition();
+        }
 
-        lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
-        lp.setMargins((int)x, (int)y, 0, 0);
-        this.container.setLayoutParams(lp);
+//        lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+//        lp.setMargins((int)x, (int)y, 0, 0);
+//        this.container.setLayoutParams(lp);
     }
 
     public void moveDp(Point d){
@@ -245,14 +297,51 @@ public class GameView extends AppCompatImageView {
         setVisible(false);
     }
 
-    public void setVisible(boolean val){
+    private void setVisibleRecur(boolean val){
         if(val){
             setVisibility(VISIBLE);
-            container.setVisibility(VISIBLE);
+            for(GameView child : children){
+                child.resetVisibility();
+            }
         }
         else{
             setVisibility(INVISIBLE);
-            container.setVisibility(INVISIBLE);
+            for(GameView child : children){
+                child.setVisibleRecur(false);
+            }
+        }
+    }
+
+    private void resetVisibility(){
+        if(visibility){
+            setVisibility(VISIBLE);
+            for(GameView child : children){
+                child.resetVisibility();
+            }
+        }
+        else{
+            setVisibility(INVISIBLE);
+            for(GameView child : children){
+                child.setVisibleRecur(false);
+            }
+        }
+    }
+
+    public void setVisible(boolean val){
+        visibility = val;
+        if(val){
+            setVisibility(VISIBLE);
+            for(GameView child : children){
+                child.resetVisibility();
+            }
+//            container.setVisibility(VISIBLE);
+        }
+        else{
+            setVisibility(INVISIBLE);
+            for(GameView child : children){
+                child.setVisibleRecur(false);
+            }
+//            container.setVisibility(INVISIBLE);
         }
     }
 
@@ -263,28 +352,24 @@ public class GameView extends AppCompatImageView {
         }
     }
 
-    // remove a child view and there's chance to be added back
     public void removeChild(GameView view){
         Log.d(LOGTAG, "remove child: " + view.getName());
-        container.removeView(view.container);
-        container.removeView(view);
-    }
-
-    // free all child belonging
-    public void removeChildRecursive(GameView view){
-        // recursively remove children
+//        container.removeView(view.container);
         view.removeAllChild(true);
-        container.removeView(view.container);
         container.removeView(view);
     }
+//
+//    // free all child belonging
+//    public void removeChildRecursive(GameView view){
+//        // recursively remove children
+//        view.removeAllChild(true);
+////        container.removeView(view.container);
+//        container.removeView(view);
+//    }
 
     public void removeAllChild(boolean recursive){
         for(GameView v : children){
-            if(recursive)
-                removeChildRecursive(v);
-            else{
-                removeChild(v);
-            }
+            removeChild(v);
         }
     }
 
@@ -308,6 +393,14 @@ public class GameView extends AppCompatImageView {
     private void updateChildZOrder(GameView child){
         childrenOrder.set(children.indexOf(child), child.zOrder);
         Log.d(LOGTAG, Utils.arrayToString(childrenOrder));
-        container.updateViewOrder(childrenOrder);
+        container.updateViewOrder(child);
+    }
+
+    public int getSubViewsCount(){
+        return 0;
+    }
+
+    public View[] getSubViews(){
+        return new View[]{};
     }
 }

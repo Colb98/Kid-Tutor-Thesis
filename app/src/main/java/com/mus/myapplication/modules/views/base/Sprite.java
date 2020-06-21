@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.mus.myapplication.modules.classes.LayoutPosition;
 import com.mus.myapplication.modules.classes.Point;
 import com.mus.myapplication.modules.classes.Size;
+import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.views.base.actions.Action;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class Sprite extends GameView{
     }
 
     public Sprite(GameView parent) {
-        super(parent);
+        super();
         viewType = SPRITE;
         initListener();
 
@@ -81,6 +82,7 @@ public class Sprite extends GameView{
         this.setAnchorPoint(0, 0);
 //        this.setScaleType(ScaleType.FIT_CENTER);
         this.setScaleType(ScaleType.MATRIX);
+        parent.addChild(this);
     }
 
     protected void resetViewBound(){
@@ -112,20 +114,20 @@ public class Sprite extends GameView{
     }
 
     protected void resetContainerBound(){
-//        Log.d("Sprite", getName() + " reset resetContainerBound Bound" + realContentSize);
-        if(realContentSize == null) return;
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
-        if(lp == null){
-            lp = new RelativeLayout.LayoutParams((int)realContentSize.width, (int)realContentSize.height);
-            this.container.setLayoutParams(lp);
-        }
-        else{
-            lp.width = (int)realContentSize.width;
-            lp.height = (int)realContentSize.height;
-        }
-//        Log.d("resetContainerBound", getName() + " " + new Size(lp.width, lp.height).toString() + " " + realContentSize);
-
-        this.container.requestLayout();
+////        Log.d("Sprite", getName() + " reset resetContainerBound Bound" + realContentSize);
+//        if(realContentSize == null) return;
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+//        if(lp == null){
+//            lp = new RelativeLayout.LayoutParams((int)realContentSize.width, (int)realContentSize.height);
+//            this.container.setLayoutParams(lp);
+//        }
+//        else{
+//            lp.width = (int)realContentSize.width;
+//            lp.height = (int)realContentSize.height;
+//        }
+////        Log.d("resetContainerBound", getName() + " " + new Size(lp.width, lp.height).toString() + " " + realContentSize);
+//
+//        this.container.requestLayout();
     }
 
     private void initListener() {
@@ -148,7 +150,7 @@ public class Sprite extends GameView{
         dSize = new Size(animSprites[0].getWidth(), animSprites[0].getHeight());
         this.setContentSize(animSprites[0].getWidth(), animSprites[0].getHeight());
 //        contentSize = new Size(animSprites[0].getWidth(), animSprites[0].getHeight());
-        this.container.setLayoutParams(new RelativeLayout.LayoutParams(this.getMeasuredWidth(), this.getMeasuredHeight()));
+//        this.container.setLayoutParams(new RelativeLayout.LayoutParams(this.getMeasuredWidth(), this.getMeasuredHeight()));
         animIdx = 0;
         isPlaying = false;
     }
@@ -172,7 +174,7 @@ public class Sprite extends GameView{
         dSize = new Size(animSprites[0].getWidth(), animSprites[0].getHeight());
         this.setContentSize(animSprites[0].getWidth(), animSprites[0].getHeight());
 //        contentSize = new Size(animSprites[0].getWidth(), animSprites[0].getHeight());
-        this.container.setLayoutParams(new RelativeLayout.LayoutParams(this.getMeasuredWidth(), this.getMeasuredHeight()));
+//        this.container.setLayoutParams(new RelativeLayout.LayoutParams(this.getMeasuredWidth(), this.getMeasuredHeight()));
         animIdx = 0;
         isPlaying = animSprites.length > 1;
     }
@@ -244,7 +246,7 @@ public class Sprite extends GameView{
             r.run();
         }
 
-        int[] viewOrder = container.getDrawOrderIndexing();
+        int[] viewOrder = container.getDrawOrderIndexing(this);
         for(int i=viewOrder.length - 1;i>=0;i--){
             GameView child = children.get(viewOrder[i]);
             if(child.getViewType() == SPRITE){
@@ -296,7 +298,7 @@ public class Sprite extends GameView{
             Log.d("DEBUG", "object: " + getName() + " pos at " + getPosition() + " scale: " + trueScale);
         }
 
-        int[] viewOrder = container.getDrawOrderIndexing();
+        int[] viewOrder = container.getDrawOrderIndexing(this);
         for(int i=viewOrder.length - 1;i>=0;i--){
             GameView child = children.get(viewOrder[i]);
             if(child.getViewType() == SPRITE){
@@ -426,6 +428,7 @@ public class Sprite extends GameView{
         contentSize.width = width;
         contentSize.height = height;
         setAnchorPoint(anchorX, anchorY);
+        invalidate();
     }
 
     public Point getAnchorPoint(){
@@ -458,7 +461,17 @@ public class Sprite extends GameView{
                 float x = getPosition().x, y = getPosition().y;
                 for(LayoutPosition.LayoutRule rule : rules){
                     if(rule == null) continue;
-                    Size pSize = new Size(parent.container.getWidth(), parent.container.getHeight());
+                    // TODO: get parent size
+                    float width, height;
+                    if(parent.viewType == SPRITE){
+                        width = ((Sprite)parent).realContentSize.width;
+                        height = ((Sprite)parent).realContentSize.height;
+                    }
+                    else{
+                        width = Utils.getScreenWidth();
+                        height = Utils.getScreenHeight();
+                    }
+                    Size pSize = new Size(width, height);
                     Log.d("updateLayoutRule", "size: " + pSize);
                     switch(rule.rule){
                         case TOP: y = rule.val; break;
