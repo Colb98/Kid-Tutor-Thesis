@@ -41,6 +41,10 @@ public class Director {
         }
     }
 
+    public GameView getMainView(){
+        return mainGameView;
+    }
+
     public void setMainActivity(MainActivity a){
         mainActivity = a;
     }
@@ -57,7 +61,7 @@ public class Director {
     public void loadScene(GameScene scene){
         synchronized (instance){
             if(mainGameView != null){
-                mainGameView.releaseCurrentScene();
+//                mainGameView.releaseCurrentScene();
                 mainGameView.setCurrentScene(scene);
             }
         }

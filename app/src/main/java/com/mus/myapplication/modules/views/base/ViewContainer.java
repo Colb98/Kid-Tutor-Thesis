@@ -86,6 +86,72 @@ public class ViewContainer extends RelativeLayout {
         setChildrenDrawingOrderEnabled(true);
     }
 
+    @Override
+    public void removeView(View view) {
+        if(view instanceof GameView){
+            // Index trong mảng thứ tự
+            GameView gv = (GameView) view;
+            Node node = gv.viewTreeNode;
+
+            int subViews = gv.getSubViewsCount();
+            if(subViews > 0){
+                for(View v : gv.getSubViews()){
+                    super.removeView(v);
+                }
+            }
+            Node previousNode;
+            int idx = gv.parent.viewTreeNode.children.indexOf(node);
+            if(idx == 0){
+                previousNode = gv.parent.viewTreeNode;
+            }
+            else{
+                previousNode = gv.parent.viewTreeNode.children.get(idx - 1);
+                while(previousNode.next != node){
+                    previousNode = previousNode.next;
+                }
+            }
+            previousNode.next = node.next;
+            gv.parent.viewTreeNode.children.remove(node);
+            int[] nDrawOrder = new int[drawOrder.length - subViews - 1];
+            int[] nIDrawOrder = new int[drawOrder.length - subViews - 1];
+            for(int i=0,j=0;i<drawOrder.length;i++){
+                if(i < node.index || i > node.index + subViews){
+                    if(drawOrder[i] > drawOrder[node.index]){
+                        nDrawOrder[j] = drawOrder[i] - subViews - 1;
+                    }
+                    else{
+                        nDrawOrder[j] = drawOrder[i];
+                    }
+                    nIDrawOrder[nDrawOrder[j]] = j;
+                    j++;
+                }
+            }
+            Node n = root;
+            while(n.next != null){
+                if(n.index > node.index + subViews){
+                    n.index -= subViews + 1;
+                }
+                n = n.next;
+            }
+            drawOrder = nDrawOrder;
+            invertedDrawOrder = nIDrawOrder;
+
+            realChildCount -= subViews;
+            childCount -= 1;
+            realChildCount -= 1;
+            super.removeView(view);
+        }
+    }
+
+    private void removeAllViewsByNode(Node node, List<Integer> removingIndex){
+        for(Node child : node.children){
+            removeAllViewsByNode(child, removingIndex);
+        }
+        super.removeView(node.val);
+        node.val.parent.viewTreeNode.children.remove(node);
+        removingIndex.add(node.index);
+    }
+
     public void addGameView(View child, View parent){
         if(child instanceof GameView){
             GameView gv = (GameView) child;
@@ -101,7 +167,6 @@ public class ViewContainer extends RelativeLayout {
             if(childCount == 1){
                 root = node;
             }
-
             updateViewOrder();
             invalidate();
         }

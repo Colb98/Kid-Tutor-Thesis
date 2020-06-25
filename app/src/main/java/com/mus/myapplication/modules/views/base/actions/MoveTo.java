@@ -48,7 +48,18 @@ public class MoveTo extends Action {
     }
 
     @Override
-    public void forceFinish(Sprite sprite) {
+    protected void onFinished() {
+        super.onFinished();
+        if(sprite != null){
+            sprite.setPosition(destination);
+        }
+    }
 
+    @Override
+    public void forceFinish(Sprite sprite) {
+        running = false;
+        if(sprite != null){
+            sprite.setPosition(destination);
+        }
     }
 }

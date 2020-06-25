@@ -2,6 +2,9 @@ package com.mus.myapplication.modules.views.base;
 
 import android.widget.RelativeLayout;
 
+import com.mus.myapplication.modules.classes.Size;
+import com.mus.myapplication.modules.classes.Utils;
+
 import java.util.HashMap;
 
 public class GameScene extends GameView{
@@ -47,5 +50,22 @@ public class GameScene extends GameView{
 
     protected GameView getChild(String name){
         return childrenMap.get(name);
+    }
+
+    protected void setSceneBackground(int resIdBackground){
+        Sprite bg = new Sprite(this);
+        bg.setSpriteAnimation(resIdBackground);
+        Size bgSize = bg.getContentSize(false);
+        float widthRatio = bgSize.width / Utils.getScreenWidth();
+        float heightRatio = bgSize.height / Utils.getScreenHeight();
+        float scaleRatio;
+        if(widthRatio < 1 || heightRatio < 1){
+            scaleRatio = 1/Math.min(widthRatio, heightRatio);
+        }
+        else{
+            scaleRatio = Math.max(widthRatio, heightRatio);
+        }
+        bg.setScale(scaleRatio);
+        mappingChild(bg, "background");
     }
 }

@@ -3,6 +3,7 @@ package com.mus.myapplication.modules.views.base;
 
 import android.graphics.Color;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -17,12 +18,12 @@ public class GameTextEdit extends Sprite {
     TextView view;
     String text;
     float fontSize = 15f;
+    View[] subViews;
 
 
     public GameTextEdit(GameView parent){
         super();
         this.text = "";
-        this.container = new TextViewContainer(this.getContext());
         parent.addChild(this);
 //        initTextView();
 //        setFontColor(Color.BLACK);
@@ -30,25 +31,33 @@ public class GameTextEdit extends Sprite {
 
     public GameTextEdit(String text){
         super();
-        this.container = new TextViewContainer(this.getContext());
         this.text = text;
     }
 
     public GameTextEdit(){
         super();
-        this.container = new TextViewContainer(this.getContext());
         this.text = "";
     }
 
     @Override
+    public int getSubViewsCount() {
+        return 1;
+    }
+
+    @Override
+    public View[] getSubViews() {
+        return subViews;
+    }
+
+    @Override
     protected void afterAddChild() {
-        super.afterAddChild();
         initTextView();
+        super.afterAddChild();
         setFontColor(Color.BLACK);
     }
 
     public void setFontSize(float size){
-        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
         fontSize = size;
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) view.getLayoutParams();
         if(lp != null){
@@ -63,15 +72,16 @@ public class GameTextEdit extends Sprite {
 
     private void initTextView(){
         view = new EditText(this.getContext());
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(500, 120);
-        view.setText(text);
-        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, 15);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
+        view.setText(text);
+        subViews = new View[]{view};
+        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 
         fontSize = view.getTextSize();
 
         updateBound();
-        this.container.addView(view);
+//        this.container.addView(view);
     }
 
     public void setFontColor(@ColorInt int color){
@@ -107,28 +117,28 @@ public class GameTextEdit extends Sprite {
     }
 
     private void updateBound() {
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
-        if(lp == null){
-            lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        }
-
-        int width, height;
-        if(parent.getViewType() == SPRITE){
-            Sprite p = (Sprite) parent;
-            width = (int) p.realContentSize.width;
-            height = (int) p.realContentSize.height;
-        }
-        else{
-            width = Utils.getScreenWidth();
-            height = Utils.getScreenHeight();
-        }
-        realContentSize.width = lp.width = width;
-        realContentSize.height = lp.height = height;
-
-        float recurScale = getRecursiveScale();
-        contentSize = realContentSize.multiply(1/recurScale);
-
-        this.container.setLayoutParams(lp);
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+//        if(lp == null){
+//            lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        }
+//
+//        int width, height;
+//        if(parent.getViewType() == SPRITE){
+//            Sprite p = (Sprite) parent;
+//            width = (int) p.realContentSize.width;
+//            height = (int) p.realContentSize.height;
+//        }
+//        else{
+//            width = Utils.getScreenWidth();
+//            height = Utils.getScreenHeight();
+//        }
+//        realContentSize.width = lp.width = width;
+//        realContentSize.height = lp.height = height;
+//
+//        float recurScale = getRecursiveScale();
+//        contentSize = realContentSize.multiply(1/recurScale);
+//
+//        this.container.setLayoutParams(lp);
     }
 
     public void setText(String text){

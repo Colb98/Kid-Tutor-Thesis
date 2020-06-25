@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.AppAlarmService;
@@ -68,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
         Director.getInstance().setMainGameView(mainView);
 
         // Main Scene
-        MapScene main = new MapScene(mainView);
+        Director.getInstance().loadScene(SceneCache.getScene("map"));
 //        mainView.addChild(main);
-        main.setName("Map Scene");
+//        main.setName("Map Scene");
 
         Thread thread = new Thread(){
             private long first = System.currentTimeMillis();

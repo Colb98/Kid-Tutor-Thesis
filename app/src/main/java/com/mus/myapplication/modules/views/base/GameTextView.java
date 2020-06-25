@@ -26,7 +26,6 @@ public class GameTextView extends Sprite {
     public GameTextView(GameView parent){
         super();
         this.text = "";
-        this.container = new TextViewContainer(this.getContext());
         parent.addChild(this);
 //        initTextView();
 //        setFontColor(Color.BLACK);
@@ -34,13 +33,11 @@ public class GameTextView extends Sprite {
 
     public GameTextView(String text){
         super();
-        this.container = new TextViewContainer(this.getContext());
         this.text = text;
     }
 
     public GameTextView(){
         super();
-        this.container = new TextViewContainer(this.getContext());
         this.text = "";
     }
 
@@ -63,6 +60,8 @@ public class GameTextView extends Sprite {
 
     private void initTextView(){
         view = new TextView(this.getContext());
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
         view.setText(text);
         subViews = new View[]{view};
         fontSize = view.getTextSize();

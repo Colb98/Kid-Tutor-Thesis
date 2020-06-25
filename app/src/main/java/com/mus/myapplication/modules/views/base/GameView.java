@@ -179,28 +179,37 @@ public class GameView extends AppCompatImageView {
     public void setPositionDp(int x, int y){
         int dpX = (int)Utils.getPxByDp(x);
         int dpY = (int)Utils.getPxByDp(y);
-        Point worldPos = getParentWorldPosition();
-        worldPos = worldPos.add(dpX, dpY);
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
-        lp.setMargins((int)worldPos.x, (int)worldPos.y, 0, 0);
-        position.x = dpX;
-        position.y = dpY;
-        for(View v : getSubViews()){
-            v.setLayoutParams(lp);
-        }
-        this.setLayoutParams(lp);
-//        this.container.setLayoutParams(lp);
-        for(GameView child : children){
-            child.updatePosition();
-        }
+        setPosition(dpX, dpY);
+//        Point worldPos = getParentWorldPosition();
+//        worldPos = worldPos.add(dpX, dpY);
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
+//        lp.setMargins((int)worldPos.x, (int)worldPos.y, 0, 0);
+//        position.x = dpX;
+//        position.y = dpY;
+//        for(View v : getSubViews()){
+//            v.setLayoutParams(lp);
+//        }
+//        this.setLayoutParams(lp);
+////        this.container.setLayoutParams(lp);
+//        for(GameView child : children){
+//            child.updatePosition();
+//        }
     }
 
     private void updatePosition(){
         Point worldPos = getParentWorldPosition();
         worldPos = worldPos.add(position);
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
-        lp.setMargins((int)worldPos.x, (int)worldPos.y, -(int)worldPos.x, -(int)worldPos.y);
+        lp.setMargins((int)worldPos.x, (int)worldPos.y, 0, 0);
         this.setLayoutParams(lp);
+        if(getSubViews() != null){
+            for(int i=0;i<getSubViewsCount();i++){
+                if(getSubViews()[i] == null) continue;
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) getSubViews()[i].getLayoutParams();
+                layoutParams.setMargins((int)worldPos.x, (int)worldPos.y, 0, 0);
+                getSubViews()[i].setLayoutParams(layoutParams);
+            }
+        }
         for(GameView child : children){
             child.updatePosition();
         }
@@ -234,6 +243,16 @@ public class GameView extends AppCompatImageView {
         position.x = x;
         position.y = y;
         this.setLayoutParams(lp);
+
+        if(getSubViews() != null){
+            for(int i=0;i<getSubViewsCount();i++){
+                if(getSubViews()[i] == null) continue;
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) getSubViews()[i].getLayoutParams();
+                layoutParams.setMargins((int)worldPos.x, (int)worldPos.y, 0, 0);
+                getSubViews()[i].setLayoutParams(layoutParams);
+            }
+        }
+
         for(GameView child : children){
             child.updatePosition();
         }
@@ -277,6 +296,12 @@ public class GameView extends AppCompatImageView {
     }
 
     public void setCurrentScene(GameScene scene){
+        if(this.curScene == scene || scene == null){
+            return;
+        }
+        if(this.curScene != null){
+            curScene.setVisible(false);
+        }
         if(scene.parent != this){
             if(scene.parent != null){
                 scene.parent.removeChild(scene);
@@ -287,6 +312,7 @@ public class GameView extends AppCompatImageView {
         else{
             scene.setVisibility(VISIBLE);
         }
+        curScene = scene;
     }
 
     public void show(){
@@ -310,6 +336,11 @@ public class GameView extends AppCompatImageView {
                 child.setVisibleRecur(false);
             }
         }
+        if (getSubViewsCount() > 0) {
+            for(View subView : getSubViews()){
+                subView.setVisibility(val?VISIBLE:INVISIBLE);
+            }
+        }
     }
 
     private void resetVisibility(){
@@ -323,6 +354,11 @@ public class GameView extends AppCompatImageView {
             setVisibility(INVISIBLE);
             for(GameView child : children){
                 child.setVisibleRecur(false);
+            }
+        }
+        if (getSubViewsCount() > 0) {
+            for(View subView : getSubViews()){
+                subView.setVisibility(visibility?VISIBLE:INVISIBLE);
             }
         }
     }
@@ -342,6 +378,11 @@ public class GameView extends AppCompatImageView {
                 child.setVisibleRecur(false);
             }
 //            container.setVisibility(INVISIBLE);
+        }
+        if (getSubViewsCount() > 0) {
+            for(View subView : getSubViews()){
+                subView.setVisibility(visibility?VISIBLE:INVISIBLE);
+            }
         }
     }
 

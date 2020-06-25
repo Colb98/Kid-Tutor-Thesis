@@ -214,7 +214,7 @@ public class Sprite extends GameView{
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
 
-//        Log.d("ONTOUCH", this.getName() + " get the on touch event: " + event.getAction());
+        Log.d("ONTOUCH", this.getName() + " get the on touch event: " + event.getAction());
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -224,7 +224,6 @@ public class Sprite extends GameView{
                 return swallowTouches;
             case MotionEvent.ACTION_UP:
 //                Log.d(LOGTAG, "TouchRelease");
-                performClick();
                 onTouchSucceed(event);
                 return swallowTouches;
             case MotionEvent.ACTION_MOVE:
@@ -293,6 +292,8 @@ public class Sprite extends GameView{
         for(Runnable r : listenerCallbacks.get(CallbackType.ON_TOUCH_UP)){
             r.run();
         }
+
+        performClick();
 
         if(debugMode){
             Log.d("DEBUG", "object: " + getName() + " pos at " + getPosition() + " scale: " + trueScale);
@@ -397,6 +398,12 @@ public class Sprite extends GameView{
         toBeRemovedActions.add(a);
     }
 
+    public void stopAllActions(){
+        for(Action a : actions){
+            toBeRemovedActions.add(a);
+        }
+    }
+
     public void runAction(Action a){
         actions.add(a);
         a.start();
@@ -488,6 +495,13 @@ public class Sprite extends GameView{
 
     public void setDebugMode(boolean value){
         debugMode = value;
+    }
+
+    public Size getContentSize(boolean withoutScale){
+        if(withoutScale){
+            return contentSize;
+        }
+        return realContentSize;
     }
 
     public void debug(){

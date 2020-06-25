@@ -14,6 +14,7 @@ public abstract class Action {
     protected float timeToWait;
     protected boolean running = false;
     protected boolean started = false;
+    protected Sprite sprite = null;
     protected Map<String, Runnable> callbacks;
 
     public Action(float duration){
@@ -40,6 +41,9 @@ public abstract class Action {
     public abstract void forceFinish(Sprite sprite);
 
     public void updateEveryFrame(float dt, Sprite sprite){
+        if(timeElapsed == 0){
+            this.sprite = sprite;
+        }
         if(!started)
             return;
 
