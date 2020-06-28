@@ -19,6 +19,14 @@ public class Size {
         return new Size(x * width, x * height);
     }
 
+    public Size add(Size s){
+        return new Size(width + s.width, height + s.height);
+    }
+
+    public Size minus(Size s){
+        return new Size(width - s.width, height - s.height);
+    }
+
     @NonNull
     @Override
     public String toString() {

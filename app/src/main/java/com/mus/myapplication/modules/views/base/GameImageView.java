@@ -56,6 +56,9 @@ public class GameImageView extends Sprite {
         setImageBitmap(image);
     }
 
+    public void setImageViewBound(Size size){
+        setImageViewBound(size.width, size.height);
+    }
 
     public void setImageViewBound(float width, float height){
         Size size = getContentSize(false);

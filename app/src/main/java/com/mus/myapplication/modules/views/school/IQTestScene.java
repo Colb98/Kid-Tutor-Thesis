@@ -15,7 +15,9 @@ import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.Director;
+import com.mus.myapplication.modules.models.school.IQQuestion;
 import com.mus.myapplication.modules.models.school.IQTest;
+import com.mus.myapplication.modules.models.school.TestsConfig;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameImageView;
 import com.mus.myapplication.modules.views.base.GameScene;
@@ -25,6 +27,7 @@ import com.mus.myapplication.modules.views.base.Sprite;
 
 public class IQTestScene extends GameScene {
     private int currentQuestion;
+    private int currentAnswer = -1;
     private IQTest currentTest;
 
     public IQTestScene(GameView parent){
@@ -51,6 +54,14 @@ public class IQTestScene extends GameScene {
                         Director.getInstance().loadScene(SceneCache.getScene("school"));
                     }
                 });
+
+                Button next = (Button)getChild("btnNext");
+                next.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        nextQuestion();
+                    }
+                });
             }
         });
     }
@@ -71,6 +82,7 @@ public class IQTestScene extends GameScene {
         buttonNext.setSpriteAnimation(R.drawable.school_iq_quiz_button_next);
 //        countDownCircle.setPosition(, height/2 - countDownCircle.getContentSize(false).height/2 + bg2.getContentSize(false).height/2 + 150);
         buttonNext.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("bottom", 30 + buttonNext.getContentSize(false).height), LayoutPosition.getRule("left", width/2 - buttonNext.getContentSize(false).width/2)));
+        mappingChild(buttonNext, "btnNext");
 
         Sprite countDownBox = new Sprite(bg2);
         countDownBox.setSpriteAnimation(R.drawable.school_iq_quiz_count_down);
@@ -105,11 +117,59 @@ public class IQTestScene extends GameScene {
         lbTitle.setText(builder);
         lbTitle.setFont(FontCache.Font.UVNKyThuat);
         lbTitle.setPositionCenterScreen(false, true);
+        mappingChild(lbTitle, "lbTitle");
 
-        testQuestion();
+        initQuestion();
+        loadQuestion(0);
     }
 
-    private void testQuestion(){
+    private void nextQuestion(){
+        IQTest test = TestsConfig.getTest(0);
+        if(currentQuestion < test.getQuestions().size() - 1)
+            loadQuestion(currentQuestion + 1);
+        else{
+            int score = 0;
+            for(IQQuestion q : test.getQuestions()){
+                if(q.isCorrect())
+                    score++;
+            }
+            Log.d("Result", "Total true answer: " + score);
+        }
+    }
+
+    private void loadQuestion(int index){
+        IQQuestion oldQ = TestsConfig.getTest(0).getQuestions().get(currentQuestion);
+        oldQ.setAnswerIndex(currentAnswer);
+
+//        IQQuestion question = currentTest.getQuestions().get(index);
+        IQQuestion question = TestsConfig.getTest(0).getQuestions().get(index);
+        currentQuestion = index;
+        GameTextView lbTitle = (GameTextView) getChild("lbTitle");
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append("Câu số ", new RelativeSizeSpan(1.5f), 0).append(String.valueOf(index + 1), new RelativeSizeSpan(1.5f), 0).setSpan(new StyleSpan(Typeface.BOLD), 0, builder.length(), 0);
+        builder.append("/10");
+        setIndicatorPos(-1);
+
+        lbTitle.setText(builder);
+
+        GameImageView ivQuestion = (GameImageView) getChild("question");
+        GameImageView a1 = (GameImageView) getChild("a1");
+        GameImageView a2 = (GameImageView) getChild("a2");
+        GameImageView a3 = (GameImageView) getChild("a3");
+        GameImageView a4 = (GameImageView) getChild("a4");
+        GameImageView a5 = (GameImageView) getChild("a5");
+        GameImageView a6 = (GameImageView) getChild("a6");
+
+        ivQuestion.setSpriteKeepFormat(question.getQuestion());
+        a1.setSpriteKeepFormat(question.getAnswers()[0]);
+        a2.setSpriteKeepFormat(question.getAnswers()[1]);
+        a3.setSpriteKeepFormat(question.getAnswers()[2]);
+        a4.setSpriteKeepFormat(question.getAnswers()[3]);
+        a5.setSpriteKeepFormat(question.getAnswers()[4]);
+        a6.setSpriteKeepFormat(question.getAnswers()[5]);
+    }
+
+    private void initQuestion(){
         Sprite panel = (Sprite) getChild("questionPanel");
         GameImageView question = new GameImageView(panel);
         question.init(R.drawable.school_iq_test1_q2_ques);
@@ -153,6 +213,56 @@ public class IQTestScene extends GameScene {
         a6.setPosition(a4.getPosition());
         a6.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("right", size.width + dis)));
 
+        GameImageView selectIndicator = new GameImageView(panel);
+        selectIndicator.init(R.drawable.school_iq_quiz_select_border);
+        selectIndicator.setImageViewBound(a1.getContentSize(false).multiply(1.2f));
+        selectIndicator.setPosition(a1.getPosition());
+        Size diff = selectIndicator.getContentSize(false).minus(a1.getContentSize(false)).multiply(0.5f);
+        selectIndicator.move(-diff.width, -diff.height);
+        mappingChild(selectIndicator, "indicator");
+
+        a1.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                setCurrentAnswer(0);
+            }
+        });
+
+        a2.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                setCurrentAnswer(1);
+            }
+        });
+
+        a3.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                setCurrentAnswer(2);
+            }
+        });
+
+        a4.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                setCurrentAnswer(3);
+            }
+        });
+
+        a5.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                setCurrentAnswer(4);
+            }
+        });
+
+        a6.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                setCurrentAnswer(5);
+            }
+        });
+
         mappingChild(question, "question");
         mappingChild(a1, "a1");
         mappingChild(a2, "a2");
@@ -160,5 +270,25 @@ public class IQTestScene extends GameScene {
         mappingChild(a4, "a4");
         mappingChild(a5, "a5");
         mappingChild(a6, "a6");
+    }
+
+    private void setCurrentAnswer(int ans){
+        currentAnswer = ans;
+        // Move indicator
+        setIndicatorPos(ans);
+    }
+
+    private void setIndicatorPos(int ans){
+        GameImageView indi = (GameImageView) getChild("indicator");
+        if(ans == -1){
+            indi.hide();
+        }
+        else{
+            indi.show();
+            GameImageView a = (GameImageView) getChild("a" + (ans+1));
+            indi.setPosition(a.getPosition());
+            Size diff = indi.getContentSize(false).minus(a.getContentSize(false)).multiply(0.5f);
+            indi.move(-diff.width, -diff.height);
+        }
     }
 }

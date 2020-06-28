@@ -139,6 +139,14 @@ public class Sprite extends GameView{
         listenerCallbacks.put(CallbackType.ON_CLICK, new ArrayList<Runnable>());
     }
 
+    public void setSpriteKeepFormat(int resId){
+        this.animSprites = new Bitmap[1];
+        animSprites[0] = BitmapFactory.decodeResource(getContext().getResources(), resId);
+        if(animSprites[0] == null) throw new NullPointerException("Resource id: " + resId + " cannot be found.");
+
+        setImageBitmap(animSprites[0]);
+    }
+
     public void setSpriteAnimation(int resId){
         this.animSprites = new Bitmap[1];
         animSprites[0] = BitmapFactory.decodeResource(getContext().getResources(), resId);
@@ -461,36 +469,36 @@ public class Sprite extends GameView{
 
     public void updateLayoutRule(){
         final LayoutPosition.LayoutRule[] rules = layoutRule.getRules();
-        parent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                float x = getPosition().x, y = getPosition().y;
-                for(LayoutPosition.LayoutRule rule : rules){
-                    if(rule == null) continue;
-                    // TODO: get parent size
-                    float width, height;
-                    if(parent.viewType == SPRITE){
-                        width = ((Sprite)parent).realContentSize.width;
-                        height = ((Sprite)parent).realContentSize.height;
-                    }
-                    else{
-                        width = Utils.getScreenWidth();
-                        height = Utils.getScreenHeight();
-                    }
-                    Size pSize = new Size(width, height);
-//                    Log.d("updateLayoutRule", "size: " + pSize);
-                    switch(rule.rule){
-                        case TOP: y = rule.val; break;
-                        case BOTTOM: y = pSize.height - rule.val; break;
-                        case RIGHT: x = pSize.width - rule.val; break;
-                        case LEFT: x = rule.val; break;
-                    }
-                }
-                setPosition(x, y);
+//        parent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//
+//            }
+//        });
+        float x = getPosition().x, y = getPosition().y;
+        for(LayoutPosition.LayoutRule rule : rules){
+            if(rule == null) continue;
+            // TODO: get parent size
+            float width, height;
+            if(parent.viewType == SPRITE){
+                width = ((Sprite)parent).realContentSize.width;
+                height = ((Sprite)parent).realContentSize.height;
             }
-        });
-
+            else{
+                width = Utils.getScreenWidth();
+                height = Utils.getScreenHeight();
+            }
+            Size pSize = new Size(width, height);
+//                    Log.d("updateLayoutRule", "size: " + pSize);
+            switch(rule.rule){
+                case TOP: y = rule.val; break;
+                case BOTTOM: y = pSize.height - rule.val; break;
+                case RIGHT: x = pSize.width - rule.val; break;
+                case LEFT: x = rule.val; break;
+            }
+        }
+        setPosition(x, y);
     }
 
     public void setDebugMode(boolean value){

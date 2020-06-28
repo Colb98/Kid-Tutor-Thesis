@@ -1,11 +1,34 @@
 package com.mus.myapplication.modules.models.school;
 
-import android.graphics.drawable.Drawable;
 
 public class IQQuestion {
     private int index;
-    private Drawable question;
-    private Drawable[] answers;
-    private int trueAnswerIndex;
-    private int answerIndex;
+
+    // Resource Id
+    private int question;
+    private int[] answers;
+
+    public int getQuestion() {
+        return question;
+    }
+
+    public int[] getAnswers() {
+        return answers;
+    }
+
+    public boolean isCorrect(){
+        return 0 == answerIndex;
+    }
+
+    private int answerIndex = -1;
+
+    public void setAnswerIndex(int id){
+        answerIndex = id;
+    }
+
+    public IQQuestion(int idx, int qId, int... aIds){
+        index = idx;
+        question = qId;
+        answers = aIds;
+    }
 }
