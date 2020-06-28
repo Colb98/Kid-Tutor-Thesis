@@ -25,6 +25,7 @@ public class GameView extends AppCompatImageView {
 
     List<GameView> children = new ArrayList<>();
     List<Integer> childrenOrder = new ArrayList<>();
+    List<UpdateRunnable> updateRunnables = new ArrayList<>();
     GameView parent = null;
     boolean isUpdating = false;
     protected int zOrder;
@@ -40,6 +41,14 @@ public class GameView extends AppCompatImageView {
     long lastUpdate = 0;
 
     private Point position = new Point(0, 0);
+
+    public abstract class UpdateRunnable implements Runnable {
+        protected float dt;
+        void run(float dt){
+            this.dt = dt;
+            run();
+        }
+    }
 
     // Default Constructors
     public GameView(Context context) {
@@ -275,13 +284,20 @@ public class GameView extends AppCompatImageView {
     }
 
     public void move(int dx, int dy){
-        setPosition(position.add(new Point(dx, dy)));
+        setPosition(position.add(dx, dy));
+    }
+
+    public void move(float dx, float dy){
+        setPosition(position.add(dx, dy));
     }
 
     public void update(float dt){
         if(!isUpdating){
 //            Log.d("Not updating", "");
             return;
+        }
+        for(UpdateRunnable runnable : updateRunnables){
+            runnable.run(dt);
         }
 
         long cur = System.currentTimeMillis();
@@ -443,5 +459,9 @@ public class GameView extends AppCompatImageView {
 
     public View[] getSubViews(){
         return new View[]{};
+    }
+
+    public void addUpdateRunnable(UpdateRunnable runnable){
+        updateRunnables.add(runnable);
     }
 }

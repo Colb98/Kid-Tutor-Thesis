@@ -1,17 +1,15 @@
-package com.mus.myapplication.modules.views.scene;
+package com.mus.myapplication.modules.views.school;
 
 import android.view.ViewTreeObserver;
 
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.SceneCache;
-import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
-import com.mus.myapplication.modules.views.setting.SettingUI;
 
 public class SchoolScene extends GameScene {
     public SchoolScene(GameView parent){
@@ -49,6 +47,8 @@ public class SchoolScene extends GameScene {
         Button btnBack = new Button(this);
         btnBack.setSpriteAnimation(R.drawable.back_button);
         btnBack.setPosition(50, 50);
+
+        mappingChild(iq, "iq");
         mappingChild(btnBack, "btnBack");
     }
 
@@ -63,6 +63,14 @@ public class SchoolScene extends GameScene {
                     @Override
                     public void run() {
                         Director.getInstance().loadScene(SceneCache.getScene("map"));
+                    }
+                });
+
+                Button iq = (Button)getChild("iq");
+                iq.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().loadScene(SceneCache.getScene("iq"));
                     }
                 });
             }

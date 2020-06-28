@@ -1,5 +1,6 @@
 package com.mus.myapplication.modules.views.base;
 
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 import com.mus.myapplication.modules.classes.Size;
@@ -59,13 +60,14 @@ public class GameScene extends GameView{
         float widthRatio = bgSize.width / Utils.getScreenWidth();
         float heightRatio = bgSize.height / Utils.getScreenHeight();
         float scaleRatio;
+        Log.d("scene", "width ratio: " + widthRatio + " " + heightRatio);
         if(widthRatio < 1 || heightRatio < 1){
-            scaleRatio = 1/Math.min(widthRatio, heightRatio);
+            scaleRatio = Math.min(widthRatio, heightRatio);
         }
         else{
-            scaleRatio = Math.max(widthRatio, heightRatio);
+            scaleRatio = Math.min(widthRatio, heightRatio);
         }
-        bg.setScale(scaleRatio);
+        bg.setScale(1/scaleRatio);
         mappingChild(bg, "background");
     }
 }

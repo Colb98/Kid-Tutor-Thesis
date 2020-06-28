@@ -2,6 +2,8 @@ package com.mus.myapplication.modules.views.base;
 
 
 import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -18,14 +20,14 @@ import androidx.annotation.ColorInt;
 
 public class GameTextView extends Sprite {
     TextView view;
-    String text;
+    SpannableString text;
     float fontSize;
     View[] subViews;
 
 
     public GameTextView(GameView parent){
         super();
-        this.text = "";
+        this.text = new SpannableString("");
         parent.addChild(this);
 //        initTextView();
 //        setFontColor(Color.BLACK);
@@ -33,12 +35,12 @@ public class GameTextView extends Sprite {
 
     public GameTextView(String text){
         super();
-        this.text = text;
+        this.text = new SpannableString(text);
     }
 
     public GameTextView(){
         super();
-        this.text = "";
+        this.text = new SpannableString("");
     }
 
     @Override
@@ -75,13 +77,21 @@ public class GameTextView extends Sprite {
         view.setTextColor(color);
     }
 
+    private void updateMeasure(){
+        view.measure(0, 0);
+        contentSize = new Size(view.getMeasuredWidth(), view.getMeasuredHeight());
+        realContentSize = contentSize;
+    }
+
     public void setFont(String fontName){
         view.setTypeface(FontCache.get(fontName, this.getContext()));
+        updateMeasure();
     }
 
     public void setFontSize(float size){
         view.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
         fontSize = size;
+        updateMeasure();
     }
 
     @Override
@@ -129,7 +139,24 @@ public class GameTextView extends Sprite {
     }
 
     public void setText(String text){
+        this.text = new SpannableString(text);
+        view.setText(this.text);
+        updateMeasure();
+    }
+
+    public void setText(SpannableStringBuilder text){
+        this.text = SpannableString.valueOf(text);
+        view.setText(text);
+        updateMeasure();
+    }
+
+    public void setText(SpannableString text){
         this.text = text;
         view.setText(text);
+        updateMeasure();
+    }
+
+    public Size getContentSize() {
+        return super.getContentSize(true);
     }
 }

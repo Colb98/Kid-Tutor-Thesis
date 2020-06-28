@@ -23,6 +23,10 @@ public class GameImageView extends Sprite {
         init(resId, contentSize, null);
     }
 
+    public void init(int resId, float width, float height) {
+        init(resId, new Size(width, height), null);
+    }
+
     public void init(int resId){
         init(resId, null, null);
     }
@@ -40,7 +44,7 @@ public class GameImageView extends Sprite {
         setScaleType(ScaleType.FIT_XY);
         setPosition(position);
         setContentSize(contentSize.width, contentSize.height);
-        Log.d("ImageView", "resource size: " + imageSize + ", content size: " + contentSize + ", view size: " + realContentSize);
+//        Log.d("ImageView", "resource size: " + imageSize + ", content size: " + contentSize + ", view size: " + realContentSize);
 
     }
 
@@ -52,19 +56,12 @@ public class GameImageView extends Sprite {
         setImageBitmap(image);
     }
 
-    @Override
-    public void setContentSize(float width, float height) {
-        float r1 = imageSize.width / imageSize.height;
-        float r2 = width / height;
 
-        if(r1 > r2){
-            height = imageSize.height*width/imageSize.width;
-        }
-        else{
-            width = imageSize.width*height/imageSize.height;
-        }
-
-        super.setContentSize(width, height);
-        invalidate();
+    public void setImageViewBound(float width, float height){
+        Size size = getContentSize(false);
+        float widthRatio = size.width / width;
+        float heightRatio = size.height / height;
+        float ratio = 1/Math.max(widthRatio, heightRatio);
+        setScale(getScale() * ratio);
     }
 }

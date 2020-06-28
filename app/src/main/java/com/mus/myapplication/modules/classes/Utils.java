@@ -79,4 +79,55 @@ public class Utils {
         }
         return context.getString(resId);
     }
+
+    public static String secondToString(float time){
+        return secondToString(time, true, true, true, false);
+    }
+
+    public static String secondToString(float time, boolean hour, boolean min, boolean sec, boolean milisec){
+        return milisecondToString(time*1000, hour, min, sec, milisec);
+    }
+
+    public static String milisecondToString(float time, boolean hour, boolean min, boolean sec, boolean milisec){
+        int h = -1;
+        int m = -1;
+        int s = -1;
+        float mili = time;
+
+        if(sec){
+            s = (int)mili/1000;
+            mili = mili - s;
+        }
+        if(min){
+            m = s/60;
+            s = s%60;
+        }
+        if(hour){
+            h = m/60;
+            m = m%60;
+        }
+
+        String H = "", M = "", S = "", MILI = "";
+        if(milisec){
+            MILI = "." + mili;
+        }
+        if(sec){
+            S = String.valueOf(s);
+            if(S.length() < 2)
+                S = "0" + S;
+        }
+        if(min && m > 0){
+            M = String.valueOf(m);
+            if(M.length() < 2)
+                M = "0" + M;
+            M += ":";
+        }
+        if(hour && h > 0){
+            H = String.valueOf(h);
+            if(H.length() < 2)
+                H = "0" + H;
+            H += ":";
+        }
+        return H + M + S + MILI;
+    }
 }

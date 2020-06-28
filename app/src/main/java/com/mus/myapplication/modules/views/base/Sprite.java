@@ -479,7 +479,7 @@ public class Sprite extends GameView{
                         height = Utils.getScreenHeight();
                     }
                     Size pSize = new Size(width, height);
-                    Log.d("updateLayoutRule", "size: " + pSize);
+//                    Log.d("updateLayoutRule", "size: " + pSize);
                     switch(rule.rule){
                         case TOP: y = rule.val; break;
                         case BOTTOM: y = pSize.height - rule.val; break;
@@ -502,6 +502,38 @@ public class Sprite extends GameView{
             return contentSize;
         }
         return realContentSize;
+    }
+
+    public Point setPositionCenterParent(boolean keepX, boolean keepY){
+        if(parent.getViewType() == SCENE){
+            return setPositionCenterScreen(keepX, keepY);
+        }
+        Sprite parent = (Sprite) this.parent;
+        Point centerPos = new Point(parent.getContentSize(false).width/2f, parent.getContentSize(false).height/2f);
+        Point diff = new Point(getContentSize(false).width/2, getContentSize(false).height/2);
+        Point newPos = getPosition();
+        if(!keepX){
+            newPos.x = centerPos.x - diff.x;
+        }
+        if(!keepY){
+            newPos.y = centerPos.y - diff.y;
+        }
+        setPosition(newPos);
+        return newPos;
+    }
+
+    public Point setPositionCenterScreen(boolean keepX, boolean keepY){
+        Point centerPos = new Point(Utils.getScreenWidth()/2f, Utils.getScreenHeight()/2f);
+        Point diff = new Point(getContentSize(false).width/2, getContentSize(false).height/2);
+        Point newPos = getPosition();
+        if(!keepX){
+            newPos.x = centerPos.x - diff.x;
+        }
+        if(!keepY){
+            newPos.y = centerPos.y - diff.y;
+        }
+        setPosition(newPos);
+        return newPos;
     }
 
     public void debug(){
