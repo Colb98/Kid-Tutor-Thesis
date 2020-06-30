@@ -20,6 +20,10 @@
     <string name="text_alarm">Alarm</string>
     <string name="text_language">Language</string>
     <string name="text_login">Login</string>
+    <string name="text_congratulation">Congratulation</string>
+    <string name="text_result">Result</string>
+    <string name="text_question_no">Question no.</string>
+    <string name="text_result_answer_correct">Correct answers: @</string>
 
 
 </resources>

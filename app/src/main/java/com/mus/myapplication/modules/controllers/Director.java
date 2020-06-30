@@ -58,13 +58,15 @@ public class Director {
         }
     }
 
-    public void loadScene(GameScene scene){
+    public GameScene loadScene(GameScene scene){
         synchronized (instance){
             if(mainGameView != null){
 //                mainGameView.releaseCurrentScene();
                 mainGameView.setCurrentScene(scene);
+                return scene;
             }
         }
+        return null;
     }
 
     public void runActivity(Class activityClass){

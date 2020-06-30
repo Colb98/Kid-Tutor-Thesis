@@ -12,6 +12,7 @@ import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.Director;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -23,6 +24,7 @@ public class GameView extends AppCompatImageView {
     public static final int SPRITE = 2;
 
 
+    protected HashMap<String, GameView> childrenMap = new HashMap<>();
     List<GameView> children = new ArrayList<>();
     List<Integer> childrenOrder = new ArrayList<>();
     List<UpdateRunnable> updateRunnables = new ArrayList<>();
@@ -121,6 +123,7 @@ public class GameView extends AppCompatImageView {
         }
         child.parent = this;
         child.afterAddChild();
+        resetVisibility();
         if(child.viewType == SCENE){
             if(this.curScene != null){
                 child.setVisibility(INVISIBLE);
@@ -430,6 +433,17 @@ public class GameView extends AppCompatImageView {
         }
     }
 
+
+    protected void mappingChild(GameView child, String name){
+        childrenMap.put(name, child);
+        child.setName(name);
+    }
+
+    protected GameView getChild(String name){
+        return childrenMap.get(name);
+    }
+
+
     public GameView getGameParent(){
         return parent;
     }
@@ -449,7 +463,7 @@ public class GameView extends AppCompatImageView {
 
     private void updateChildZOrder(GameView child){
         childrenOrder.set(children.indexOf(child), child.zOrder);
-        Log.d(LOGTAG, Utils.arrayToString(childrenOrder));
+//        Log.d(LOGTAG, Utils.arrayToString(childrenOrder));
         container.updateViewOrder(child);
     }
 

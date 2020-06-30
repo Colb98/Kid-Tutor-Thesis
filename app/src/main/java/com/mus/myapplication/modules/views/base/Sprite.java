@@ -222,7 +222,8 @@ public class Sprite extends GameView{
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
 
-        Log.d("ONTOUCH", this.getName() + " get the on touch event: " + event.getAction());
+//        if(getVisibility() == INVISIBLE) return false;
+//        Log.d("ONTOUCH", this.getName() + " get the on touch event: " + event.getAction());
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -482,8 +483,8 @@ public class Sprite extends GameView{
             // TODO: get parent size
             float width, height;
             if(parent.viewType == SPRITE){
-                width = ((Sprite)parent).realContentSize.width;
-                height = ((Sprite)parent).realContentSize.height;
+                width = ((Sprite)parent).getContentSize(false).width;
+                height = ((Sprite)parent).getContentSize(false).height;
             }
             else{
                 width = Utils.getScreenWidth();
@@ -542,6 +543,14 @@ public class Sprite extends GameView{
         }
         setPosition(newPos);
         return newPos;
+    }
+
+    public void scaleToMaxWidth(float width){
+        setScale(width/getContentSize(false).width);
+    }
+
+    public void scaleToMaxHeight(float height){
+        setScale(height/getContentSize(false).height);
     }
 
     public void debug(){

@@ -9,4 +9,8 @@
     <string name="text_alarm">Báo thức</string>
     <string name="text_language">Ngôn ngữ</string>
     <string name="text_login">Liên kết</string>
+    <string name="text_congratulation">Chúc mừng</string>
+    <string name="text_result">Kết quả</string>
+    <string name="text_question_no">Câu số</string>
+    <string name="text_result_answer_correct">Trả lời đúng @ câu hỏi</string>
 </resources>

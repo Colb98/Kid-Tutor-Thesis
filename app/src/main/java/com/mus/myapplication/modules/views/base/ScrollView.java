@@ -91,7 +91,7 @@ public class ScrollView extends Sprite {
 
 
     protected void resetViewBound(){
-        Log.d("Scroll", getName() + " reset View Bound" + viewSize + realContentSize);
+//        Log.d("Scroll", getName() + " reset View Bound" + viewSize + realContentSize);
         if(viewSize == null) return;
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
         if(lp == null){
@@ -102,7 +102,7 @@ public class ScrollView extends Sprite {
             lp.width = (int)viewSize.width;
             lp.height = (int)viewSize.height;
         }
-        Log.d("resetViewBound", viewSize.toString());
+//        Log.d("resetViewBound", viewSize.toString());
 //        invalidate();
 
         this.resetContainerBound();

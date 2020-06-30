@@ -9,11 +9,9 @@ import com.mus.myapplication.modules.classes.Utils;
 import java.util.HashMap;
 
 public class GameScene extends GameView{
-    protected HashMap<String, GameView> childrenMap;
 
     public GameScene(GameView parent) {
         super();
-        childrenMap = new HashMap<>();
         this.viewType = SCENE;
         parent.addChild(this);
 //        setUpLayoutSize();
@@ -21,7 +19,6 @@ public class GameScene extends GameView{
 
     public GameScene(){
         super();
-        childrenMap = new HashMap<>();
         viewType = SCENE;
 //        setUpLayoutWidth();
     }
@@ -44,15 +41,6 @@ public class GameScene extends GameView{
         this.setLayoutParams(lp);
     }
 
-    protected void mappingChild(GameView child, String name){
-        childrenMap.put(name, child);
-        child.setName(name);
-    }
-
-    protected GameView getChild(String name){
-        return childrenMap.get(name);
-    }
-
     protected void setSceneBackground(int resIdBackground){
         Sprite bg = new Sprite(this);
         bg.setSpriteAnimation(resIdBackground);
@@ -60,7 +48,7 @@ public class GameScene extends GameView{
         float widthRatio = bgSize.width / Utils.getScreenWidth();
         float heightRatio = bgSize.height / Utils.getScreenHeight();
         float scaleRatio;
-        Log.d("scene", "width ratio: " + widthRatio + " " + heightRatio);
+//        Log.d("scene", "width ratio: " + widthRatio + " " + heightRatio);
         if(widthRatio < 1 || heightRatio < 1){
             scaleRatio = Math.min(widthRatio, heightRatio);
         }

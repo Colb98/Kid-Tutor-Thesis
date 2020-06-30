@@ -24,10 +24,14 @@ import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameTextView;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
+import com.mus.myapplication.modules.views.base.TestScene;
+import com.mus.myapplication.modules.views.popup.AchievementPopup;
 
-public class IQTestScene extends GameScene {
+public class IQTestScene extends TestScene {
+    private static final int TEST_DURATION = 15;
     private int currentQuestion;
     private int currentAnswer = -1;
+    private int[] currentAnswerMap;
     private IQTest currentTest;
 
     public IQTestScene(GameView parent){
@@ -37,8 +41,15 @@ public class IQTestScene extends GameScene {
     @Override
     protected void afterAddChild() {
         super.afterAddChild();
+        timeRemain = TEST_DURATION;
+        currentTest = TestsConfig.getTest(0);
         initScene();
         initButtons();
+    }
+
+    public void setTest(int testIndex){
+        currentTest = TestsConfig.getTest(testIndex);
+        loadQuestion(0);
     }
 
     private void initButtons(){
@@ -59,7 +70,16 @@ public class IQTestScene extends GameScene {
                 next.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
+                        submitAnswer();
                         nextQuestion();
+                    }
+                });
+
+                Button replay = (Button)getChild("btnReplay");
+                replay.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        resetTest();
                     }
                 });
             }
@@ -72,13 +92,20 @@ public class IQTestScene extends GameScene {
 
         float width = Utils.getScreenWidth(), height = Utils.getScreenHeight();
 
-        Sprite bg2 = new Sprite(this);
+        GameView testView = new GameView(this);
+        mappingChild(testView, "testing");
+
+        GameView resultView = new GameView(this);
+        mappingChild(resultView, "result");
+        resultView.setVisible(false);
+
+        Sprite bg2 = new Sprite(testView);
         bg2.setSpriteAnimation(R.drawable.school_iq_quiz_background_2);
         bg2.setScale(0.8f*width/bg2.getContentSize(false).width);
         bg2.setPosition(width/2 - bg2.getContentSize(false).width/2, height/2 - bg2.getContentSize(false).height/2);
         mappingChild(bg2, "questionPanel");
 
-        Button buttonNext = new Button(this);
+        Button buttonNext = new Button(testView);
         buttonNext.setSpriteAnimation(R.drawable.school_iq_quiz_button_next);
 //        countDownCircle.setPosition(, height/2 - countDownCircle.getContentSize(false).height/2 + bg2.getContentSize(false).height/2 + 150);
         buttonNext.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("bottom", 30 + buttonNext.getContentSize(false).height), LayoutPosition.getRule("left", width/2 - buttonNext.getContentSize(false).width/2)));
@@ -88,17 +115,18 @@ public class IQTestScene extends GameScene {
         countDownBox.setSpriteAnimation(R.drawable.school_iq_quiz_count_down);
         countDownBox.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("right", countDownBox.getContentSize(false).width), LayoutPosition.getRule("top", -countDownBox.getContentSize(false).height-20)));
         final GameTextView lbCountDown = new GameTextView(countDownBox);
-        lbCountDown.setText("30:00");
+        lbCountDown.setText(Utils.secondToString(timeRemain));
         lbCountDown.setFont(FontCache.Font.UVNNguyenDu);
         lbCountDown.setPositionCenterParent(false, false);
         lbCountDown.addUpdateRunnable(new UpdateRunnable() {
-            float remainTime = 30*60;
             @Override
             public void run() {
-                remainTime -= dt*3;
-                if(remainTime < 0)
+                timeRemain -= dt;
+                if(timeRemain < 0){
+                    onTimeOut();
                     return;
-                lbCountDown.setText(Utils.secondToString(remainTime));
+                }
+                lbCountDown.setText(Utils.secondToString(timeRemain));
             }
         });
 
@@ -107,11 +135,11 @@ public class IQTestScene extends GameScene {
         btnBack.setPosition(50, 50);
         mappingChild(btnBack, "btnBack");
 
-        GameTextView lbTitle = new GameTextView(this);
+        GameTextView lbTitle = new GameTextView(testView);
         lbTitle.setPosition(0, 30);
         int questionNumber = 1;
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append("Câu số ", new RelativeSizeSpan(1.5f), 0).append(String.valueOf(questionNumber), new RelativeSizeSpan(1.5f), 0).setSpan(new StyleSpan(Typeface.BOLD), 0, builder.length(), 0);
+        builder.append(Utils.getString(R.string.text_question_no) + " ", new RelativeSizeSpan(1.5f), 0).append(String.valueOf(questionNumber), new RelativeSizeSpan(1.5f), 0).setSpan(new StyleSpan(Typeface.BOLD), 0, builder.length(), 0);
         builder.append("/10");
 
         lbTitle.setText(builder);
@@ -119,38 +147,113 @@ public class IQTestScene extends GameScene {
         lbTitle.setPositionCenterScreen(false, true);
         mappingChild(lbTitle, "lbTitle");
 
+        GameTextView lbResultTitle = new GameTextView(resultView);
+        lbResultTitle.setPosition(0, 50);
+        lbResultTitle.setText(Utils.getString(R.string.text_congratulation).toUpperCase());
+        lbResultTitle.setFont(FontCache.Font.UVNNguyenDu);
+        lbResultTitle.setFontSize(50);
+        lbResultTitle.setPositionCenterScreen(false, true);
+        mappingChild(lbResultTitle, "lbResultTitle");
+
+        Sprite bg3 = new Sprite(resultView);
+        bg3.setSpriteAnimation(R.drawable.school_iq_quiz_background_2);
+        bg3.setScale(0.55f*width/bg3.getContentSize(false).width);
+        bg3.setPosition(width/2 - bg3.getContentSize(false).width/2, height/2 - bg3.getContentSize(false).height/2);
+
+        GameTextView lbResult = new GameTextView(bg3);
+        lbResult.setFontSize(35);
+        lbResult.setFont(FontCache.Font.UVNKyThuat);
+        mappingChild(lbResult, "lbResult");
+
+        Button btnReplay = new Button(resultView);
+        btnReplay.setSpriteAnimation(R.drawable.school_iq_quiz_button_restart);
+//        countDownCircle.setPosition(, height/2 - countDownCircle.getContentSize(false).height/2 + bg2.getContentSize(false).height/2 + 150);
+        btnReplay.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("bottom", 30 + btnReplay.getContentSize(false).height), LayoutPosition.getRule("left", width/2 - btnReplay.getContentSize(false).width/2)));
+        mappingChild(btnReplay, "btnReplay");
+
         initQuestion();
         loadQuestion(0);
     }
 
     private void nextQuestion(){
-        IQTest test = TestsConfig.getTest(0);
-        if(currentQuestion < test.getQuestions().size() - 1)
+        if(currentQuestion < currentTest.getQuestions().size() - 1)
             loadQuestion(currentQuestion + 1);
         else{
-            int score = 0;
-            for(IQQuestion q : test.getQuestions()){
-                if(q.isCorrect())
-                    score++;
-            }
-            Log.d("Result", "Total true answer: " + score);
+//            Log.d("Result", "Total true answer: " + score);
+            showResult();
         }
+
+    }
+
+    private void showResult(){
+        IQTest test = currentTest;
+        GameView testView = getChild("testing");
+        testView.setVisible(false);
+
+        GameView result = getChild("result");
+        result.setVisible(true);
+
+        int score = 0;
+        int i = 0;
+        for(IQQuestion q : test.getQuestions()){
+            i+=1;
+            if(q.isCorrect())
+                score++;
+            else
+                Log.d("Wrong:", "wrong at " + i);
+        }
+        // Call cho Achivement manager
+//        AchievementPopup popup = new AchievementPopup(result);
+
+        GameTextView lbResultTitle = (GameTextView)getChild("lbResultTitle");
+        if(score * 1f/test.getQuestions().size() >= 0.9f){
+            lbResultTitle.setText(Utils.getString(R.string.text_congratulation));
+        }
+        else{
+            lbResultTitle.setText(Utils.getString(R.string.text_result));
+        }
+        lbResultTitle.setPositionCenterScreen(false, true);
+
+        GameTextView lbResult = (GameTextView)getChild("lbResult");
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        String strScore = score + "/" + test.getQuestions().size();
+        builder.clear();
+        builder.append(Utils.getString(R.string.text_result_answer_correct).replace("@", strScore));
+        int pos = Utils.getString(R.string.text_result_answer_correct).indexOf('@');
+        builder.setSpan(new RelativeSizeSpan(1.5f), pos, pos+strScore.length(), 0);
+        lbResult.setText(builder);
+        lbResult.setPositionCenterParent(false, false);
+        lbResult.move(0, -10);
+    }
+
+    private void resetTest(){
+        GameView testView = getChild("testing");
+        testView.setVisible(true);
+
+        GameView result = getChild("result");
+        result.setVisible(false);
+
+        for(IQQuestion q : currentTest.getQuestions()){
+            q.setAnswerIndex(-1);
+        }
+        currentAnswer = -1;
+        timeRemain = TEST_DURATION;
+        loadQuestion(0);
     }
 
     private void loadQuestion(int index){
-        IQQuestion oldQ = TestsConfig.getTest(0).getQuestions().get(currentQuestion);
-        oldQ.setAnswerIndex(currentAnswer);
-
 //        IQQuestion question = currentTest.getQuestions().get(index);
-        IQQuestion question = TestsConfig.getTest(0).getQuestions().get(index);
+        IQQuestion question = currentTest.getQuestions().get(index);
         currentQuestion = index;
+        currentAnswer = -1;
         GameTextView lbTitle = (GameTextView) getChild("lbTitle");
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append("Câu số ", new RelativeSizeSpan(1.5f), 0).append(String.valueOf(index + 1), new RelativeSizeSpan(1.5f), 0).setSpan(new StyleSpan(Typeface.BOLD), 0, builder.length(), 0);
-        builder.append("/10");
+        builder.append("/").append(String.valueOf(currentTest.getQuestions().size()));
         setIndicatorPos(-1);
 
         lbTitle.setText(builder);
+        randomAnswerMap();
 
         GameImageView ivQuestion = (GameImageView) getChild("question");
         GameImageView a1 = (GameImageView) getChild("a1");
@@ -161,12 +264,29 @@ public class IQTestScene extends GameScene {
         GameImageView a6 = (GameImageView) getChild("a6");
 
         ivQuestion.setSpriteKeepFormat(question.getQuestion());
-        a1.setSpriteKeepFormat(question.getAnswers()[0]);
-        a2.setSpriteKeepFormat(question.getAnswers()[1]);
-        a3.setSpriteKeepFormat(question.getAnswers()[2]);
-        a4.setSpriteKeepFormat(question.getAnswers()[3]);
-        a5.setSpriteKeepFormat(question.getAnswers()[4]);
-        a6.setSpriteKeepFormat(question.getAnswers()[5]);
+        a1.setSpriteKeepFormat(question.getAnswers()[currentAnswerMap[0]]);
+        a2.setSpriteKeepFormat(question.getAnswers()[currentAnswerMap[1]]);
+        a3.setSpriteKeepFormat(question.getAnswers()[currentAnswerMap[2]]);
+        a4.setSpriteKeepFormat(question.getAnswers()[currentAnswerMap[3]]);
+        a5.setSpriteKeepFormat(question.getAnswers()[currentAnswerMap[4]]);
+        a6.setSpriteKeepFormat(question.getAnswers()[currentAnswerMap[5]]);
+    }
+
+    private void submitAnswer() {
+        IQQuestion oldQ = currentTest.getQuestions().get(currentQuestion);
+        oldQ.setAnswerIndex(currentAnswer);
+    }
+
+    private void randomAnswerMap(){
+        currentAnswerMap = new int[]{0,1,2,3,4,5};
+        for(int i=1;i<6;i++){
+            int j = (int)(Math.random()*(i+1));
+            if(j != i){
+                int t = currentAnswerMap[i];
+                currentAnswerMap[i] = currentAnswerMap[j];
+                currentAnswerMap[j] = t;
+            }
+        }
     }
 
     private void initQuestion(){
@@ -273,7 +393,7 @@ public class IQTestScene extends GameScene {
     }
 
     private void setCurrentAnswer(int ans){
-        currentAnswer = ans;
+        currentAnswer = currentAnswerMap[ans];
         // Move indicator
         setIndicatorPos(ans);
     }
@@ -290,5 +410,10 @@ public class IQTestScene extends GameScene {
             Size diff = indi.getContentSize(false).minus(a.getContentSize(false)).multiply(0.5f);
             indi.move(-diff.width, -diff.height);
         }
+    }
+
+    @Override
+    public void onTimeOut() {
+        showResult();
     }
 }

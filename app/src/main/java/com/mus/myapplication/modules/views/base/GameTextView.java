@@ -20,27 +20,27 @@ import androidx.annotation.ColorInt;
 
 public class GameTextView extends Sprite {
     TextView view;
-    SpannableString text;
+    CharSequence text;
     float fontSize;
     View[] subViews;
 
 
     public GameTextView(GameView parent){
         super();
-        this.text = new SpannableString("");
+        this.text = "";
         parent.addChild(this);
 //        initTextView();
 //        setFontColor(Color.BLACK);
     }
 
-    public GameTextView(String text){
+    public GameTextView(CharSequence text){
         super();
-        this.text = new SpannableString(text);
+        this.text = text;
     }
 
     public GameTextView(){
         super();
-        this.text = new SpannableString("");
+        this.text = "";
     }
 
     @Override
@@ -81,6 +81,17 @@ public class GameTextView extends Sprite {
         view.measure(0, 0);
         contentSize = new Size(view.getMeasuredWidth(), view.getMeasuredHeight());
         realContentSize = contentSize;
+    }
+
+    public void setText(CharSequence text, String fontName, float size){
+        setText(text);
+        setFont(fontName);
+        setFontSize(size);
+    }
+
+    public void setText(CharSequence text, String fontName){
+        setText(text);
+        setFont(fontName);
     }
 
     public void setFont(String fontName){
@@ -138,19 +149,7 @@ public class GameTextView extends Sprite {
 //        this.container.setLayoutParams(lp);
     }
 
-    public void setText(String text){
-        this.text = new SpannableString(text);
-        view.setText(this.text);
-        updateMeasure();
-    }
-
-    public void setText(SpannableStringBuilder text){
-        this.text = SpannableString.valueOf(text);
-        view.setText(text);
-        updateMeasure();
-    }
-
-    public void setText(SpannableString text){
+    public void setText(CharSequence text){
         this.text = text;
         view.setText(text);
         updateMeasure();
