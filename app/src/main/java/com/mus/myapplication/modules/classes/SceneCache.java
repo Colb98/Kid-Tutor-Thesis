@@ -3,6 +3,7 @@ package com.mus.myapplication.modules.classes;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
+import com.mus.myapplication.modules.views.scene.AchievementScene;
 import com.mus.myapplication.modules.views.scene.MapScene;
 import com.mus.myapplication.modules.views.school.IQTestScene;
 import com.mus.myapplication.modules.views.school.SchoolScene;
@@ -21,6 +22,8 @@ public class SceneCache {
                 scene = new MapScene(mainView); break;
             case "iq":
                 scene = new IQTestScene(mainView); break;
+            case "achievement":
+                scene = new AchievementScene(mainView); break;
             default: return null;
         }
         return scene;

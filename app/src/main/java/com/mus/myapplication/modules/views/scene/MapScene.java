@@ -50,6 +50,13 @@ public class MapScene extends GameScene {
                     }
                 });
 
+                Button achievement = (Button)getChild("achievement");
+                achievement.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().loadScene(SceneCache.getScene("achievement"));
+                    }
+                });
                 Button school = (Button)getChild("school");
                 school.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
@@ -76,6 +83,7 @@ public class MapScene extends GameScene {
         btn_achievement.setSpriteAnimation(R.drawable.map_achievement);
         btn_achievement.setScale(0.3f);
         btn_achievement.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", 350)));
+        mappingChild(btn_achievement, "achievement");
 
         Button btn_setting = new Button(this);
         btn_setting.setZOrder(100);

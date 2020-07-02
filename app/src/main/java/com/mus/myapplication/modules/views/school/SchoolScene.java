@@ -112,19 +112,19 @@ public class SchoolScene extends GameScene {
                     }
                 });
 
-                Button lv3 = (Button)getChild("lv3");
-                lv3.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
-                    @Override
-                    public void run() {
-                        openScene(0);
-                    }
-                });
-
                 Button lv2 = (Button)getChild("lv2");
                 lv2.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
                         openScene(1);
+                    }
+                });
+
+                Button lv3 = (Button)getChild("lv3");
+                lv3.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        openScene(2);
                     }
                 });
             }
