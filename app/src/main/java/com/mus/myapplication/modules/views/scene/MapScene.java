@@ -64,6 +64,41 @@ public class MapScene extends GameScene {
                         Director.getInstance().loadScene(SceneCache.getScene("school"));
                     }
                 });
+                Button home = (Button)getChild("home");
+                home.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().loadScene(SceneCache.getScene("home"));
+                    }
+                });
+                Button mart = (Button)getChild("mart");
+                mart.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().loadScene(SceneCache.getScene("mart"));
+                    }
+                });
+                Button zoo = (Button)getChild("zoo");
+                zoo.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().loadScene(SceneCache.getScene("zoo"));
+                    }
+                });
+                Button gara = (Button)getChild("gara");
+                gara.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().loadScene(SceneCache.getScene("gara"));
+                    }
+                });
+                Button res = (Button)getChild("res");
+                res.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().loadScene(SceneCache.getScene("res"));
+                    }
+                });
             }
         });
     }
