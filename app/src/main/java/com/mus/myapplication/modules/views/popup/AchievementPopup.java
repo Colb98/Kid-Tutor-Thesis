@@ -10,6 +10,8 @@ import com.mus.myapplication.modules.classes.FontCache;
 import com.mus.myapplication.modules.classes.LayoutPosition;
 import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.AchievementManager;
+import com.mus.myapplication.modules.models.common.Achievement;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameTextView;
 import com.mus.myapplication.modules.views.base.GameView;
@@ -68,15 +70,18 @@ public class AchievementPopup extends Sprite {
         achievementTitle.setPosition(0, 30);
         achievementTitle.setText("Nhà thông thái", FontCache.Font.UVNNguyenDu, 30);
         achievementTitle.setPositionCenterParent(false, true);
+        mappingChild(achievementTitle, "title");
 
         Sprite achievementIcon = new Sprite(background);
         achievementIcon.setSpriteAnimation(R.drawable.iq_level_2);
         achievementIcon.setPositionCenterParent(false, false);
+        mappingChild(achievementIcon, "icon");
 
         GameTextView lbUnlocked = new GameTextView(background);
         lbUnlocked.setText("Bạn đã mở khoá huy hiệu mới", FontCache.Font.UVNChimBienNhe, 18);
         lbUnlocked.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("bottom", 2f*lbUnlocked.getContentSize().height)));
         lbUnlocked.setPositionCenterParent(false, true);
+        mappingChild(lbUnlocked, "lbUnlocked");
 
         GameTextView lbCongrats = new GameTextView(background);
         lbCongrats.setPosition(lbUnlocked.getPosition().add(0,  - 1.5f * lbCongrats.getContentSize(false).height));
@@ -97,7 +102,14 @@ public class AchievementPopup extends Sprite {
         mappingChild(colorLayer, "layer");
     }
 
-//    public void loadAchivement(Achivement achivement){
-//
-//    }
+    public void loadAchivement(Achievement achievement){
+        Sprite achievementIcon = (Sprite) getChild("icon");
+        GameTextView achievementTitle = (GameTextView) getChild("title");
+
+        achievementIcon.setSpriteAnimation(achievement.getResIcon());
+        achievementIcon.setPositionCenterParent(false, false);
+
+        achievementTitle.setText(AchievementManager.categoryMap.get(achievement.getCategory()).name + " cấp " + (achievement.getLevel() + 1), FontCache.Font.UVNNguyenDu, 30);
+        achievementTitle.setPositionCenterParent(false, true);
+    }
 }

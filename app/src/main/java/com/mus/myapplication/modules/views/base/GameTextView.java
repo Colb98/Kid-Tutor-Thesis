@@ -58,6 +58,7 @@ public class GameTextView extends Sprite {
         initTextView();
         super.afterAddChild();
         setFontColor(Color.BLACK);
+        setSwallowTouches(false);
     }
 
     private void initTextView(){

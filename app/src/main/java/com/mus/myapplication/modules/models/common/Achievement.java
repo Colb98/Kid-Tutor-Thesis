@@ -25,4 +25,20 @@ public class Achievement {
     public boolean isAchieved(){
         return achievedTimestamp > 0;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getResIcon() {
+        return resIcon;
+    }
+
+    public long getAchievedTimestamp() {
+        return achievedTimestamp;
+    }
 }

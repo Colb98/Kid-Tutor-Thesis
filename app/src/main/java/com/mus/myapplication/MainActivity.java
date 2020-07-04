@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("INITIATION", "dpRes: " + dpHeight + ", " + dpWidth + "\npx Res: " + Utils.getPxByDp(dpHeight) + ", " + Utils.getPxByDp(dpWidth));
 
         final GameView mainView = findViewById(R.id.gameView);
-        mainView.setViewGroup((ViewContainer)findViewById(R.id.mainContainer));
+        ViewContainer container = (ViewContainer)findViewById(R.id.mainContainer);
+        container.isTheRootContainer = true;
+        mainView.setViewGroup(container);
         Director.getInstance().setMainGameView(mainView);
 
         // Main Scene
