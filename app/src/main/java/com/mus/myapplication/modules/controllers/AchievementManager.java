@@ -65,7 +65,7 @@ public class AchievementManager {
     public Achievement onFinishedTest(String category, int level, int score, int maxScore){
         Achievement a = getAchievement(category, level);
         if(a.isAchieved())
-            return a;
+            return null;
         if(score == maxScore){
             a.setAchieved();
             achievements.add(a);

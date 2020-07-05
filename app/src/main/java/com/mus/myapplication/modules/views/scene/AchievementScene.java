@@ -45,6 +45,7 @@ public class AchievementScene extends GameScene {
     }
 
     private void initButtons(){
+        // TODO delete this line (just for debug)
         Achievement a = AchievementManager.getInstance().onFinishedTest("iq", 0, 1, 1);
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

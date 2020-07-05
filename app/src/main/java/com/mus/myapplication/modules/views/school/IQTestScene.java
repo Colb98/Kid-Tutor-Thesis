@@ -212,8 +212,10 @@ public class IQTestScene extends TestScene {
         }
         // Call cho Achivement manager
         Achievement a = AchievementManager.getInstance().onFinishedTest("iq", level, score, test.getQuestions().size());
-        AchievementPopup popup = new AchievementPopup(result);
-        popup.loadAchivement(a);
+        if(a != null){
+            AchievementPopup popup = new AchievementPopup(result);
+            popup.loadAchivement(a);
+        }
 
         GameTextView lbResultTitle = (GameTextView)getChild("lbResultTitle");
         if(score * 1f/test.getQuestions().size() >= 0.9f){

@@ -113,19 +113,19 @@ public class MapScene extends GameScene {
         bg.setScale(1.3f);
         bg.setSwallowTouches(false);
 
-        Button btn_achievement = new Button(this);
-        btn_achievement.setZOrder(100);
-        btn_achievement.setSpriteAnimation(R.drawable.map_achievement);
-        btn_achievement.setScale(0.3f);
-        btn_achievement.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", 350)));
-        mappingChild(btn_achievement, "achievement");
-
         Button btn_setting = new Button(this);
         btn_setting.setZOrder(100);
         btn_setting.setSpriteAnimation(R.drawable.map_setting);
         btn_setting.setScale(0.3f);
-        btn_setting.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", 150)));
+        btn_setting.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", btn_setting.getContentSize(false).width + 100)));
         mappingChild(btn_setting, "setting");
+
+        Button btn_achievement = new Button(this);
+        btn_achievement.setZOrder(100);
+        btn_achievement.setSpriteAnimation(R.drawable.map_achievement);
+        btn_achievement.setScale(0.3f);
+        btn_achievement.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", btn_setting.getContentSize(false).width + 150 + btn_achievement.getContentSize(false).width)));
+        mappingChild(btn_achievement, "achievement");
 
         Button home = new Button(bg);
         home.setSpriteAnimation(R.drawable.map_home);

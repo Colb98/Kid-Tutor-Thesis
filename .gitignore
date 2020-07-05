@@ -83,3 +83,4 @@ lint/tmp/
 # lint/reports/
 
 app/.cxx/
+app/src/main/jni/Android.mk
