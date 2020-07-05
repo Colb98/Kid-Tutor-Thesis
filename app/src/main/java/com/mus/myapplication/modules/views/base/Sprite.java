@@ -50,6 +50,7 @@ public class Sprite extends GameView{
     private LayoutPosition layoutRule;
     private Point prevTouch;
     private float prevTouchDistance = 0;
+    private Point touchBeganPosition;
 
     private List<Action> actions;
     private List<Action> toBeRemovedActions;
@@ -224,7 +225,7 @@ public class Sprite extends GameView{
         super.onTouchEvent(event);
 
 //        if(getVisibility() == INVISIBLE) return false;
-        Log.d("ONTOUCH", this.getName() + " " + this.getClass().getName() + " get the on touch event: " + event.getAction());
+//        Log.d("ONTOUCH", this.getName() + " " + this.getClass().getName() + " get the on touch event: " + event.getAction());
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -302,12 +303,12 @@ public class Sprite extends GameView{
 
     protected void onTouchSucceed(MotionEvent event) {
         isTouched = false;
-        Log.d("On touch succeed", getName() + " " + getClass().getName() + " adsfasd");
         for(Runnable r : listenerCallbacks.get(CallbackType.ON_TOUCH_UP)){
             r.run();
         }
 
-        if(System.currentTimeMillis() - touchDownTime < 1000)
+        Point curPos = new Point(event.getRawX(), event.getRawY());
+        if(System.currentTimeMillis() - touchDownTime < 1000 && curPos.sqrDistanceTo(touchBeganPosition) < 100)
             performClick();
 
         if(debugMode){
@@ -335,6 +336,8 @@ public class Sprite extends GameView{
         for(Runnable r : listenerCallbacks.get(CallbackType.ON_TOUCH_DOWN)){
             r.run();
         }
+
+        touchBeganPosition = new Point(event.getRawX(), event.getRawY());
 
         if(debugMode){
             prevTouch = new Point(event.getRawX(), event.getRawY());

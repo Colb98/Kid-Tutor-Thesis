@@ -333,6 +333,10 @@ public class GameView extends AppCompatImageView {
 //        Log.d("Updating", "FPS: " + 1000/dt);
     }
 
+    public GameScene getCurrentScene(){
+        return curScene;
+    }
+
     public void setCurrentScene(GameScene scene){
         if(this.curScene == scene || scene == null){
             return;

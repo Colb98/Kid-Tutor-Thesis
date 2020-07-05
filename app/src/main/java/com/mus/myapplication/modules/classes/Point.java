@@ -37,8 +37,16 @@ public class Point {
         return (float)Math.sqrt(x*x + y*y);
     }
 
+    public float sqrLength() {
+        return x*x + y*y;
+    }
+
     public float distanceTo(Point p){
         return subtract(p).length();
+    }
+
+    public float sqrDistanceTo(Point p){
+        return subtract(p).sqrLength();
     }
 
     public Point product(float a){
