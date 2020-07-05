@@ -36,6 +36,7 @@ public class GameView extends AppCompatImageView {
     protected int viewType = GameView.VIEW;
     public ViewContainer.Node viewTreeNode;
     private boolean visibility = true;
+    protected boolean hasOwnViewContainer = false;
 
     GameScene curScene = null;
 
@@ -72,6 +73,7 @@ public class GameView extends AppCompatImageView {
         ((ViewGroup)getParent()).removeView(this);
         this.container = view;
         this.container.addGameView(this, null);
+        this.hasOwnViewContainer = true;
     }
 
     public GameView(){
@@ -134,10 +136,27 @@ public class GameView extends AppCompatImageView {
         }
     }
 
+    public ViewContainer getContainerForChild(){
+        return container;
+    }
+
     protected void afterAddChild(){
         // Override this function
-        this.container = parent.container;
+        this.container = parent.getContainerForChild();
         container.addGameView(this, parent);
+        updatePosition();
+    }
+
+    public ViewContainer.Node getViewTreeNodeAsChild() {
+        return viewTreeNode;
+    }
+
+    public ViewContainer.Node getViewTreeNodeAsParent(){
+        return viewTreeNode;
+    }
+
+    public void setViewTreeNode(ViewContainer.Node viewTreeNode) {
+        this.viewTreeNode = viewTreeNode;
     }
 
     public void setName(String name){
@@ -170,7 +189,7 @@ public class GameView extends AppCompatImageView {
     public Point getWorldPosition(){
         Point ans = position.clone();
         GameView parent = this.parent;
-        while(parent != null){
+        while(parent != null && !parent.hasOwnViewContainer){
             ans = ans.add(parent.position);
             parent = parent.parent;
         }
@@ -178,7 +197,7 @@ public class GameView extends AppCompatImageView {
     }
 
     protected Point getParentWorldPosition(){
-        if(parent != null){
+        if(parent != null && !parent.hasOwnViewContainer){
             return parent.getWorldPosition();
         }
         return new Point(0,0);
@@ -329,7 +348,7 @@ public class GameView extends AppCompatImageView {
             scene.parent = this;
         }
         else{
-            scene.setVisibility(VISIBLE);
+            scene.setVisible(true);
         }
         curScene = scene;
     }
@@ -434,12 +453,12 @@ public class GameView extends AppCompatImageView {
     }
 
 
-    protected void mappingChild(GameView child, String name){
+    public void mappingChild(GameView child, String name){
         childrenMap.put(name, child);
         child.setName(name);
     }
 
-    protected GameView getChild(String name){
+    public GameView getChild(String name){
         return childrenMap.get(name);
     }
 

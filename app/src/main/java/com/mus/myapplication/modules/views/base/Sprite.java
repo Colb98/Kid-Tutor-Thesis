@@ -57,6 +57,7 @@ public class Sprite extends GameView{
     private HashMap<CallbackType, List<Runnable>> listenerCallbacks;
     protected boolean swallowTouches = true;
     protected boolean isTouched = false;
+    protected long touchDownTime = -1;
 
     public Sprite(){
         super();
@@ -223,17 +224,19 @@ public class Sprite extends GameView{
         super.onTouchEvent(event);
 
 //        if(getVisibility() == INVISIBLE) return false;
-//        Log.d("ONTOUCH", this.getName() + " get the on touch event: " + event.getAction());
+        Log.d("ONTOUCH", this.getName() + " " + this.getClass().getName() + " get the on touch event: " + event.getAction());
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 //                Log.d(LOGTAG, "TouchDown");
                 onTouchBegan(event);
                 isTouched = true;
+                touchDownTime = System.currentTimeMillis();
                 return swallowTouches;
             case MotionEvent.ACTION_UP:
 //                Log.d(LOGTAG, "TouchRelease");
                 onTouchSucceed(event);
+                touchDownTime = -1;
                 return swallowTouches;
             case MotionEvent.ACTION_MOVE:
 //                Log.d(LOGTAG, "TouchMove");
@@ -242,6 +245,7 @@ public class Sprite extends GameView{
             case MotionEvent.ACTION_CANCEL:
 //                Log.d(LOGTAG, "TouchCancel");
                 onTouchCanceled(event);
+                touchDownTime = -1;
                 return swallowTouches;
             default:
                 Log.d(LOGTAG, "Action out of my cases :(" + event.getAction());
@@ -298,11 +302,13 @@ public class Sprite extends GameView{
 
     protected void onTouchSucceed(MotionEvent event) {
         isTouched = false;
+        Log.d("On touch succeed", getName() + " " + getClass().getName() + " adsfasd");
         for(Runnable r : listenerCallbacks.get(CallbackType.ON_TOUCH_UP)){
             r.run();
         }
 
-        performClick();
+        if(System.currentTimeMillis() - touchDownTime < 1000)
+            performClick();
 
         if(debugMode){
             Log.d("DEBUG", "object: " + getName() + " pos at " + getPosition() + " scale: " + trueScale);
@@ -352,7 +358,6 @@ public class Sprite extends GameView{
         return swallowTouches;
     }
 
-    // TODO: SCALE container along with view :D
     public void setScale(float scale){
         oldRecurScale = getRecursiveScale();
         this.trueScale = scale;
@@ -362,7 +367,6 @@ public class Sprite extends GameView{
         this.setAnchorPoint(anchorX, anchorY);
         invalidate();
     }
-
 
     protected void updateRecurScale(){
         // Update parent scale
@@ -393,7 +397,7 @@ public class Sprite extends GameView{
     }
 
     public float getRecursiveScale(){
-        if(parent != null && parent.getViewType() == SPRITE){
+        if(parent != null && parent.getViewType() == SPRITE && !parent.hasOwnViewContainer){
             return ((Sprite)parent).getRecursiveScale() * trueScale;
         }
         return trueScale;
@@ -546,11 +550,11 @@ public class Sprite extends GameView{
     }
 
     public void scaleToMaxWidth(float width){
-        setScale(width/getContentSize(false).width);
+        setScale(trueScale * width/getContentSize(false).width);
     }
 
     public void scaleToMaxHeight(float height){
-        setScale(height/getContentSize(false).height);
+        setScale(trueScale * height/getContentSize(false).height);
     }
 
     public void debug(){

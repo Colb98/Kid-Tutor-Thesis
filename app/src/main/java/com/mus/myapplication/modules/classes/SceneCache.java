@@ -20,6 +20,8 @@ public class SceneCache {
     public static GameScene getScene(String name){
         GameScene scene;
         GameView mainView = Director.getInstance().getMainView();
+        scene = (GameScene) Director.getInstance().getMainView().getChild(name);
+        if(scene != null) return scene;
         switch(name){
             case "school":
                 scene = new SchoolScene(mainView); break;
@@ -41,6 +43,7 @@ public class SceneCache {
                 scene = new ResScene(mainView); break;
             default: return null;
         }
+        mainView.mappingChild(scene, name);
         return scene;
     }
 }

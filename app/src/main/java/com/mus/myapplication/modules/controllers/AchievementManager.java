@@ -8,31 +8,28 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AchievementManager {
-    private final static HashMap<String, String> categoryMap = new HashMap<String, String>(){{
-        put("iq", "school");
-        put("math", "school");
+    public static class CategoryInfo{
+        public String destination;
+        public String name;
+        public int[] resIds;
+
+        public CategoryInfo(String d, String n, int... ids){
+            destination = d;
+            name = n;
+            resIds = ids;
+        }
+    }
+
+    // TODO: dùng chuỗi localize tuỳ theo ngôn ngữ
+    public final static HashMap<String, CategoryInfo> categoryMap = new HashMap<String, CategoryInfo>(){{
+        put("iq", new CategoryInfo("school", "Trí tuệ", R.drawable.iq_level_1, R.drawable.iq_level_2, R.drawable.iq_level_3));
+        put("math", new CategoryInfo("school", "Toán học", R.drawable.mathematician_level_1, R.drawable.mathematician_level_2, R.drawable.mathematician_level_3));
 //        put("alphabet", "school");
 //        put("garage", "garage");
 //        put("family", "home");
-        put("food", "restaurant");
+        put("food", new CategoryInfo("kitchen", "Đầu bếp", R.drawable.chef_level_1, R.drawable.chef_level_2, R.drawable.chef_level_3));
     }};
-    public final static HashMap<String, HashMap<Integer, Integer>> resIdMap = new HashMap<String, HashMap<Integer, Integer>>(){{
-        put("iq", new HashMap<Integer, Integer>(){{
-            put(0, R.drawable.iq_level_1);
-            put(1, R.drawable.iq_level_2);
-            put(2, R.drawable.iq_level_3);
-        }});
-        put("math", new HashMap<Integer, Integer>(){{
-            put(0, R.drawable.mathematician_level_1);
-            put(1, R.drawable.mathematician_level_2);
-            put(2, R.drawable.mathematician_level_3);
-        }});
-        put("food", new HashMap<Integer, Integer>(){{
-            put(0, R.drawable.chef_level_1);
-            put(1, R.drawable.chef_level_2);
-            put(2, R.drawable.chef_level_3);
-        }});
-    }};
+
     private static AchievementManager instance;
     private List<Achievement> achievements;
     private HashMap<String, HashMap<Integer, Achievement>> allAchievements;
@@ -56,7 +53,7 @@ public class AchievementManager {
             HashMap<Integer, Achievement> hm = new HashMap<>();
             allAchievements.put(category, hm);
             for(int i=0;i<3;i++){
-                hm.put(i, new Achievement(category, i, resIdMap.get(category).get(i), categoryMap.get(category)));
+                hm.put(i, new Achievement(category, i, categoryMap.get(category).resIds[i], categoryMap.get(category).destination));
             }
         }
     }
@@ -65,13 +62,19 @@ public class AchievementManager {
         return allAchievements.get(category).get(level);
     }
 
-    public void onFinishedTest(String category, int level, int score, int maxScore){
+    public Achievement onFinishedTest(String category, int level, int score, int maxScore){
+        Achievement a = getAchievement(category, level);
+        if(a.isAchieved())
+            return a;
         if(score == maxScore){
-            Achievement a = getAchievement(category, level);
             a.setAchieved();
             achievements.add(a);
+            return a;
         }
+        return null;
     }
+
+
 
     // Load and Save achievement
     // Reset achievement

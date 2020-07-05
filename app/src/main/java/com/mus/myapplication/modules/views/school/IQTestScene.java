@@ -14,7 +14,9 @@ import com.mus.myapplication.modules.classes.LayoutPosition;
 import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.AchievementManager;
 import com.mus.myapplication.modules.controllers.Director;
+import com.mus.myapplication.modules.models.common.Achievement;
 import com.mus.myapplication.modules.models.school.IQQuestion;
 import com.mus.myapplication.modules.models.school.IQTest;
 import com.mus.myapplication.modules.models.school.TestsConfig;
@@ -28,10 +30,11 @@ import com.mus.myapplication.modules.views.base.TestScene;
 import com.mus.myapplication.modules.views.popup.AchievementPopup;
 
 public class IQTestScene extends TestScene {
-    private static final int TEST_DURATION = 15;
+    private static final int TEST_DURATION = 600;
     private int currentQuestion;
     private int currentAnswer = -1;
     private int[] currentAnswerMap;
+    private int level;
     private IQTest currentTest;
 
     public IQTestScene(GameView parent){
@@ -48,7 +51,12 @@ public class IQTestScene extends TestScene {
     }
 
     public void setTest(int testIndex){
+        GameView result = getChild("result");
+        GameView test = getChild("testing");
+        test.show();
+        result.hide();
         currentTest = TestsConfig.getTest(testIndex);
+        level = testIndex;
         loadQuestion(0);
     }
 
@@ -203,7 +211,9 @@ public class IQTestScene extends TestScene {
                 Log.d("Wrong:", "wrong at " + i);
         }
         // Call cho Achivement manager
-//        AchievementPopup popup = new AchievementPopup(result);
+        Achievement a = AchievementManager.getInstance().onFinishedTest("iq", level, score, test.getQuestions().size());
+        AchievementPopup popup = new AchievementPopup(result);
+        popup.loadAchivement(a);
 
         GameTextView lbResultTitle = (GameTextView)getChild("lbResultTitle");
         if(score * 1f/test.getQuestions().size() >= 0.9f){

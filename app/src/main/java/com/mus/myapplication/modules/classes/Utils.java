@@ -7,10 +7,13 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.controllers.Director;
@@ -34,11 +37,28 @@ public class Utils {
                 dip,
                 Resources.getSystem().getDisplayMetrics()
         );
-
+        WindowManager windowManager =
+                (WindowManager) act.getApplication().getSystemService(Context.WINDOW_SERVICE);
+        final Display display = windowManager.getDefaultDisplay();
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        act.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        screenHeight = displayMetrics.heightPixels;
-        screenWidth = displayMetrics.widthPixels;
+        android.graphics.Point outPoint = new Point();
+        if (Build.VERSION.SDK_INT >= 19) {
+            // include navigation bar
+            display.getRealSize(outPoint);
+        } else {
+            // exclude navigation bar
+            display.getSize(outPoint);
+        }
+        if (outPoint.y < outPoint.x) {
+            screenHeight = outPoint.y;
+            screenWidth = outPoint.x;
+        } else {
+            screenHeight = outPoint.x;
+            screenWidth = outPoint.y;
+        }
+//        act.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//        screenHeight = displayMetrics.heightPixels;
+//        screenWidth = displayMetrics.widthPixels;
     }
     public static float getPxByDp(float dp){
         return dp * dpToPx;

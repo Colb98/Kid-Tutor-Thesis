@@ -2,11 +2,13 @@ package com.mus.myapplication.modules.views.base;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.mus.myapplication.modules.classes.Point;
 import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
 
@@ -33,6 +35,10 @@ public class ScrollView extends Sprite {
     private float minDy = -1000;
     private float maxDx = 1000;
     private float maxDy = 1000;
+
+    View[] subView = new View[1];
+    ViewContainer.Node containerRootNode;
+    ViewContainer childContainer;
 
     public ScrollView(Size size){
         super();
@@ -72,6 +78,7 @@ public class ScrollView extends Sprite {
 
     @Override
     protected void afterAddChild(){
+        initSubView();
         super.afterAddChild();
         setUpLayoutSize();
     }
@@ -193,6 +200,11 @@ public class ScrollView extends Sprite {
         return scrollType;
     }
 
+    @Override
+    public ViewContainer getContainerForChild() {
+        return childContainer;
+    }
+
     public void setContentSize(float width, float height) {
         if(contentSize == null) contentSize = new Size();
         contentSize.width = width;
@@ -212,6 +224,12 @@ public class ScrollView extends Sprite {
         viewSize.width = width;
         viewSize.height = height;
 
+        if(childContainer != null){
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) childContainer.getLayoutParams();
+            lp.width = (int)width;
+            lp.height = (int)height;
+            childContainer.requestLayout();
+        }
 //        if(contentPosition.x < minDx || contentPosition.x > maxDx || contentPosition.y < minDy || contentPosition.y > maxDy){
 //            moveAllChild(contentPosition.product(-1));
 //            contentPosition = new Point(0,0);
@@ -312,5 +330,29 @@ public class ScrollView extends Sprite {
                 }
             }
         }
+    }
+
+    @Override
+    public ViewContainer.Node getViewTreeNodeAsParent() {
+        return containerRootNode;
+    }
+
+    private void initSubView(){
+        childContainer = new ViewContainer(Director.getInstance().getContext());
+        childContainer.setLayoutParams(new RelativeLayout.LayoutParams((int)viewSize.width, (int)viewSize.height));
+        childContainer.setWorldPosition(getWorldPosition());
+        containerRootNode = childContainer.setRoot(this);
+        subView[0] = childContainer;
+        hasOwnViewContainer = true;
+    }
+
+    @Override
+    public int getSubViewsCount() {
+        return 1;
+    }
+
+    @Override
+    public View[] getSubViews() {
+        return subView;
     }
 }

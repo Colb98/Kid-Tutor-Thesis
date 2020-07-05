@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.mus.myapplication.modules.classes.Point;
 import com.mus.myapplication.modules.classes.Utils;
 
 import java.lang.reflect.Array;
@@ -28,6 +29,7 @@ public class ViewContainer extends RelativeLayout {
     private int childCount = 0;
     // Số view con tính cả view native (text, textbox)
     private int realChildCount = 0;
+    public boolean isTheRootContainer = false;
 
     public class Node{
         GameView val;
@@ -39,7 +41,7 @@ public class ViewContainer extends RelativeLayout {
             val = v;
             this.index = index;
             children = new ArrayList<>();
-            v.viewTreeNode = this;
+            v.setViewTreeNode(this);
             next = null;
 
             if(parent != null)
@@ -47,7 +49,7 @@ public class ViewContainer extends RelativeLayout {
         }
 
         private void rearrangeParentNode(GameView p){
-            Node parent = p.viewTreeNode;
+            Node parent = p.getViewTreeNodeAsParent();
             int i=0;
             while (i < parent.children.size() && parent.children.get(i).val.zOrder <= val.zOrder){
                 i++;
@@ -91,7 +93,7 @@ public class ViewContainer extends RelativeLayout {
         if(view instanceof GameView){
             // Index trong mảng thứ tự
             GameView gv = (GameView) view;
-            Node node = gv.viewTreeNode;
+            Node node = gv.getViewTreeNodeAsChild();
 
             int subViews = gv.getSubViewsCount();
             if(subViews > 0){
@@ -100,18 +102,18 @@ public class ViewContainer extends RelativeLayout {
                 }
             }
             Node previousNode;
-            int idx = gv.parent.viewTreeNode.children.indexOf(node);
+            int idx = gv.parent.getViewTreeNodeAsParent().children.indexOf(node);
             if(idx == 0){
-                previousNode = gv.parent.viewTreeNode;
+                previousNode = gv.parent.getViewTreeNodeAsParent();
             }
             else{
-                previousNode = gv.parent.viewTreeNode.children.get(idx - 1);
+                previousNode = gv.parent.getViewTreeNodeAsParent().children.get(idx - 1);
                 while(previousNode.next != node){
                     previousNode = previousNode.next;
                 }
             }
             previousNode.next = node.next;
-            gv.parent.viewTreeNode.children.remove(node);
+            gv.parent.getViewTreeNodeAsParent().children.remove(node);
             int[] nDrawOrder = new int[drawOrder.length - subViews - 1];
             int[] nIDrawOrder = new int[drawOrder.length - subViews - 1];
             for(int i=0,j=0;i<drawOrder.length;i++){
@@ -148,8 +150,22 @@ public class ViewContainer extends RelativeLayout {
             removeAllViewsByNode(child, removingIndex);
         }
         super.removeView(node.val);
-        node.val.parent.viewTreeNode.children.remove(node);
+        node.val.parent.getViewTreeNodeAsParent().children.remove(node);
         removingIndex.add(node.index);
+    }
+
+    public void setWorldPosition(Point pos){
+        setWorldPosition(pos.x, pos.y);
+    }
+
+    public void setWorldPosition(float x, float y){
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) this.getLayoutParams();
+        lp.setMargins((int)x, (int)y, 0, 0);
+        this.setLayoutParams(lp);
+    }
+
+    public Node setRoot(GameView gv){
+        return root = new Node(gv, 0, null);
     }
 
     public void addGameView(View child, View parent){
@@ -164,7 +180,7 @@ public class ViewContainer extends RelativeLayout {
             Node node = new Node(gv, realChildCount, (GameView)parent);
             childCount++;
             realChildCount += 1 + gv.getSubViewsCount();
-            if(childCount == 1){
+            if(root == null){
                 root = node;
             }
             updateViewOrder();
@@ -191,9 +207,9 @@ public class ViewContainer extends RelativeLayout {
     }
 
     public void updateViewOrder(GameView changedView){
-        Node node = changedView.viewTreeNode;
-        Node parent = changedView.parent.viewTreeNode;
-        Node previousNode = changedView.parent.viewTreeNode;
+        Node node = changedView.getViewTreeNodeAsChild();
+        Node parent = changedView.parent.getViewTreeNodeAsParent();
+        Node previousNode = changedView.parent.getViewTreeNodeAsParent();
         while(previousNode.next != node){
             previousNode = previousNode.next;
         }
@@ -228,6 +244,8 @@ public class ViewContainer extends RelativeLayout {
     // Nhận 1 list zOrder theo kiểu lộn xộn -> drawOrder có thứ tự
     public void updateViewOrder() {
         Node cur = root;
+        if(!isTheRootContainer) cur = root.next;
+
         drawOrder = new int[realChildCount];
         invertedDrawOrder = new int[realChildCount];
         int i=0;
@@ -304,7 +322,7 @@ public class ViewContainer extends RelativeLayout {
 
     // Return mảng nghịch đảo val và idx của mảng drawOrder
     public int[] getDrawOrderIndexing(GameView view){
-        Node node = view.viewTreeNode;
+        Node node = view.getViewTreeNodeAsParent();
         int[] ans = new int[node.children.size()];
 
         int i=0;
