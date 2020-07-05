@@ -82,5 +82,4 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
-Android.mk
 app/.cxx/
