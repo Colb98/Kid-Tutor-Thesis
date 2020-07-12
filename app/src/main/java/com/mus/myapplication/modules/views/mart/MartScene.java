@@ -7,6 +7,7 @@ import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.FontCache;
 import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.AreaMusicManager;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameScene;
@@ -16,6 +17,8 @@ import com.mus.myapplication.modules.views.base.Sprite;
 import com.mus.myapplication.modules.views.home.HomeScene;
 import com.mus.myapplication.modules.views.school.IQTestScene;
 import com.mus.myapplication.modules.views.school.SchoolScene;
+import com.vuforia.Area;
+
 public class MartScene extends GameScene{
     private String category;
     private int step = 0;
@@ -27,7 +30,15 @@ public class MartScene extends GameScene{
         super.afterAddChild();
         initScene();
         initButtons();
-    }private void initScene(){
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        AreaMusicManager.playArea("market");
+    }
+
+    private void initScene(){
         setSceneBackground(R.drawable.mart_background);
         Sprite bg = (Sprite) getChild("background");
 

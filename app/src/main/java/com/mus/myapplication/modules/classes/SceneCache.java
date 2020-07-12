@@ -3,6 +3,7 @@ package com.mus.myapplication.modules.classes;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
+import com.mus.myapplication.modules.views.gara.GaraTestScene;
 import com.mus.myapplication.modules.views.home.HomeScene;
 import com.mus.myapplication.modules.views.mart.MartScene;
 import com.mus.myapplication.modules.views.zoo.ZooScene;
@@ -39,6 +40,8 @@ public class SceneCache {
                 scene = new ZooScene(mainView); break;
             case "gara":
                 scene = new GaraScene(mainView); break;
+            case "garaTest":
+                scene = new GaraTestScene(mainView); break;
             case "res":
                 scene = new ResScene(mainView); break;
             default: return null;

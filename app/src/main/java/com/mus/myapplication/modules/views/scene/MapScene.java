@@ -9,6 +9,7 @@ import com.mus.myapplication.modules.classes.LayoutPosition;
 import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.AreaMusicManager;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameImageView;
@@ -16,6 +17,9 @@ import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.ScrollView;
 import com.mus.myapplication.modules.views.base.Sprite;
+import com.mus.myapplication.modules.views.base.actions.RepeatForever;
+import com.mus.myapplication.modules.views.base.actions.ScaleTo;
+import com.mus.myapplication.modules.views.base.actions.Sequence;
 import com.mus.myapplication.modules.views.setting.SettingUI;
 import com.vuforia.engine.ImageTargets.ImageTargets;
 
@@ -35,6 +39,13 @@ public class MapScene extends GameScene {
         super.afterAddChild();
         initScene();
         initButtons();
+        AreaMusicManager.playArea("map");
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        AreaMusicManager.playArea("map");
     }
 
     private void initButtons(){
@@ -113,6 +124,7 @@ public class MapScene extends GameScene {
 
         bg.setScale(1.3f);
         bg.setSwallowTouches(false);
+        scroller.moveToCenter();
 
         Button btn_setting = new Button(this);
         btn_setting.setZOrder(100);
@@ -146,6 +158,10 @@ public class MapScene extends GameScene {
         mappingChild(home, "home");
         home.setScale(0.75434494f);
         home.setPosition(1557.7744f, 269.22153f);
+
+        ScaleTo big = new ScaleTo(1f, 1.5f);
+        ScaleTo small = new ScaleTo(1f, 0.8f);
+        home.runAction(new RepeatForever(new Sequence(big, small)));
 
         Button gara = new Button(bg);
         gara.setSpriteAnimation(R.drawable.map_gara);

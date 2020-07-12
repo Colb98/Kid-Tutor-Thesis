@@ -4,6 +4,7 @@ package com.mus.myapplication.modules.views.base;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -93,6 +94,12 @@ public class GameTextView extends Sprite {
     public void setText(CharSequence text, String fontName){
         setText(text);
         setFont(fontName);
+    }
+
+    public void setTextColor(int color){
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        builder.setSpan(new ForegroundColorSpan(color), 0, text.length(), 0);
+        setText(builder);
     }
 
     public void setFont(String fontName){

@@ -1,5 +1,10 @@
 package com.mus.myapplication.modules.views.base;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,10 +17,11 @@ import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
 
-public class ScrollView extends Sprite {
+public class ScrollView extends Sprite implements SensorEventListener {
     private static final String LOGTAG = "ScrollView";
+
     public enum ScrollType{
-        NONE, BOTH, VERTICAL, HORIZONTAL
+        NONE, BOTH, VERTICAL, HORIZONTAL, SENSOR
     }
 
     private Point prevTouch;
@@ -27,6 +33,14 @@ public class ScrollView extends Sprite {
     private long lastMoveTimestamp;
     private Point floatDrag = new Point(0, 0);
     private Size viewSize;
+
+    private SensorManager sensorManager;
+    private final float[] accelerometerReading = new float[3];
+    private final float[] magnetometerReading = new float[3];
+
+    private final float[] rotationMatrix = new float[9];
+    private final float[] orientationAngles = new float[3];
+    private float[] sensorValues;
 
     // Distance to original position
     private Point contentPosition = new Point(0,0);
@@ -81,6 +95,18 @@ public class ScrollView extends Sprite {
         initSubView();
         super.afterAddChild();
         setUpLayoutSize();
+
+        sensorManager = (SensorManager) Director.getInstance().getContext().getSystemService(Context.SENSOR_SERVICE);
+        Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if (accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer,
+                    SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
+        }
+        Sensor magneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        if (magneticField != null) {
+            sensorManager.registerListener(this, magneticField,
+                    SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
+        }
     }
 
     private void setUpLayoutSize() {
@@ -132,6 +158,22 @@ public class ScrollView extends Sprite {
     }
 
     @Override
+    public void onSensorChanged(SensorEvent event) {
+//        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+//            System.arraycopy(event.values, 0, accelerometerReading,
+//                    0, accelerometerReading.length);
+//        } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+//            System.arraycopy(event.values, 0, magnetometerReading,
+//                    0, magnetometerReading.length);
+//        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
     protected void onTouchBegan(MotionEvent event) {
         super.onTouchBegan(event);
         isTouching = true;
@@ -170,7 +212,7 @@ public class ScrollView extends Sprite {
 
             lastMoveTimestamp = System.currentTimeMillis();
             floatVelocity = distance;
-            contentPosition = contentPosition.add(distance);
+//            contentPosition = contentPosition.add(distance);
 
             moveAllChild(distance);
 //            Log.d("SCR", "contentPos: " + contentPosition);
@@ -179,7 +221,26 @@ public class ScrollView extends Sprite {
         }
     }
 
+
+    //TODO: fix bug here
     private void moveAllChild(Point distance) {
+        Log.d(LOGTAG, "content Position " + contentPosition + "limits: " + maxDx + " " + minDx + " " + maxDy + " " + minDy);
+        if(contentPosition.x + distance.x > maxDx){
+            distance.x = maxDx - contentPosition.x;
+        }
+        else if(contentPosition.x + distance.x < minDx){
+            distance.x = minDx - contentPosition.x;
+        }
+        if(contentPosition.y + distance.y > maxDy){
+            distance.y = maxDy - contentPosition.y;
+        }
+        else if(contentPosition.y + distance.y < minDy){
+            distance.y = minDy - contentPosition.y;
+        }
+
+        contentPosition = contentPosition.add(distance);
+//        Log.d(LOGTAG, "distance: " + distance);
+
         for (GameView child : getChildren()) {
             if (child.getViewType() == GameView.SPRITE) {
                 child.move(distance);
@@ -279,6 +340,40 @@ public class ScrollView extends Sprite {
         isTouching = false;
     }
 
+    public void moveToCenter(){
+        moveToCenterX();
+        moveToCenterY();
+    }
+
+    public void moveToCenterX(){
+        this.moveAllChild(new Point(maxDx/2 - contentPosition.x, 0));
+    }
+
+    public void moveToCenterY(){
+        this.moveAllChild(new Point(0, maxDy/2 - contentPosition.y));
+    }
+
+    public void moveToEndX(){
+        this.moveAllChild(new Point(maxDx - contentPosition.x, 0));
+    }
+
+    public void moveToEndY(){
+        this.moveAllChild(new Point(0, maxDy - contentPosition.y));
+    }
+
+    public void moveToStartX(){
+        this.moveAllChild(new Point(0 - contentPosition.x, 0));
+    }
+
+    public void moveToStartY(){
+        this.moveAllChild(new Point(0, 0 - contentPosition.y));
+    }
+
+    public void moveToEnd(){
+        moveToEndX();
+        moveToEndY();
+    }
+
     @Override
     public void update(float dt) {
         super.update(dt);
@@ -321,7 +416,7 @@ public class ScrollView extends Sprite {
                         && !((newV.x * floatVelocity.x == 0 && newV.y * floatVelocity.y == 0))){
                     floatVelocity = newV;
                     moveAllChild(distance);
-                    contentPosition = contentPosition.add(distance);
+//                    contentPosition = contentPosition.add(distance);
 //                    Log.d("SCR", "contentPos: " + contentPosition);
                 }
                 else{
@@ -330,6 +425,40 @@ public class ScrollView extends Sprite {
                 }
             }
         }
+
+        // Test gyro
+//        // Update rotation matrix, which is needed to update orientation angles.
+//        SensorManager.getRotationMatrix(rotationMatrix, null,
+//                accelerometerReading, magnetometerReading);
+//
+//        // "mRotationMatrix" now has up-to-date information.
+//
+//        SensorManager.getOrientation(rotationMatrix, orientationAngles);
+//
+//        // Only work if hold the phone with angle PI/2 +- delta
+//
+//        double delta = 10*Math.PI/180f;
+//        if(sensorValues != null){
+////            if(Math.abs(orientationAngles[2]) > Math.PI/2 - delta
+////                    && Math.abs(orientationAngles[2]) < Math.PI/2 + delta){
+//                Point distance = new Point(0,0);
+//                if(Math.abs(sensorValues[1] - orientationAngles[1]) > 0.015){
+//                    distance.x = (maxDx / 0.55f)*(sensorValues[1] - orientationAngles[1]);
+//                }
+//                if(Math.abs(sensorValues[2] - orientationAngles[2]) > 0.015){
+//                    distance.y = (maxDy / 0.55f)*(sensorValues[2] - orientationAngles[2]);
+//                }
+//            sensorValues[1] = orientationAngles[1];
+//            sensorValues[2] = orientationAngles[2];
+////                Log.d(LOGTAG, "debug sensor: " + Utils.arrayToString(orientationAngles));
+//                moveAllChild(distance);
+////            }
+//        }else{
+//            sensorValues = new float[3];
+//        }
+//        sensorValues[2] = orientationAngles[2];
+
+        // "mOrientationAngles" now has up-to-date information.
     }
 
     @Override

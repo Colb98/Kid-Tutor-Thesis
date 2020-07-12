@@ -12,6 +12,7 @@ public abstract class Action {
     protected float timeElapsed;
     protected float timeWaiting;
     protected float timeToWait;
+    protected boolean paused = false;
     protected boolean running = false;
     protected boolean started = false;
     protected Sprite sprite = null;
@@ -33,9 +34,23 @@ public abstract class Action {
         callbacks = new HashMap<>();
     }
 
+    public abstract Action clone();
+
     public void reset(){
         timeElapsed = 0;
         timeWaiting = 0;
+    }
+
+    public void pause(){
+        paused = true;
+    }
+
+    public void resume(){
+        paused = true;
+    }
+
+    public boolean isPaused(){
+        return paused;
     }
 
     public abstract void forceFinish(Sprite sprite);
@@ -45,6 +60,9 @@ public abstract class Action {
             this.sprite = sprite;
         }
         if(!started)
+            return;
+
+        if(paused)
             return;
 
         if(running){
@@ -90,6 +108,9 @@ public abstract class Action {
     }
 
     public void start(){
+        if(timeElapsed > 0 || timeWaiting > 0){
+            reset();
+        }
         started = true;
     }
 }

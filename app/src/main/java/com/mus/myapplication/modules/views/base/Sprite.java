@@ -51,6 +51,7 @@ public class Sprite extends GameView{
     private Point prevTouch;
     private float prevTouchDistance = 0;
     private Point touchBeganPosition;
+    private boolean scaleWithParent = true; //update scale by parent (only use for some special intention)
 
     private List<Action> actions;
     private List<Action> toBeRemovedActions;
@@ -192,6 +193,7 @@ public class Sprite extends GameView{
     @Override
     public void update(float dt) {
         super.update(dt);
+        if(parent != null && !parent.getVisible()) return;
         if(isPlaying){
             playTime += dt;
             if(animIdx + 1 == animSprites.length && !isRepeating) {
@@ -400,10 +402,17 @@ public class Sprite extends GameView{
     }
 
     public float getRecursiveScale(){
+        if(!scaleWithParent){
+            return trueScale;
+        }
         if(parent != null && parent.getViewType() == SPRITE && !parent.hasOwnViewContainer){
             return ((Sprite)parent).getRecursiveScale() * trueScale;
         }
         return trueScale;
+    }
+
+    public void setScaleWithParent(boolean val){
+        scaleWithParent = val;
     }
 
     public float getScale(){
@@ -511,6 +520,10 @@ public class Sprite extends GameView{
 
     public void setDebugMode(boolean value){
         debugMode = value;
+    }
+
+    public Size getContentSize(){
+        return getContentSize(false);
     }
 
     public Size getContentSize(boolean withoutScale){

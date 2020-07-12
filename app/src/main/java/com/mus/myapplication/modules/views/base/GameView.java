@@ -342,7 +342,7 @@ public class GameView extends AppCompatImageView {
             return;
         }
         if(this.curScene != null){
-            curScene.setVisible(false);
+            curScene.hide();
         }
         if(scene.parent != this){
             if(scene.parent != null){
@@ -352,7 +352,7 @@ public class GameView extends AppCompatImageView {
             scene.parent = this;
         }
         else{
-            scene.setVisible(true);
+            scene.show();
         }
         curScene = scene;
     }
@@ -405,6 +405,16 @@ public class GameView extends AppCompatImageView {
         }
     }
 
+    public boolean getVisible(){
+        if(!visibility) return false;
+        GameView parent = this.parent;
+        while(parent != null){
+            if(!parent.visibility) return false;
+            parent = parent.parent;
+        }
+        return true;
+    }
+
     public void setVisible(boolean val){
         visibility = val;
         if(val){
@@ -426,12 +436,19 @@ public class GameView extends AppCompatImageView {
                 subView.setVisibility(visibility?VISIBLE:INVISIBLE);
             }
         }
+        invalidate();
     }
 
     public void releaseCurrentScene() {
         if(this.curScene != null){
             this.removeChild(this.curScene);
             this.curScene = null;
+        }
+    }
+
+    public void removeFromParent(){
+        if(parent != null){
+            parent.removeChild(this);
         }
     }
 

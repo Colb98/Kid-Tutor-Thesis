@@ -21,8 +21,8 @@ public class Sounds {
     private static HashSet<MediaPlayer> playingPlayers;
     private static float soundVolumeL = 1;
     private static float soundVolumeR = 1;
-    private static float musicVolumeL = 1;
-    private static float musicVolumeR = 1;
+    private static float musicVolumeL = 0.7f;
+    private static float musicVolumeR = 0.7f;
 
 
     public static void init(final Context context) throws ExecutionException, InterruptedException {
@@ -137,16 +137,23 @@ public class Sounds {
     }
 
 
-    public static void playLongSound(final int resourceId){
+    public static MediaPlayer playLongSound(final int resourceId){
         final MediaPlayer mp = MediaPlayer.create(Director.getInstance().getContext(), resourceId);
         playingPlayers.add(mp);
         mp.start();
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                playingPlayers.remove(mp);
-                mp.release();
-            }
-        });
+        mp.setVolume(musicVolumeL, musicVolumeR);
+//        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                mp.seekTo(0);
+//                mp.start();
+//            }
+//        });
+        return mp;
+    }
+
+    public static void removePlayer(MediaPlayer mp){
+        playingPlayers.remove(mp);
+        mp.release();
     }
 }

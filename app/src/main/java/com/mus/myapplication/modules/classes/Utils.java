@@ -68,9 +68,9 @@ public class Utils {
         return px/dpToPx;
     }
 
-    public static String arrayToString(Collection<Integer> arrays){
+    public static String arrayToString(Collection<Float> arrays){
         StringBuilder sb = new StringBuilder();
-        for(int n : arrays){
+        for(float n : arrays){
             sb.append(n);
             sb.append(", ");
         }
@@ -79,6 +79,14 @@ public class Utils {
     public static String arrayToString(int[] arrays){
         StringBuilder sb = new StringBuilder();
         for(int n : arrays){
+            sb.append(n);
+            sb.append(", ");
+        }
+        return sb.toString();
+    }
+    public static String arrayToString(float[] arrays){
+        StringBuilder sb = new StringBuilder();
+        for(float n : arrays){
             sb.append(n);
             sb.append(", ");
         }

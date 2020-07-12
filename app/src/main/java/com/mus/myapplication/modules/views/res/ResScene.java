@@ -7,6 +7,7 @@ import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.FontCache;
 import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.AreaMusicManager;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameScene;
@@ -25,7 +26,15 @@ public class ResScene extends GameScene{
         super.afterAddChild();
         initScene();
         initButtons();
-    }private void initScene(){
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        AreaMusicManager.playArea("restaurant");
+    }
+
+    private void initScene(){
         setSceneBackground(R.drawable.res_background);
         Sprite bg = (Sprite) getChild("background");
 
