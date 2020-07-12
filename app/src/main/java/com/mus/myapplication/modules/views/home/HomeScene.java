@@ -14,7 +14,7 @@ import com.mus.myapplication.modules.views.base.GameTextView;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
 import com.mus.myapplication.modules.views.school.IQTestScene;
-import com.mus.myapplication.modules.views.school.SchoolScene;
+import com.mus.myapplication.modules.views.home.BedroomScene;
 
 public class HomeScene extends GameScene{
     private String category;
@@ -130,6 +130,14 @@ public class HomeScene extends GameScene{
                     }
                 });
 
+                Button relative = (Button)getChild("relative");
+                relative.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        //
+                    }
+                });
+
                 Button item = (Button)getChild("item");
                 item.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
@@ -143,7 +151,7 @@ public class HomeScene extends GameScene{
                 livingroom.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
-                        //openScene(0);
+                        openScene("livingroom");
                     }
                 });
 
@@ -151,7 +159,7 @@ public class HomeScene extends GameScene{
                 bedroom.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
-                        //openScene(1);
+                        openScene("bedroom");
                     }
                 });
 
@@ -159,25 +167,33 @@ public class HomeScene extends GameScene{
                 kitchen.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
-                        //openScene(2);
+                        openScene("kitchen");
                     }
                 });
                 Button bathroom = (Button)getChild("bathroom");
                 bathroom.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
-                        //openScene(3);
+                        openScene("bathroom");
                     }
                 });
             }
         });
     }
 
-    private void openScene(int level){
-        switch(category){
-            case "item":
-                IQTestScene scene = (IQTestScene) Director.getInstance().loadScene(SceneCache.getScene("iq"));
-                scene.setTest(level);
+    private void openScene(String room){
+        switch(room){
+            case "bedroom":
+                BedroomScene bedroomScene = (BedroomScene) Director.getInstance().loadScene(SceneCache.getScene("bedroom"));
+                break;
+            case "livingroom":
+                LivingroomScene livingroomScene = (LivingroomScene) Director.getInstance().loadScene(SceneCache.getScene("livingroom"));
+                break;
+            case "bathroom":
+                BathroomScene bathroomScene = (BathroomScene) Director.getInstance().loadScene(SceneCache.getScene("bathroom"));
+                break;
+            case "kitchen":
+                KitchenScene kitchenScene = (KitchenScene) Director.getInstance().loadScene(SceneCache.getScene("kitchen"));
                 break;
             default:
                 Log.d("School Scene", "select a category or level that is not available");

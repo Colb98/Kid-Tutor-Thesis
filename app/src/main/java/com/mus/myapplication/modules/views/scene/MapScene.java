@@ -106,6 +106,7 @@ public class MapScene extends GameScene {
     private void initScene(){
         ScrollView scroller = new ScrollView(this, Utils.getScreenWidth(), Utils.getScreenHeight());
         scroller.setContentSize(1920*1.3f, 1080*1.3f);
+//        scroller.setScrollType(ScrollView.ScrollType.NONE);
         Sprite bg = new Sprite(scroller);
 //        scroller.addChild(bg);
         bg.setSpriteAnimation(R.drawable.map_background);
