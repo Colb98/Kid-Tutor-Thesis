@@ -66,7 +66,7 @@ public class ItemPartSprite extends Sprite {
             }
             subscribeView.move(d);
         }
-        Log.d("itempart", getName() + " moving " + isCore);
+//        Log.d("itempart", getName() + " moving " + isCore);
         lastTouchPos = curPos;
         if(isCore) {
             for(ItemPartSprite child : childPart){
@@ -132,9 +132,9 @@ public class ItemPartSprite extends Sprite {
     @Override
     protected void onTouchSucceed(MotionEvent event) {
         super.onTouchSucceed(event);
-
-        if(subscribeView != null)
-            Log.d("DEBUG ItemPart", getName() + " finished moving. Pos to subscribe view: " + getPosition().subtract(subscribeView.getPosition()));
+//
+//        if(subscribeView != null)
+//            Log.d("DEBUG ItemPart", getName() + " finished moving. Pos to subscribe view: " + getPosition().subtract(subscribeView.getPosition()));
     }
 
     private boolean isNearAttachPoint(){

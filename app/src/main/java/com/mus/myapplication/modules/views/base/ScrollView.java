@@ -180,7 +180,7 @@ public class ScrollView extends Sprite implements SensorEventListener {
         firstTouchTimestamp = System.currentTimeMillis();
         floating = false;
         prevTouch = new Point(event.getRawX(), event.getRawY());
-        Log.d(LOGTAG, "Touch began");
+//        Log.d(LOGTAG, "Touch began");
     }
 
     @Override
@@ -224,7 +224,7 @@ public class ScrollView extends Sprite implements SensorEventListener {
 
     //TODO: fix bug here
     private void moveAllChild(Point distance) {
-        Log.d(LOGTAG, "content Position " + contentPosition + "limits: " + maxDx + " " + minDx + " " + maxDy + " " + minDy);
+//        Log.d(LOGTAG, "content Position " + contentPosition + "limits: " + maxDx + " " + minDx + " " + maxDy + " " + minDy);
         if(contentPosition.x + distance.x > maxDx){
             distance.x = maxDx - contentPosition.x;
         }
