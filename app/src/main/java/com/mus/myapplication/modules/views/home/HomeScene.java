@@ -130,13 +130,13 @@ public class HomeScene extends GameScene{
                     }
                 });
 
-                Button relative = (Button)getChild("relative");
+                /*Button relative = (Button)getChild("relative");
                 relative.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
                         //
                     }
-                });
+                });*/
 
                 Button item = (Button)getChild("item");
                 item.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {

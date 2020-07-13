@@ -16,6 +16,8 @@ import com.mus.myapplication.modules.views.base.Sprite;
 import com.mus.myapplication.modules.views.school.IQTestScene;
 import com.mus.myapplication.modules.views.home.BedroomScene;
 public class RelativeScene extends GameScene{
+    private String category;
+    private int step = 0;
     public RelativeScene(GameView parent){
         super(parent);
 //        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -44,11 +46,12 @@ public class RelativeScene extends GameScene{
                         if (step == 0)
                             Director.getInstance().loadScene(SceneCache.getScene("map"));
                         else
-                            chooseCategory();
+                        {}
+                            //chooseCategory();
                     }
                 });
             }
-        }
+        });
     }
     private void initScene() {
         setSceneBackground(R.drawable.relative_background);
