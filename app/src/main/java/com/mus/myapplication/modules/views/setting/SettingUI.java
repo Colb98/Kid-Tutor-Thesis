@@ -6,6 +6,7 @@ import com.mus.myapplication.modules.classes.LayoutPosition;
 import com.mus.myapplication.modules.classes.Point;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.GameViewCache;
+import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.ComplexUI;
 import com.mus.myapplication.modules.views.base.GameTextEdit;
@@ -99,9 +100,25 @@ public class SettingUI extends ComplexUI {
         lbSfx.setFont(FontCache.Font.UVNNguyenDu);
         lbSfx.setFontSize(18);
 
-        Slider slider = new Slider(this);
-        slider.setPositionDp(250, 70);
-//        slider.view.setMax(100);
+        final Slider music = new Slider(this);
+        music.setPositionDp(270, 70);
+        music.view.setMax(100);
+        music.addOnChangeValueCallback(new Runnable() {
+            @Override
+            public void run() {
+                Sounds.setMusicVolume(music.view.getProgress()/100f);
+            }
+        });
+
+        final Slider sfx = new Slider(this);
+        sfx.setPositionDp(270, 120);
+        sfx.view.setMax(100);
+        sfx.addOnChangeValueCallback(new Runnable() {
+            @Override
+            public void run() {
+                Sounds.setSoundVolume(music.view.getProgress()/100f);
+            }
+        });
 //        slider.view.setIndeterminate(true);
 //        slider.view.setMinimumWidth(200);
 
