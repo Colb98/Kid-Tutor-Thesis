@@ -143,7 +143,7 @@ public class KitchenScene extends GameScene{
         scroller.setContentSize(1920*1.3f, 1080*1.3f);
         Sprite bg = new Sprite(scroller);
 //        scroller.addChild(bg);
-        bg.setSpriteAnimation(R.drawable.kitchen_background);
+        bg.setSpriteAnimation(R.drawable.kitchen_background_1);
 
         bg.setScale(1.3f);
         bg.setSwallowTouches(false);
@@ -161,7 +161,6 @@ public class KitchenScene extends GameScene{
         final ItemButton cupboard1 = new ItemButton(bg);
         cupboard1.setEnableClickEffect(false);
         cupboard1.setSpriteAnimation(R.drawable.kitchen_cupboard1);
-        cupboard1.setSwallowTouches(false);
         cupboard1.setDebugMode(false);
         mappingChild(cupboard1, "cupboard1");
         cupboard1.setScale(1.0f);
@@ -181,7 +180,6 @@ public class KitchenScene extends GameScene{
         final ItemButton cupboard3 = new ItemButton(bg);
         cupboard3.setEnableClickEffect(false);
         cupboard3.setSpriteAnimation(R.drawable.kitchen_cupboard3);
-        cupboard3.setSwallowTouches(false);
         cupboard3.setDebugMode(false);
         mappingChild(cupboard3, "cupboard3");
         cupboard3.setScale(1.0f);
@@ -191,7 +189,6 @@ public class KitchenScene extends GameScene{
         final ItemButton cupboard4 = new ItemButton(bg);
         cupboard4.setEnableClickEffect(false);
         cupboard4.setSpriteAnimation(R.drawable.kitchen_cupboard4);
-        cupboard4.setSwallowTouches(false);
         cupboard4.setDebugMode(false);
         mappingChild(cupboard4, "cupboard4");
         cupboard4.setScale(1.0f);
@@ -201,7 +198,6 @@ public class KitchenScene extends GameScene{
         final ItemButton ventilation = new ItemButton(bg);
         ventilation.setEnableClickEffect(false);
         ventilation.setSpriteAnimation(R.drawable.kitchen_ventilation);
-        ventilation.setSwallowTouches(false);
         ventilation.setDebugMode(false);
         mappingChild(ventilation, "ventilation");
         ventilation.setScale(1.0f);
@@ -211,7 +207,6 @@ public class KitchenScene extends GameScene{
         final ItemButton stove = new ItemButton(bg);
         stove.setEnableClickEffect(false);
         stove.setSpriteAnimation(R.drawable.kitchen_stove);
-        stove.setSwallowTouches(false);
         stove.setDebugMode(false);
         mappingChild(stove, "stove");
         stove.setScale(1.0f);
@@ -221,7 +216,6 @@ public class KitchenScene extends GameScene{
         final ItemButton chair1 = new ItemButton(bg);
         chair1.setEnableClickEffect(false);
         chair1.setSpriteAnimation(R.drawable.kitchen_chair1);
-        chair1.setSwallowTouches(false);
         chair1.setDebugMode(false);
         mappingChild(chair1, "chair1");
         chair1.setScale(1.0f);
@@ -231,7 +225,6 @@ public class KitchenScene extends GameScene{
         final ItemButton chair2 = new ItemButton(bg);
         chair2.setEnableClickEffect(false);
         chair2.setSpriteAnimation(R.drawable.kitchen_chair2);
-        chair2.setSwallowTouches(false);
         chair2.setDebugMode(false);
         mappingChild(chair2, "chair2");
         chair2.setScale(1.0f);
@@ -241,7 +234,6 @@ public class KitchenScene extends GameScene{
         final ItemButton table = new ItemButton(bg);
         table.setEnableClickEffect(false);
         table.setSpriteAnimation(R.drawable.kitchen_table);
-        table.setSwallowTouches(false);
         table.setDebugMode(false);
         mappingChild(table, "table");
         table.setScale(1.0f);

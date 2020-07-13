@@ -148,30 +148,50 @@ public class BedroomScene extends GameScene {
         bg.setScale(1.3f);
         bg.setSwallowTouches(false);
 
-        final ItemButton window = new ItemButton(bg);
-        window.setEnableClickEffect(false);
-        window.setSpriteAnimation(R.drawable.bedroom_window);
-        window.setSwallowTouches(false);
-        window.setDebugMode(false);
-        mappingChild(window, "window");
-        window.setScale(1.0f);
-        window.setPosition(503.04144f, 293.5551f);
-        window.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
-
         final ItemButton drawers = new ItemButton(bg);
         drawers.setEnableClickEffect(false);
         drawers.setSpriteAnimation(R.drawable.bedroom_drawers);
-        drawers.setSwallowTouches(false);
+        drawers.setSwallowTouches(true);
         drawers.setDebugMode(false);
         mappingChild(drawers, "drawers");
         drawers.setScale(1.0f);
         drawers.setPosition(114.54144f, 915.41235f);
         drawers.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
+        final Sprite cupboard1 = new Sprite(bg);
+//        cupboard1.setEnableClickEffect(false);
+        cupboard1.setSpriteAnimation(R.drawable.bedroom_cupboard);
+        cupboard1.setSwallowTouches(true);
+        cupboard1.setDebugMode(false);
+        mappingChild(cupboard1, "cupboard1");
+        cupboard1.setScale(1.0f);
+        cupboard1.setPosition(1269.4756f, 768.1133f);
+//        cupboard1.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+
+        final ItemButton bed = new ItemButton(bg);
+        bed.setEnableClickEffect(false);
+        bed.setSpriteAnimation(R.drawable.bedroom_bed);
+        bed.setSwallowTouches(true);
+        bed.setDebugMode(false);
+        mappingChild(bed, "bed");
+        bed.setScale(1.0f);
+        bed.setPosition(876.4136f, 632.28534f);
+        bed.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+
+        final ItemButton window = new ItemButton(bg);
+        window.setEnableClickEffect(false);
+        window.setSpriteAnimation(R.drawable.bedroom_window);
+        window.setSwallowTouches(true);
+        window.setDebugMode(false);
+        mappingChild(window, "window");
+        window.setScale(1.0f);
+        window.setPosition(503.04144f, 293.5551f);
+        window.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+
         final ItemButton mirror = new ItemButton(bg);
         mirror.setEnableClickEffect(false);
         mirror.setSpriteAnimation(R.drawable.bedroom_mirror);
-        mirror.setSwallowTouches(false);
+        mirror.setSwallowTouches(true);
         mirror.setDebugMode(false);
         mappingChild(mirror, "mirror");
         mirror.setScale(1.0f);
@@ -181,47 +201,27 @@ public class BedroomScene extends GameScene {
         final ItemButton picture = new ItemButton(bg);
         picture.setEnableClickEffect(false);
         picture.setSpriteAnimation(R.drawable.bedroom_picture);
-        picture.setSwallowTouches(false);
+        picture.setSwallowTouches(true);
         picture.setDebugMode(false);
         mappingChild(picture, "picture");
         picture.setScale(1.0f);
         picture.setPosition(1671.5415f, 381.41235f);
         picture.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
-        final ItemButton cupboard1 = new ItemButton(bg);
-        cupboard1.setEnableClickEffect(false);
-        cupboard1.setSpriteAnimation(R.drawable.bedroom_cupboard);
-        cupboard1.setSwallowTouches(false);
-        cupboard1.setDebugMode(false);
-        mappingChild(cupboard1, "cupboard1");
-        cupboard1.setScale(1.0f);
-        cupboard1.setPosition(1269.4756f, 768.1133f);
-        cupboard1.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
-
         final ItemButton lamp = new ItemButton(bg);
         lamp.setEnableClickEffect(false);
         lamp.setSpriteAnimation(R.drawable.bedroom_lamp);
-        lamp.setSwallowTouches(false);
+        lamp.setSwallowTouches(true);
         lamp.setDebugMode(false);
         mappingChild(lamp, "lamp");
         lamp.setScale(1.0f);
         lamp.setPosition(1315.3386f, 632.34753f);
         lamp.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
-        final ItemButton bed = new ItemButton(bg);
-        bed.setEnableClickEffect(false);
-        bed.setSpriteAnimation(R.drawable.bedroom_bed);
-        bed.setSwallowTouches(false);
-        bed.setDebugMode(false);
-        mappingChild(bed, "bed");
-        bed.setScale(1.0f);
-        bed.setPosition(876.4136f, 632.28534f);
-        bed.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
-
         final ItemButton pillow = new ItemButton(bg);
         pillow.setEnableClickEffect(false);
         pillow.setSpriteAnimation(R.drawable.bedroom_pillow);
-        pillow.setSwallowTouches(false);
+        pillow.setSwallowTouches(true);
         pillow.setDebugMode(false);
         mappingChild(pillow, "pillow");
         pillow.setScale(1.0f);
@@ -231,7 +231,7 @@ public class BedroomScene extends GameScene {
         final ItemButton blanket = new ItemButton(bg);
         blanket.setEnableClickEffect(false);
         blanket.setSpriteAnimation(R.drawable.bedroom_blanket);
-        blanket.setSwallowTouches(false);
+        blanket.setSwallowTouches(true);
         blanket.setDebugMode(false);
         mappingChild(blanket, "blanket");
         blanket.setScale(1.0f);
@@ -241,7 +241,7 @@ public class BedroomScene extends GameScene {
         final ItemButton cupboard2 = new ItemButton(bg);
         cupboard2.setEnableClickEffect(false);
         cupboard2.setSpriteAnimation(R.drawable.bedroom_cupboard);
-        cupboard2.setSwallowTouches(false);
+        cupboard2.setSwallowTouches(true);
         cupboard2.setDebugMode(false);
         mappingChild(cupboard2, "cupboard2");
         cupboard2.setScale(1.0f);
@@ -251,7 +251,7 @@ public class BedroomScene extends GameScene {
         final ItemButton bonsaiPot = new ItemButton(bg);
         bonsaiPot.setEnableClickEffect(false);
         bonsaiPot.setSpriteAnimation(R.drawable.bedroom_bonsai_pot);
-        bonsaiPot.setSwallowTouches(false);
+        bonsaiPot.setSwallowTouches(true);
         bonsaiPot.setDebugMode(false);
         mappingChild(bonsaiPot, "bonsai_pot");
         bonsaiPot.setScale(1.0f);
@@ -261,7 +261,7 @@ public class BedroomScene extends GameScene {
         final ItemButton carpet = new ItemButton(bg);
         carpet.setEnableClickEffect(false);
         carpet.setSpriteAnimation(R.drawable.bedroom_carpet);
-        carpet.setSwallowTouches(false);
+        carpet.setSwallowTouches(true);
         carpet.setDebugMode(false);
         mappingChild(carpet, "carpet");
         carpet.setScale(1.0f);
