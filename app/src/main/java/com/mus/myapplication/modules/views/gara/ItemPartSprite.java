@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemPartSprite extends Sprite {
-    private static final float ATTACH_THRESHOLD = 10;
+    private static final float ATTACH_THRESHOLD = 20;
     private boolean isCore = false;
     private List<ItemPartSprite> attachedPart;
     private List<ItemPartSprite> childPart;
@@ -66,7 +66,7 @@ public class ItemPartSprite extends Sprite {
             }
             subscribeView.move(d);
         }
-//        Log.d("itempart", getName() + " move d: " + d);
+        Log.d("itempart", getName() + " moving " + isCore);
         lastTouchPos = curPos;
         if(isCore) {
             for(ItemPartSprite child : childPart){
@@ -132,6 +132,7 @@ public class ItemPartSprite extends Sprite {
     @Override
     protected void onTouchSucceed(MotionEvent event) {
         super.onTouchSucceed(event);
+
         if(subscribeView != null)
             Log.d("DEBUG ItemPart", getName() + " finished moving. Pos to subscribe view: " + getPosition().subtract(subscribeView.getPosition()));
     }

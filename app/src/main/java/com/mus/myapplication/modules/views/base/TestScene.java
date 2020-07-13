@@ -17,6 +17,7 @@ public abstract class TestScene extends GameScene {
     protected TestModel currentTest;
     protected int level;
     protected boolean stoppedCountDown = false;
+    protected boolean isTesting = true;
 
     public TestScene(GameView parent){
         super(parent);
@@ -39,6 +40,8 @@ public abstract class TestScene extends GameScene {
         GameView result = getChild("result");
         result.setVisible(false);
 
+        stoppedCountDown = false;
+        isTesting = true;
         timeRemain = TEST_DURATION;
 
         loadQuestion(0);
@@ -51,6 +54,8 @@ public abstract class TestScene extends GameScene {
         GameView result = getChild("result");
         result.setVisible(true);
         TestModel test = currentTest;
+        isTesting = false;
+        stopCountDown();
 
         int score = 0;
         int i = 0;
@@ -75,6 +80,7 @@ public abstract class TestScene extends GameScene {
     }
 
     public void onBackButton(Runnable onConfirmBack){
+        if(!isTesting) onConfirmBack.run();
         ConfirmPopup popup = new ConfirmPopup(this);
         popup.addOnRedCallback(onConfirmBack);
     }

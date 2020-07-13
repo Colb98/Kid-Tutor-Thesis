@@ -36,6 +36,8 @@ public class MoveTo extends Action {
         MoveTo ans = new MoveTo(duration, destination);
         ans.timeToWait = timeToWait;
         ans.timeElapsed = 0;
+        ans.trueTimeElapsed = 0;
+        ans.easeFunction = easeFunction;
         ans.timeWaiting = 0;
         ans.callbacks = new HashMap<>();
         for(String s : callbacks.keySet()){

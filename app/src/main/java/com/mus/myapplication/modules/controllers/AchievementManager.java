@@ -25,7 +25,7 @@ public class AchievementManager {
         put("iq", new CategoryInfo("school", "Trí tuệ", R.drawable.iq_level_1, R.drawable.iq_level_2, R.drawable.iq_level_3));
         put("math", new CategoryInfo("school", "Toán học", R.drawable.mathematician_level_1, R.drawable.mathematician_level_2, R.drawable.mathematician_level_3));
 //        put("alphabet", "school");
-//        put("garage", "garage");
+        put("gara", new CategoryInfo("gara", "Kỹ sư", R.drawable.engineer_level_1, R.drawable.engineer_level_2, R.drawable.engineer_level_3));
 //        put("family", "home");
         put("food", new CategoryInfo("kitchen", "Đầu bếp", R.drawable.chef_level_1, R.drawable.chef_level_2, R.drawable.chef_level_3));
     }};

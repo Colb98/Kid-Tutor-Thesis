@@ -47,7 +47,7 @@ public class RepeatForever extends Action {
                 running = true;
             }
         }
-        Log.d("repeeat", "update with dt: " + dt);
+//        Log.d("repeeat", "update with dt: " + dt);
         toRepeat.updateEveryFrame(dt, sprite);
     }
 

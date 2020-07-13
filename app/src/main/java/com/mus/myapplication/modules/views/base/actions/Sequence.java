@@ -40,6 +40,8 @@ public class Sequence extends Action{
         Sequence ans = new Sequence(actions);
         ans.timeToWait = timeToWait;
         ans.timeElapsed = 0;
+        ans.trueTimeElapsed = 0;
+        ans.easeFunction = easeFunction;
         ans.timeWaiting = 0;
         ans.callbacks = new HashMap<>();
         for(String s : callbacks.keySet()){
@@ -56,7 +58,7 @@ public class Sequence extends Action{
                 action.addOnFinishedCallback(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("Sequence", "run action index: " + index);
+//                        Log.d("Sequence", "run action index: " + index);
                         runAction(index);
                     }
                 });
@@ -80,10 +82,10 @@ public class Sequence extends Action{
 
     @Override
     public void updateEveryFrame(float dt, Sprite sprite) {
-        Log.d("sequence", "update " + running + " " + started);
+//        Log.d("sequence", "update " + running + " " + started);
         if(!running) return;
         if(!started) return;
-        Log.d("sequence","play cur: " + curActionIndex);
+//        Log.d("sequence","play cur: " + curActionIndex);
         actions.get(curActionIndex).updateEveryFrame(dt, sprite);
     }
 

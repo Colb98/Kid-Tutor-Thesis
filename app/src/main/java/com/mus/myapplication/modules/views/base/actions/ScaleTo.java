@@ -29,6 +29,8 @@ public class ScaleTo extends Action {
         ans.firstScale = firstScale;
         ans.timeToWait = timeToWait;
         ans.timeElapsed = 0;
+        ans.easeFunction = easeFunction;
+        ans.trueTimeElapsed = 0;
         ans.timeWaiting = 0;
         ans.callbacks = new HashMap<>();
         for(String s : callbacks.keySet()){

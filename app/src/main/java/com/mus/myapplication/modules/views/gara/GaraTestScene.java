@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import com.mus.myapplication.R;
@@ -169,6 +170,7 @@ public class GaraTestScene extends TestScene {
         result.hide();
         currentTest = TestsConfig.getCraftTest(testIndex);
         level = testIndex;
+        loadQuestion(0);
     }
 
     protected void loadQuestion(int index){
@@ -182,9 +184,10 @@ public class GaraTestScene extends TestScene {
         CraftQuest quest = ((CraftTest)currentTest).quests.get(currentQuestion);
         ItemPartSprite core = null;
         for(int i=0;i<Math.max(5, quest.resIds.length);i++){
-            ItemPartSprite sprite = (ItemPartSprite)getChild("part" + i);
+            ItemPartSprite sprite = (ItemPartSprite)getChild("part" + (i < quest.orders.length ? quest.orders[i] : i));
             sprite.reset();
             if(i < quest.resIds.length) {
+                sprite.show();
                 sprite.setSpriteAnimation(quest.resIds[i]);
                 int width = Utils.getScreenWidth(), height = Utils.getScreenHeight();
                 sprite.setPosition(
@@ -196,6 +199,7 @@ public class GaraTestScene extends TestScene {
                     core = sprite;
                 }
                 else {
+                    sprite.setCore(false);
                     sprite.debugSubscribeView(core);
                     sprite.setLinkPos(quest.relativePositions[i - 1]);
                 }
@@ -206,6 +210,12 @@ public class GaraTestScene extends TestScene {
         }
     }
 
+    protected void resetTest(){
+        for(CraftQuest q : ((CraftTest) currentTest).getQuestions()){
+            q.isFinished = false;
+        }
+        super.resetTest();
+    }
 
     protected int showResult(){
         int score = super.showResult();
@@ -213,7 +223,7 @@ public class GaraTestScene extends TestScene {
         GameView result = getChild("result");
 
         // Call cho Achivement manager
-        Achievement a = AchievementManager.getInstance().onFinishedTest("math", level, score, test.getQuestions().size());
+        Achievement a = AchievementManager.getInstance().onFinishedTest("gara", level, score, test.getQuestions().size());
         if(a != null){
             AchievementPopup popup = new AchievementPopup(result);
             popup.loadAchivement(a);
@@ -282,7 +292,8 @@ public class GaraTestScene extends TestScene {
     }
 
     private boolean checkAllPartsAttach(){
-        ItemPartSprite sprite = (ItemPartSprite)getChild("part" + 0);
+        CraftQuest q = ((CraftTest) currentTest).getQuestions().get(currentQuestion);
+        ItemPartSprite sprite = (ItemPartSprite)getChild("part" + q.orders[0]);
         return sprite.isAllAttached();
     }
 

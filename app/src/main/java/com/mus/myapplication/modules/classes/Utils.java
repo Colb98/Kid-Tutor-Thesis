@@ -17,6 +17,11 @@ import android.view.WindowManager;
 
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.controllers.Director;
+import com.mus.myapplication.modules.views.base.Sprite;
+import com.mus.myapplication.modules.views.base.actions.Action;
+import com.mus.myapplication.modules.views.base.actions.RepeatForever;
+import com.mus.myapplication.modules.views.base.actions.ScaleTo;
+import com.mus.myapplication.modules.views.base.actions.Sequence;
 
 import java.util.Collection;
 
@@ -91,6 +96,14 @@ public class Utils {
             sb.append(", ");
         }
         return sb.toString();
+    }
+
+    public static void setSpriteDancing(Sprite s, float s1, float s2){
+        ScaleTo big = new ScaleTo(0.5f, s.getScale()*s1);
+        ScaleTo small = new ScaleTo(0.5f, s.getScale()*s2);
+        big.setEaseFunction(Action.EaseOut);
+        small.setEaseFunction(Action.EaseIn);
+        s.runAction(new RepeatForever(new Sequence(big, small)));
     }
 
     public static int getScreenHeight(){

@@ -17,6 +17,9 @@ import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.ScrollView;
 import com.mus.myapplication.modules.views.base.Sprite;
+import com.mus.myapplication.modules.views.base.actions.Action;
+import com.mus.myapplication.modules.views.base.actions.EaseIn;
+import com.mus.myapplication.modules.views.base.actions.EaseOut;
 import com.mus.myapplication.modules.views.base.actions.RepeatForever;
 import com.mus.myapplication.modules.views.base.actions.ScaleTo;
 import com.mus.myapplication.modules.views.base.actions.Sequence;
@@ -152,60 +155,68 @@ public class MapScene extends GameScene {
 
         Button home = new Button(bg);
         home.setSpriteAnimation(R.drawable.map_home);
+        home.setAnchorPoint(0.5f, 1);
         home.setEnableClickEffect(false);
         home.setSwallowTouches(false);
 //        home.setDebugMode(true);
         mappingChild(home, "home");
         home.setScale(0.75434494f);
         home.setPosition(1557.7744f, 269.22153f);
-
-        ScaleTo big = new ScaleTo(1f, 1.5f);
-        ScaleTo small = new ScaleTo(1f, 0.8f);
-        home.runAction(new RepeatForever(new Sequence(big, small)));
+        Utils.setSpriteDancing(home, 1.05f, 0.95f);
 
         Button gara = new Button(bg);
         gara.setSpriteAnimation(R.drawable.map_gara);
+        gara.setAnchorPoint(0.5f, 1);
         gara.setEnableClickEffect(false);
         gara.setSwallowTouches(false);
 //        gara.setDebugMode(true);
         mappingChild(gara, "gara");
         gara.setScale(0.6517831f);
         gara.setPosition(1125.0138f, 79.41954f);
+        Utils.setSpriteDancing(gara, 1.05f, 0.95f);
 
         Button mart = new Button(bg);
         mart.setSpriteAnimation(R.drawable.map_mart);
+        mart.setAnchorPoint(0.5f, 1);
         mart.setEnableClickEffect(false);
         mart.setSwallowTouches(false);
 //        mart.setDebugMode(true);
         mappingChild(mart, "mart");
         mart.setScale(0.55076957f);
         mart.setPosition(639.7569f, 38.030396f);
+        Utils.setSpriteDancing(mart, 1.05f, 0.95f);
 
         Button res = new Button(bg);
         res.setSpriteAnimation(R.drawable.map_restaurant);
+        res.setAnchorPoint(0.5f, 1);
         res.setEnableClickEffect(false);
         res.setSwallowTouches(false);
 //        res.setDebugMode(true);
         mappingChild(res, "res");
         res.setScale(0.9338676f);
         res.setPosition(1804.6984f, 582.2868f);
+        Utils.setSpriteDancing(res, 1.05f, 0.95f);
 
         Button school = new Button(bg);
         school.setSpriteAnimation(R.drawable.map_school);
+        school.setAnchorPoint(0.5f, 1);
         school.setEnableClickEffect(false);
         school.setSwallowTouches(false);
 //        school.setDebugMode(true);
         mappingChild(school, "school");
         school.setScale(1.0190055f);
         school.setPosition(214.77255f, 481.86075f);
+        Utils.setSpriteDancing(school, 1.05f, 0.95f);
 
         Button zoo = new Button(bg);
         zoo.setSpriteAnimation(R.drawable.map_zoo);
+        zoo.setAnchorPoint(0.5f, 1);
         zoo.setEnableClickEffect(false);
         zoo.setSwallowTouches(false);
 //        zoo.setDebugMode(true);
         mappingChild(zoo, "zoo");
         zoo.setScale(0.98910654f);
         zoo.setPosition(792.2727f, 761.769f);
+        Utils.setSpriteDancing(zoo, 1.05f, 0.95f);
     }
 }
