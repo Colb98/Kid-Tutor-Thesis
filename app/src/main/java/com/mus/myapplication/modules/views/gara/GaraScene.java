@@ -45,27 +45,28 @@ public class GaraScene extends GameScene{
         float screenWidth = Utils.getScreenWidth();
         float screenHeight = Utils.getScreenHeight();
 
-        item.setPosition(screenWidth/2 - buttonWidth*1.5f - 150, screenHeight/2 - buttonHeight/2);
-        vehicle.setPosition(screenWidth/2 - buttonWidth*0.5f, screenHeight/2 - buttonHeight/2);
-        machine.setPosition(screenWidth/2 + buttonWidth*0.5f + 150, screenHeight/2 - buttonHeight/2);
+        item.setPosition(screenWidth/2 - buttonWidth*1.5f - 150, screenHeight/2 - 3*buttonHeight/4);
+        vehicle.setPosition(screenWidth/2 - buttonWidth*0.5f, screenHeight/2 - 3*buttonHeight/4);
+        machine.setPosition(screenWidth/2 + buttonWidth*0.5f + 150, screenHeight/2 - 3*buttonHeight/4);
 
-        GameTextView lbItem = new GameTextView(item);
+        mappingChild(item, "item");
+        mappingChild(vehicle, "vehicle");
+        mappingChild(machine, "machine");
+
+        GameTextView lbItem = new GameTextView(selectCategory);
         lbItem.setText("VẬT DỤNG", FontCache.Font.UVNChimBienNang, 30);
         lbItem.setFontColor(0xFFFFFFFF);
-        lbItem.setPosition(item.getX(), item.getY() + buttonHeight);
-        lbItem.setPositionCenterParent(false, true);
+        lbItem.setPosition(item.getPosition().x + buttonWidth/2 - lbItem.getContentSize(false).width/2, item.getPosition().y + buttonHeight);
 
-        GameTextView lbVehicle = new GameTextView(vehicle);
+        GameTextView lbVehicle = new GameTextView(selectCategory);
         lbVehicle.setText("PHƯƠNG TIỆN", FontCache.Font.UVNChimBienNang, 30);
         lbVehicle.setFontColor(0xFFFFFFFF);
-        lbVehicle.setPosition(vehicle.getX(), vehicle.getY() + buttonHeight);
-        lbVehicle.setPositionCenterParent(false, true);
+        lbVehicle.setPosition(vehicle.getPosition().x + buttonWidth/2 - lbVehicle.getContentSize(false).width/2, vehicle.getPosition().y + buttonHeight);
 
-        GameTextView lbMachine = new GameTextView(machine);
+        GameTextView lbMachine = new GameTextView(selectCategory);
         lbMachine.setText("MÁY MÓC", FontCache.Font.UVNChimBienNang, 30);
         lbMachine.setFontColor(0xFFFFFFFF);
-        lbMachine.setPosition(machine.getX(), machine.getY() + buttonHeight);
-        lbMachine.setPositionCenterParent(false, true);
+        lbMachine.setPosition(machine.getPosition().x + buttonWidth/2 - lbMachine.getContentSize(false).width/2, machine.getPosition().y + buttonHeight);
 
         Button btnBack = new Button(this);
         btnBack.setSpriteAnimation(R.drawable.back_button);
@@ -90,6 +91,18 @@ public class GaraScene extends GameScene{
                             chooseCategory();
                     }
                 });
+
+                String[] cate = new String[]{"item", "vehicle", "machine"};
+                for(final String s : cate){
+                    Button b = (Button)getChild(s);
+                    b.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                        @Override
+                        public void run() {
+                            GaraTestScene scene = (GaraTestScene) Director.getInstance().loadScene(SceneCache.getScene("garaTest"));
+                            scene.setLevel(s);
+                        }
+                    });
+                }
             }
         });
     }

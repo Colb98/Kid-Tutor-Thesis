@@ -13,4 +13,7 @@
     <string name="text_result">Kết quả</string>
     <string name="text_question_no">Câu số</string>
     <string name="text_result_answer_correct">Trả lời đúng @ câu hỏi</string>
+    <string name="text_confirm_exit">Bạn chắc chắn muốn thoát?</string>
+    <string name="text_exit">Thoát</string>
+    <string name="text_stay">Ở lại</string>
 </resources>

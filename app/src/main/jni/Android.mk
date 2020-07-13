@@ -20,7 +20,7 @@ LOCAL_PATH := $(call my-dir)
 # header files.
 
 include $(CLEAR_VARS)
-VUFORIA_SDK_DIR := ../../../../../../vuforia-sdk-android-9-1-7
+VUFORIA_SDK_DIR := ../../../../../../vuforia-sdk-android-9-0-12
 LOCAL_MODULE := Vuforia-prebuilt
 LOCAL_SRC_FILES = $(VUFORIA_SDK_DIR)/build/lib/$(TARGET_ARCH_ABI)/libVuforia.so
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/$(VUFORIA_SDK_DIR)/build/include

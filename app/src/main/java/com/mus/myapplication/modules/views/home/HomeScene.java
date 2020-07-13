@@ -29,6 +29,7 @@ public class HomeScene extends GameScene{
         initScene();
         initButtons();
     }
+
     private void initScene(){
         setSceneBackground(R.drawable.home_background);
         Sprite bg = (Sprite) getChild("background");

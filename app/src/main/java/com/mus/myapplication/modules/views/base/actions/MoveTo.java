@@ -5,6 +5,8 @@ import android.util.Log;
 import com.mus.myapplication.modules.classes.Point;
 import com.mus.myapplication.modules.views.base.Sprite;
 
+import java.util.HashMap;
+
 public class MoveTo extends Action {
     private Point destination;
     private Point startPoint;
@@ -27,6 +29,21 @@ public class MoveTo extends Action {
     public MoveTo(float duration, float timeToWait, float x, float y){
         super(duration, timeToWait);
         this.destination = new Point(x, y);
+    }
+
+    @Override
+    public Action clone() {
+        MoveTo ans = new MoveTo(duration, destination);
+        ans.timeToWait = timeToWait;
+        ans.timeElapsed = 0;
+        ans.trueTimeElapsed = 0;
+        ans.easeFunction = easeFunction;
+        ans.timeWaiting = 0;
+        ans.callbacks = new HashMap<>();
+        for(String s : callbacks.keySet()){
+            ans.callbacks.put(s, callbacks.get(s));
+        }
+        return ans;
     }
 
     @Override

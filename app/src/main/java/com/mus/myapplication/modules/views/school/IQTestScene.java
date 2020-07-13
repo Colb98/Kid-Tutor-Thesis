@@ -6,7 +6,6 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.FontCache;
@@ -16,26 +15,28 @@ import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.AchievementManager;
 import com.mus.myapplication.modules.controllers.Director;
+import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.models.common.Achievement;
 import com.mus.myapplication.modules.models.school.IQQuestion;
 import com.mus.myapplication.modules.models.school.IQTest;
-import com.mus.myapplication.modules.models.school.TestsConfig;
+import com.mus.myapplication.modules.models.TestsConfig;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameImageView;
-import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameTextView;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
 import com.mus.myapplication.modules.views.base.TestScene;
+import com.mus.myapplication.modules.views.base.actions.Action;
+import com.mus.myapplication.modules.views.base.actions.DelayTime;
+import com.mus.myapplication.modules.views.base.actions.Sequence;
 import com.mus.myapplication.modules.views.popup.AchievementPopup;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 public class IQTestScene extends TestScene {
-    private static final int TEST_DURATION = 600;
-    private int currentQuestion;
     private int currentAnswer = -1;
     private int[] currentAnswerMap;
-    private int level;
-    private IQTest currentTest;
 
     public IQTestScene(GameView parent){
         super(parent);
@@ -45,7 +46,7 @@ public class IQTestScene extends TestScene {
     protected void afterAddChild() {
         super.afterAddChild();
         timeRemain = TEST_DURATION;
-        currentTest = TestsConfig.getTest(0);
+        currentTest = TestsConfig.getIQTest(0);
         initScene();
         initButtons();
     }
@@ -53,10 +54,11 @@ public class IQTestScene extends TestScene {
     public void setTest(int testIndex){
         GameView result = getChild("result");
         GameView test = getChild("testing");
-        test.show();
         result.hide();
-        currentTest = TestsConfig.getTest(testIndex);
-        level = testIndex;
+        test.show();
+
+        currentTest = TestsConfig.getIQTest(testIndex);
+        this.level = testIndex;
         loadQuestion(0);
     }
 
@@ -70,7 +72,12 @@ public class IQTestScene extends TestScene {
                 back.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
-                        Director.getInstance().loadScene(SceneCache.getScene("school"));
+                        onBackButton(new Runnable() {
+                            @Override
+                            public void run() {
+                                Director.getInstance().loadScene(SceneCache.getScene("school"));
+                            }
+                        });
                     }
                 });
 
@@ -79,7 +86,6 @@ public class IQTestScene extends TestScene {
                     @Override
                     public void run() {
                         submitAnswer();
-                        nextQuestion();
                     }
                 });
 
@@ -183,33 +189,12 @@ public class IQTestScene extends TestScene {
         loadQuestion(0);
     }
 
-    private void nextQuestion(){
-        if(currentQuestion < currentTest.getQuestions().size() - 1)
-            loadQuestion(currentQuestion + 1);
-        else{
-//            Log.d("Result", "Total true answer: " + score);
-            showResult();
-        }
-
-    }
-
-    private void showResult(){
-        IQTest test = currentTest;
-        GameView testView = getChild("testing");
-        testView.setVisible(false);
+    protected int showResult(){
+        int score = super.showResult();
+        IQTest test = (IQTest) currentTest;
 
         GameView result = getChild("result");
-        result.setVisible(true);
 
-        int score = 0;
-        int i = 0;
-        for(IQQuestion q : test.getQuestions()){
-            i+=1;
-            if(q.isCorrect())
-                score++;
-            else
-                Log.d("Wrong:", "wrong at " + i);
-        }
         // Call cho Achivement manager
         Achievement a = AchievementManager.getInstance().onFinishedTest("iq", level, score, test.getQuestions().size());
         if(a != null){
@@ -236,27 +221,21 @@ public class IQTestScene extends TestScene {
         lbResult.setText(builder);
         lbResult.setPositionCenterParent(false, false);
         lbResult.move(0, -10);
+        return score;
     }
 
-    private void resetTest(){
-        GameView testView = getChild("testing");
-        testView.setVisible(true);
-
-        GameView result = getChild("result");
-        result.setVisible(false);
-
-        for(IQQuestion q : currentTest.getQuestions()){
+    protected void resetTest(){
+        for(IQQuestion q : ((IQTest) currentTest).getQuestions()){
             q.setAnswerIndex(-1);
         }
         currentAnswer = -1;
-        timeRemain = TEST_DURATION;
-        loadQuestion(0);
+        super.resetTest();
     }
 
-    private void loadQuestion(int index){
+    protected void loadQuestion(int index){
+        super.loadQuestion(index);
+        IQQuestion question = ((IQTest) currentTest).getQuestions().get(index);
 //        IQQuestion question = currentTest.getQuestions().get(index);
-        IQQuestion question = currentTest.getQuestions().get(index);
-        currentQuestion = index;
         currentAnswer = -1;
         GameTextView lbTitle = (GameTextView) getChild("lbTitle");
         SpannableStringBuilder builder = new SpannableStringBuilder();
@@ -285,8 +264,71 @@ public class IQTestScene extends TestScene {
     }
 
     private void submitAnswer() {
-        IQQuestion oldQ = currentTest.getQuestions().get(currentQuestion);
+        IQQuestion oldQ = ((IQTest) currentTest).getQuestions().get(currentQuestion);
         oldQ.setAnswerIndex(currentAnswer);
+
+        final GameImageView indi = (GameImageView) getChild("indicator");
+        final GameImageView correctIndi = (GameImageView) getChild("correctIndi");
+        int res;
+        if(oldQ.isCorrect()){
+            res = R.drawable.school_iq_quiz_select_correct;
+            Sounds.play(R.raw.sound_correct);
+        }
+        else{
+            res = R.drawable.school_iq_quiz_select_wrong;
+            Sounds.play(R.raw.sound_wrong);
+            DelayTime show = new DelayTime(0.2f);
+            int index = 0;
+            for(int i : currentAnswerMap){
+                if(i == 0)
+                    break;
+                index ++;
+            }
+            setIndicatorPos(index,"correctIndi");
+            show.addOnFinishedCallback(new Runnable() {
+                @Override
+                public void run() {
+                    correctIndi.show();
+                }
+            });
+
+            DelayTime hide = new DelayTime(0.2f);
+            hide.addOnFinishedCallback(new Runnable() {
+                @Override
+                public void run() {
+                    correctIndi.hide();
+                }
+            });
+
+            // Clone để sequence sắp thứ tự các action đúng
+            correctIndi.runAction(new Sequence(show, hide, show.clone(), hide.clone(), show.clone(), hide.clone()));
+        }
+        indi.setSpriteAnimation(res);
+        DelayTime show = new DelayTime(0.2f);
+        show.addOnFinishedCallback(new Runnable() {
+            @Override
+            public void run() {
+                indi.show();
+            }
+        });
+        DelayTime hide = new DelayTime(0.2f);
+        hide.addOnFinishedCallback(new Runnable() {
+            @Override
+            public void run() {
+                indi.hide();
+            }
+        });
+        DelayTime last = new DelayTime(0.2f);
+        last.addOnFinishedCallback(new Runnable() {
+            @Override
+            public void run() {
+                indi.setSpriteAnimation(R.drawable.school_iq_quiz_select_border);
+                nextQuestion();
+            }
+        });
+
+        // Clone để sequence sắp thứ tự các action đúng
+        indi.runAction(new Sequence(show, hide, show.clone(), hide.clone(), show.clone(), hide.clone(), last));
     }
 
     private void randomAnswerMap(){
@@ -353,6 +395,14 @@ public class IQTestScene extends TestScene {
         selectIndicator.move(-diff.width, -diff.height);
         mappingChild(selectIndicator, "indicator");
 
+        GameImageView correctIndi = new GameImageView(panel);
+        correctIndi.init(R.drawable.school_iq_quiz_select_correct);
+        correctIndi.setImageViewBound(a1.getContentSize(false).multiply(1.2f));
+        correctIndi.setPosition(a1.getPosition());
+        correctIndi.move(-diff.width, -diff.height);
+        correctIndi.hide();
+        mappingChild(correctIndi, "correctIndi");
+
         a1.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
             @Override
             public void run() {
@@ -411,7 +461,11 @@ public class IQTestScene extends TestScene {
     }
 
     private void setIndicatorPos(int ans){
-        GameImageView indi = (GameImageView) getChild("indicator");
+        setIndicatorPos(ans, "indicator");
+    }
+
+    private void setIndicatorPos(int ans, String indiName){
+        GameImageView indi = (GameImageView) getChild(indiName);
         if(ans == -1){
             indi.hide();
         }
@@ -426,6 +480,8 @@ public class IQTestScene extends TestScene {
 
     @Override
     public void onTimeOut() {
+        stopCountDown();
+        if(!getVisible()) return;
         showResult();
     }
 }

@@ -113,23 +113,25 @@ public class ViewContainer extends RelativeLayout {
                 }
             }
             previousNode.next = node.next;
+//            if(node.index >= drawOrder.length - subViews - 1)
+//                Log.d("wrong","node idx: " + node.index + ", length: " + (drawOrder.length - subViews - 1));
             gv.parent.getViewTreeNodeAsParent().children.remove(node);
             int[] nDrawOrder = new int[drawOrder.length - subViews - 1];
             int[] nIDrawOrder = new int[drawOrder.length - subViews - 1];
             for(int i=0,j=0;i<drawOrder.length;i++){
-                if(i < node.index || i > node.index + subViews){
-                    if(drawOrder[i] > drawOrder[node.index]){
-                        nDrawOrder[j] = drawOrder[i] - subViews - 1;
-                    }
-                    else{
-                        nDrawOrder[j] = drawOrder[i];
-                    }
-                    nIDrawOrder[nDrawOrder[j]] = j;
-                    j++;
-                }
+               if(i < node.index || i > node.index + subViews){
+                   if(drawOrder[i] > drawOrder[node.index]){
+                       nDrawOrder[j] = drawOrder[i] - subViews - 1;
+                   }
+                   else{
+                       nDrawOrder[j] = drawOrder[i];
+                   }
+                   nIDrawOrder[nDrawOrder[j]] = j;
+                   j++;
+               }
             }
             Node n = root;
-            while(n.next != null){
+            while(n != null){
                 if(n.index > node.index + subViews){
                     n.index -= subViews + 1;
                 }
@@ -138,9 +140,8 @@ public class ViewContainer extends RelativeLayout {
             drawOrder = nDrawOrder;
             invertedDrawOrder = nIDrawOrder;
 
-            realChildCount -= subViews;
+            realChildCount -= subViews + 1;
             childCount -= 1;
-            realChildCount -= 1;
             super.removeView(view);
         }
     }

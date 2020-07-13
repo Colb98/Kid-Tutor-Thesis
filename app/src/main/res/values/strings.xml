@@ -24,6 +24,9 @@
     <string name="text_result">Result</string>
     <string name="text_question_no">Question no.</string>
     <string name="text_result_answer_correct">Correct answers: @</string>
+    <string name="text_confirm_exit">Are you sure \nyou want to quit?</string>
+    <string name="text_exit">Quit</string>
+    <string name="text_stay">Stay</string>
 
 
 </resources>

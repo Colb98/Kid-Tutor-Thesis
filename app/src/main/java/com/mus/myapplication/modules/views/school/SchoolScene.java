@@ -6,6 +6,7 @@ import android.view.ViewTreeObserver;
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.controllers.AreaMusicManager;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.models.school.IQQuestion;
 import com.mus.myapplication.modules.views.base.Button;
@@ -25,6 +26,12 @@ public class SchoolScene extends GameScene {
         super.afterAddChild();
         initScene();
         initButtons();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        AreaMusicManager.playArea("school");
     }
 
     private void initScene(){

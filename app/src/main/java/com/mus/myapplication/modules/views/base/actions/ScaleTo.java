@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.mus.myapplication.modules.views.base.Sprite;
 
+import java.util.HashMap;
+
+
 public class ScaleTo extends Action {
     public float lastScale;
     private float firstScale;
@@ -18,6 +21,22 @@ public class ScaleTo extends Action {
         super(duration, timeToWait);
         lastScale = scale;
         firstScale = 1;
+    }
+
+    @Override
+    public Action clone() {
+        ScaleTo ans = new ScaleTo(duration, lastScale);
+        ans.firstScale = firstScale;
+        ans.timeToWait = timeToWait;
+        ans.timeElapsed = 0;
+        ans.easeFunction = easeFunction;
+        ans.trueTimeElapsed = 0;
+        ans.timeWaiting = 0;
+        ans.callbacks = new HashMap<>();
+        for(String s : callbacks.keySet()){
+            ans.callbacks.put(s, callbacks.get(s));
+        }
+        return ans;
     }
 
     public void setLastScale(float lastScale) {

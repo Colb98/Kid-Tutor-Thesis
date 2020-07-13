@@ -11,7 +11,9 @@ import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class AchievementTooltip extends Sprite {
     Sprite icon;
@@ -66,7 +68,15 @@ public class AchievementTooltip extends Sprite {
         else{
             date.setVisible(true);
             Date d = new Date(a.getAchievedTimestamp());
-            date.setText(d.toString(), FontCache.Font.UVNChimBienNhe, 15);
+            Calendar c = Calendar.getInstance(TimeZone.getDefault());
+            c.setTime(d);
+            String[] monString = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            int month = c.get(Calendar.MONTH);
+            int year = c.get(Calendar.YEAR);
+            int h = c.get(Calendar.HOUR_OF_DAY);
+            int m = c.get(Calendar.MINUTE);
+            date.setText(h + ":" + m + " " + day + " " + monString[month] + " " + year, FontCache.Font.UVNChimBienNhe, 15);
             date.setPosition(name.getPosition().x, name.getPosition().y + name.getContentSize().height + 10);
         }
     }

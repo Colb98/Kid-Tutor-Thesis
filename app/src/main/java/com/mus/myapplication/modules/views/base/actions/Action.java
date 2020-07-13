@@ -9,18 +9,25 @@ import java.util.Map;
 
 public abstract class Action {
     protected float duration;
+    protected float trueTimeElapsed;
     protected float timeElapsed;
     protected float timeWaiting;
     protected float timeToWait;
+    protected boolean paused = false;
     protected boolean running = false;
     protected boolean started = false;
+    protected EaseFunction easeFunction = null;
     protected Sprite sprite = null;
     protected Map<String, Runnable> callbacks;
+
+    public static EaseFunction EaseIn = new EaseIn();
+    public static EaseFunction EaseOut = new EaseOut();
 
     public Action(float duration){
         this.duration = duration;
         this.timeToWait = 0;
         timeElapsed = 0;
+        trueTimeElapsed = 0;
         timeWaiting = 0;
         callbacks = new HashMap<>();
     }
@@ -33,9 +40,28 @@ public abstract class Action {
         callbacks = new HashMap<>();
     }
 
+    public abstract Action clone();
+
+    public void setEaseFunction(EaseFunction f){
+        easeFunction = f;
+    }
+
     public void reset(){
+        trueTimeElapsed = 0;
         timeElapsed = 0;
         timeWaiting = 0;
+    }
+
+    public void pause(){
+        paused = true;
+    }
+
+    public void resume(){
+        paused = true;
+    }
+
+    public boolean isPaused(){
+        return paused;
     }
 
     public abstract void forceFinish(Sprite sprite);
@@ -47,8 +73,17 @@ public abstract class Action {
         if(!started)
             return;
 
+        if(paused)
+            return;
+
         if(running){
-            timeElapsed += dt;
+            trueTimeElapsed += dt;
+
+            if(easeFunction != null)
+                timeElapsed = easeFunction.getEaseTime(trueTimeElapsed, duration);
+            else
+                timeElapsed = trueTimeElapsed;
+
             if(timeElapsed >= duration){
                 sprite.removeAction(this);
                 running = false;
@@ -90,6 +125,9 @@ public abstract class Action {
     }
 
     public void start(){
+        if(timeElapsed > 0 || timeWaiting > 0){
+            reset();
+        }
         started = true;
     }
 }

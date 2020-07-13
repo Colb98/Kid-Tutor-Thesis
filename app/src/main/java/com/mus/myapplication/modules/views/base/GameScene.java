@@ -58,4 +58,10 @@ public class GameScene extends GameView{
         bg.setScale(1/scaleRatio);
         mappingChild(bg, "background");
     }
+
+    public void onUserPressBack(){
+        Sprite btnBack = (Sprite) getChild("btnBack");
+        if(btnBack != null)
+            btnBack.performClick();
+    }
 }

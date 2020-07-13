@@ -1,7 +1,9 @@
 package com.mus.myapplication.modules.models.school;
 
 
-public class IQQuestion {
+import com.mus.myapplication.modules.models.common.QuestionModel;
+
+public class IQQuestion implements QuestionModel {
     private int index;
 
     // Resource Id
