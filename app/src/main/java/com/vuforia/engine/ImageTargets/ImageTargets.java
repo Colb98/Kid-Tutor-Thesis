@@ -39,6 +39,12 @@ import android.widget.Toast;
 
 import com.mus.myapplication.R;
 import com.mus.myapplication.VuforiaSampleGLView;
+import com.mus.myapplication.modules.classes.Utils;
+import com.mus.myapplication.modules.views.base.GameView;
+import com.mus.myapplication.modules.views.base.GameVuforiaScene;
+import com.mus.myapplication.modules.views.base.ViewContainer;
+import com.mus.myapplication.modules.views.school.ABCTestScene;
+import com.mus.myapplication.modules.views.school.IQTestScene;
 import com.vuforia.Vuforia;
 import com.vuforia.INIT_ERRORCODE;
 import com.vuforia.INIT_FLAGS;
@@ -111,6 +117,8 @@ public class ImageTargets extends Activity
 
     // Detects the double tap gesture for launching the Camera menu
     private GestureDetector mGestureDetector;
+
+    private GameVuforiaScene scene;
 
 //    private SampleAppMenu mSampleAppMenu;
 
@@ -531,8 +539,23 @@ public class ImageTargets extends Activity
 
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
                 "droid");
-
     }
+
+    private void initGameView(){
+        GameView gv = findViewById(R.id.mainGameViewIT);
+        ViewContainer c = findViewById(R.id.mainContainerIT);
+        c.isTheRootContainer = true;
+
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) c.getLayoutParams();
+        lp.width = Utils.getScreenWidth();
+//        lp.setMargins(Utils.getScreenWidth(), 0, 0,0);
+
+        gv.setViewGroup(c);
+        ABCTestScene scene = new ABCTestScene(gv);
+        this.scene = scene;
+//        scene.setPosition(Utils.getScreenWidth()/2, 0);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -563,6 +586,9 @@ public class ImageTargets extends Activity
                 .add(Texture.loadTextureFromApk("Buildings.png", getAssets()));
     }
 
+    public void testCallFromNative(){
+        showToast("abcd");
+    }
 
     /** Native tracker initialization and deinitialization. */
     public native int initTrackers();
@@ -941,6 +967,8 @@ public class ImageTargets extends Activity
         // Adds the inflated layout to the view
         addContentView(mUILayout, new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
+
+        initGameView();
     }
 
 

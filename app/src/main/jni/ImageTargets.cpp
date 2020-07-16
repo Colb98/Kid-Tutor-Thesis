@@ -69,6 +69,11 @@ GLint texSampler2DHandle        = 0;
 int screenWidth                 = 0;
 int screenHeight                = 0;
 
+
+jclass activityClass            = 0;
+JNIEnv* environment             = 0;
+jobject actObj                  = 0;
+
 // Indicates whether screen is in portrait (true) or landscape (false) mode
 bool isActivityInPortraitMode   = false;
 
@@ -516,6 +521,11 @@ void renderFrameForView(const Vuforia::State& state, Vuforia::Matrix44F& project
             else if (strcmp(trackable.getName(), "stones") == 0)
             {
                 textureIndex = 1;
+                
+                jmethodID getTextureCountMethodID = environment->GetMethodID(activityClass,
+                                                                "testCallFromNative", "()V");
+
+                environment->CallVoidMethod(actObj, getTextureCountMethodID);\
             }
             else
             {
@@ -541,7 +551,7 @@ configureVideoBackground()
 
     // Configure the video background
     Vuforia::VideoBackgroundConfig config;
-    config.mPosition.data[0] = 0;
+    config.mPosition.data[0] = 0 - screenWidth / 4;
     config.mPosition.data[1] = 0;
     
     if (isActivityInPortraitMode)
@@ -562,17 +572,17 @@ configureVideoBackground()
     else
     {
         //LOG("configureVideoBackground LANDSCAPE");
-        config.mSize.data[0] = screenWidth;
+        config.mSize.data[0] = screenWidth/2;
         config.mSize.data[1] = static_cast<int>(videoMode.mHeight
-                                                * (screenWidth / (float)videoMode.mWidth));
+                                                * (screenWidth / 2 / (float)videoMode.mWidth));
 
-        if(config.mSize.data[1] < screenHeight)
-        {
-            LOG("Correcting rendering background size to handle missmatch between screen and video aspect ratios.");
-            config.mSize.data[0] = static_cast<int>(screenHeight
-                                                    * (videoMode.mWidth / (float)videoMode.mHeight));
-            config.mSize.data[1] = screenHeight;
-        }
+        // if(config.mSize.data[1] < screenHeight)
+        // {
+        //     LOG("Correcting rendering background size to handle missmatch between screen and video aspect ratios.");
+        //     config.mSize.data[0] = static_cast<int>(screenHeight
+        //                                             * (videoMode.mWidth / (float)videoMode.mHeight));
+        //     config.mSize.data[1] = screenHeight;
+        // }
     }
 
     LOG("Configure Video Background : Video (%d,%d), Screen (%d,%d), mSize (%d,%d)", videoMode.mWidth, videoMode.mHeight, screenWidth, screenHeight, config.mSize.data[0], config.mSize.data[1]);
@@ -664,7 +674,9 @@ Java_com_vuforia_engine_ImageTargets_ImageTargets_initApplicationNative(
     sampleAppRenderer = new SampleAppRenderer();
 
     // Handle to the activity class:
-    jclass activityClass = env->GetObjectClass(obj);
+    environment = env;
+    activityClass = env->GetObjectClass(obj);
+    actObj = obj;
 
     jmethodID getTextureCountMethodID = env->GetMethodID(activityClass,
                                                     "getTextureCount", "()I");

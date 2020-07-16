@@ -103,6 +103,7 @@ public class SettingUI extends ComplexUI {
         final Slider music = new Slider(this);
         music.setPositionDp(270, 70);
         music.view.setMax(100);
+        music.view.setProgress(100);
         music.addOnChangeValueCallback(new Runnable() {
             @Override
             public void run() {
@@ -113,6 +114,7 @@ public class SettingUI extends ComplexUI {
         final Slider sfx = new Slider(this);
         sfx.setPositionDp(270, 120);
         sfx.view.setMax(100);
+        sfx.view.setProgress(100);
         sfx.addOnChangeValueCallback(new Runnable() {
             @Override
             public void run() {
