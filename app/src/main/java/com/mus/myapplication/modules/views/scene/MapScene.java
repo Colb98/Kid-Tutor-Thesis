@@ -163,6 +163,7 @@ public class MapScene extends GameScene {
         home.setScale(0.75434494f);
         home.setPosition(1557.7744f, 269.22153f);
         Utils.setSpriteDancing(home, 1.05f, 0.95f);
+//        Utils.setSpriteShaking(home, 0.07f, true);
 
         Button gara = new Button(bg);
         gara.setSpriteAnimation(R.drawable.map_gara);

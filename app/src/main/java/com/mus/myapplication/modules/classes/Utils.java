@@ -19,7 +19,10 @@ import com.mus.myapplication.R;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.Sprite;
 import com.mus.myapplication.modules.views.base.actions.Action;
+import com.mus.myapplication.modules.views.base.actions.DelayTime;
+import com.mus.myapplication.modules.views.base.actions.Repeat;
 import com.mus.myapplication.modules.views.base.actions.RepeatForever;
+import com.mus.myapplication.modules.views.base.actions.RotateTo;
 import com.mus.myapplication.modules.views.base.actions.ScaleTo;
 import com.mus.myapplication.modules.views.base.actions.Sequence;
 
@@ -99,11 +102,45 @@ public class Utils {
     }
 
     public static void setSpriteDancing(Sprite s, float s1, float s2){
-        ScaleTo big = new ScaleTo(0.5f, s.getScale()*s1);
-        ScaleTo small = new ScaleTo(0.5f, s.getScale()*s2);
+        DelayTime delay = new DelayTime((float)(Math.random()*0.4));
+        ScaleTo big = new ScaleTo(0.6f, s.getScale()*s1);
+        ScaleTo small = new ScaleTo(0.6f, s.getScale()*s2);
         big.setEaseFunction(Action.EaseOut);
         small.setEaseFunction(Action.EaseIn);
-        s.runAction(new RepeatForever(new Sequence(big, small)));
+        s.runAction(new Sequence(delay, new RepeatForever(new Sequence(big, small))));
+    }
+
+    public static void setSpriteShaking(final Sprite s, float rBound, boolean isForever){
+        float startAngle = Utils.degreeToRad(s.getRotation());
+        final com.mus.myapplication.modules.classes.Point anchorPoint = s.getAnchorPoint();
+//        if(!isForever){
+            s.setAnchorPoint(0.5f,0.5f);
+//        }
+        Action shake = new Sequence(
+                new RotateTo(0.05f, startAngle+rBound),
+                new RotateTo(0.05f, startAngle),
+                new RotateTo(0.05f, startAngle-rBound),
+                new RotateTo(0.05f, startAngle)
+        );
+        shake = new Sequence(new Repeat(shake, 5), new DelayTime(0.4f));
+
+        Action repeat = new Repeat(shake, 4);
+        repeat.addOnFinishedCallback(new Runnable() {
+            @Override
+            public void run() {
+                s.setAnchorPoint(anchorPoint.x, anchorPoint.y);
+            }
+        });
+        Action a = isForever ? new RepeatForever(shake) : repeat;
+        s.runAction(a);
+    }
+
+    public static float radToDegree(float rad){
+        return rad * 180 / (float)Math.PI;
+    }
+
+    public static float degreeToRad(float deg){
+        return deg * (float)Math.PI / 180;
     }
 
     public static int getScreenHeight(){

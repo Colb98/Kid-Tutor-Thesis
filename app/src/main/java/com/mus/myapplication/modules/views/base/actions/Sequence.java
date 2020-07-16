@@ -50,7 +50,7 @@ public class Sequence extends Action{
         return ans;
     }
 
-    private void setupCallbacks(List<Action> actions) {
+    private void setupCallbacks(final List<Action> actions) {
         int i = 0;
         for(Action action : actions){
             final int index = ++i;
@@ -58,7 +58,7 @@ public class Sequence extends Action{
                 action.addOnFinishedCallback(new Runnable() {
                     @Override
                     public void run() {
-//                        Log.d("Sequence", "run action index: " + index);
+                        Log.d("Sequence", "run action index: " + index + ". class: " + actions.get(index).getClass().getName());
                         runAction(index);
                     }
                 });
