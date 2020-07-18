@@ -1,5 +1,7 @@
 package com.mus.myapplication.modules.views.base.actions;
 
+import android.util.Log;
+
 import com.mus.myapplication.modules.views.base.Sprite;
 
 import java.util.HashMap;
@@ -22,6 +24,12 @@ public class DelayTime extends Action {
             ans.callbacks.put(s, callbacks.get(s));
         }
         return ans;
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        Log.d("delay start", "asdf");
     }
 
     @Override
