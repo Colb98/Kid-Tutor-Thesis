@@ -41,6 +41,7 @@ public class ScrollView extends Sprite implements SensorEventListener {
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
     private float[] sensorValues;
+    private float sensorSensitivity = 0.55f;
 
     // Distance to original position
     private Point contentPosition = new Point(0,0);
@@ -159,13 +160,13 @@ public class ScrollView extends Sprite implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-//        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-//            System.arraycopy(event.values, 0, accelerometerReading,
-//                    0, accelerometerReading.length);
-//        } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-//            System.arraycopy(event.values, 0, magnetometerReading,
-//                    0, magnetometerReading.length);
-//        }
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            System.arraycopy(event.values, 0, accelerometerReading,
+                    0, accelerometerReading.length);
+        } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            System.arraycopy(event.values, 0, magnetometerReading,
+                    0, magnetometerReading.length);
+        }
     }
 
     @Override
@@ -374,6 +375,14 @@ public class ScrollView extends Sprite implements SensorEventListener {
         moveToEndY();
     }
 
+    public void setSensorSensitivity(float s){
+        sensorSensitivity = s;
+    }
+
+    public float getSensorSensitivity(){
+        return sensorSensitivity;
+    }
+
     @Override
     public void update(float dt) {
         super.update(dt);
@@ -426,39 +435,42 @@ public class ScrollView extends Sprite implements SensorEventListener {
             }
         }
 
-        // Test gyro
-//        // Update rotation matrix, which is needed to update orientation angles.
-//        SensorManager.getRotationMatrix(rotationMatrix, null,
-//                accelerometerReading, magnetometerReading);
-//
-//        // "mRotationMatrix" now has up-to-date information.
-//
-//        SensorManager.getOrientation(rotationMatrix, orientationAngles);
-//
-//        // Only work if hold the phone with angle PI/2 +- delta
-//
-//        double delta = 10*Math.PI/180f;
-//        if(sensorValues != null){
-////            if(Math.abs(orientationAngles[2]) > Math.PI/2 - delta
-////                    && Math.abs(orientationAngles[2]) < Math.PI/2 + delta){
-//                Point distance = new Point(0,0);
-//                if(Math.abs(sensorValues[1] - orientationAngles[1]) > 0.015){
-//                    distance.x = (maxDx / 0.55f)*(sensorValues[1] - orientationAngles[1]);
-//                }
-//                if(Math.abs(sensorValues[2] - orientationAngles[2]) > 0.015){
-//                    distance.y = (maxDy / 0.55f)*(sensorValues[2] - orientationAngles[2]);
-//                }
-//            sensorValues[1] = orientationAngles[1];
-//            sensorValues[2] = orientationAngles[2];
-////                Log.d(LOGTAG, "debug sensor: " + Utils.arrayToString(orientationAngles));
-//                moveAllChild(distance);
-////            }
-//        }else{
-//            sensorValues = new float[3];
-//        }
-//        sensorValues[2] = orientationAngles[2];
+        if(scrollType == ScrollType.SENSOR){
+            // Test gyro
+            // Update rotation matrix, which is needed to update orientation angles.
+            SensorManager.getRotationMatrix(rotationMatrix, null,
+                    accelerometerReading, magnetometerReading);
 
-        // "mOrientationAngles" now has up-to-date information.
+            // "mRotationMatrix" now has up-to-date information.
+
+            SensorManager.getOrientation(rotationMatrix, orientationAngles);
+
+            // Only work if hold the phone with angle PI/2 +- delta
+
+            double delta = 10*Math.PI/180f;
+            final float filter = 0.1f;
+            if(sensorValues != null){
+//            if(Math.abs(orientationAngles[2]) > Math.PI/2 - delta
+//                    && Math.abs(orientationAngles[2]) < Math.PI/2 + delta){
+                Point distance = new Point(0,0);
+                if(Math.abs(sensorValues[1] - orientationAngles[1]) > 0.015){
+                    distance.x = (maxDx / sensorSensitivity)*(sensorValues[1] - orientationAngles[1]);
+                }
+                if(Math.abs(sensorValues[2] - orientationAngles[2]) > 0.015){
+                    distance.y = (maxDy / sensorSensitivity)*(sensorValues[2] - orientationAngles[2]);
+                }
+                sensorValues[1] = orientationAngles[1]*filter + sensorValues[1]*(1-filter);
+                sensorValues[2] = orientationAngles[2]*filter + sensorValues[2]*(1-filter);
+//                Log.d(LOGTAG, "debug sensor: " + Utils.arrayToString(orientationAngles));
+                moveAllChild(distance);
+//            }
+            }else{
+                sensorValues = new float[3];
+            }
+            sensorValues[0] = orientationAngles[0]*filter + sensorValues[0]*(1-filter);
+
+            // "mOrientationAngles" now has up-to-date information.
+        }
     }
 
     @Override
