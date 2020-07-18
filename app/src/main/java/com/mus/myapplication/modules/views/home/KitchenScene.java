@@ -139,13 +139,16 @@ public class KitchenScene extends GameScene{
     }
 
     private void initScene(){
+        float scaleFactor = 1.7f;
         ScrollView scroller = new ScrollView(this, Utils.getScreenWidth(), Utils.getScreenHeight());
-        scroller.setContentSize(1920*1.3f, 1080*1.3f);
+        scroller.setContentSize(1920*scaleFactor, 1080*scaleFactor);
+        scroller.setScrollType(ScrollView.ScrollType.SENSOR);
+        scroller.setSensorSensitivity(0.125f);
         Sprite bg = new Sprite(scroller);
 //        scroller.addChild(bg);
         bg.setSpriteAnimation(R.drawable.kitchen_background_1);
 
-        bg.setScale(1.3f);
+        bg.setScale(scaleFactor);
         bg.setSwallowTouches(false);
 
         final ItemButton fridge = new ItemButton(bg);
@@ -155,7 +158,7 @@ public class KitchenScene extends GameScene{
         fridge.setDebugMode(false);
         mappingChild(fridge, "fridge");
         fridge.setScale(1.0f);
-        fridge.setPosition(1600.5447f, 153.55157f);
+        fridge.setPosition(1600.5447f*scaleFactor/1.3f, 153.55157f*scaleFactor/1.3f);
         fridge.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton cupboard1 = new ItemButton(bg);
@@ -164,7 +167,7 @@ public class KitchenScene extends GameScene{
         cupboard1.setDebugMode(false);
         mappingChild(cupboard1, "cupboard1");
         cupboard1.setScale(1.0f);
-        cupboard1.setPosition(196.04468f, 61.051575f);
+        cupboard1.setPosition(196.04468f*scaleFactor/1.3f, 61.051575f*scaleFactor/1.3f);
         cupboard1.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton cupboard2 = new ItemButton(bg);
@@ -174,7 +177,7 @@ public class KitchenScene extends GameScene{
         cupboard2.setDebugMode(false);
         mappingChild(cupboard2, "cupboard2");
         cupboard2.setScale(1.0f);
-        cupboard2.setPosition(189.54468f, 525.0516f);
+        cupboard2.setPosition(189.54468f*scaleFactor/1.3f, 525.0516f*scaleFactor/1.3f);
         cupboard2.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton cupboard3 = new ItemButton(bg);
@@ -183,7 +186,7 @@ public class KitchenScene extends GameScene{
         cupboard3.setDebugMode(false);
         mappingChild(cupboard3, "cupboard3");
         cupboard3.setScale(1.0f);
-        cupboard3.setPosition(1491.5447f, 581.0516f);
+        cupboard3.setPosition(1491.5447f*scaleFactor/1.3f, 581.0516f*scaleFactor/1.3f);
         cupboard3.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton cupboard4 = new ItemButton(bg);
@@ -192,7 +195,7 @@ public class KitchenScene extends GameScene{
         cupboard4.setDebugMode(false);
         mappingChild(cupboard4, "cupboard4");
         cupboard4.setScale(1.0f);
-        cupboard4.setPosition(1472.0447f, 154.05157f);
+        cupboard4.setPosition(1472.0447f*scaleFactor/1.3f, 154.05157f*scaleFactor/1.3f);
         cupboard4.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton ventilation = new ItemButton(bg);
@@ -201,7 +204,7 @@ public class KitchenScene extends GameScene{
         ventilation.setDebugMode(false);
         mappingChild(ventilation, "ventilation");
         ventilation.setScale(1.0f);
-        ventilation.setPosition(1191.0447f, 153.71707f);
+        ventilation.setPosition(1191.0447f*scaleFactor/1.3f, 153.71707f*scaleFactor/1.3f);
         ventilation.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton stove = new ItemButton(bg);
@@ -210,7 +213,7 @@ public class KitchenScene extends GameScene{
         stove.setDebugMode(false);
         mappingChild(stove, "stove");
         stove.setScale(1.0f);
-        stove.setPosition(1214.0447f, 523.71704f);
+        stove.setPosition(1214.0447f*scaleFactor/1.3f, 523.71704f*scaleFactor/1.3f);
         stove.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton chair1 = new ItemButton(bg);
@@ -219,7 +222,7 @@ public class KitchenScene extends GameScene{
         chair1.setDebugMode(false);
         mappingChild(chair1, "chair1");
         chair1.setScale(1.0f);
-        chair1.setPosition(798.0446f, 810.71704f);
+        chair1.setPosition(798.0446f*scaleFactor/1.3f, 810.71704f*scaleFactor/1.3f);
         chair1.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton chair2 = new ItemButton(bg);
@@ -228,7 +231,7 @@ public class KitchenScene extends GameScene{
         chair2.setDebugMode(false);
         mappingChild(chair2, "chair2");
         chair2.setScale(1.0f);
-        chair2.setPosition(1898.0447f, 806.71704f);
+        chair2.setPosition(1898.0447f*scaleFactor/1.3f, 806.71704f*scaleFactor/1.3f);
         chair2.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton table = new ItemButton(bg);
@@ -237,7 +240,7 @@ public class KitchenScene extends GameScene{
         table.setDebugMode(false);
         mappingChild(table, "table");
         table.setScale(1.0f);
-        table.setPosition(1100.0447f, 759.71704f);
+        table.setPosition(1100.0447f*scaleFactor/1.3f, 759.71704f*scaleFactor/1.3f);
         table.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         Button btnBack = new Button(this);

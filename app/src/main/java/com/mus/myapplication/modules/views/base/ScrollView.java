@@ -41,7 +41,8 @@ public class ScrollView extends Sprite implements SensorEventListener {
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
     private float[] sensorValues;
-    private float sensorSensitivity = 0.55f;
+    private float sensorSensitivity = 0.3f;
+    private boolean canSensorEnable = true;
 
     // Distance to original position
     private Point contentPosition = new Point(0,0);
@@ -107,6 +108,10 @@ public class ScrollView extends Sprite implements SensorEventListener {
         if (magneticField != null) {
             sensorManager.registerListener(this, magneticField,
                     SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
+        }
+
+        if(accelerometer == null || magneticField == null){
+            canSensorEnable = false;
         }
     }
 
@@ -191,10 +196,10 @@ public class ScrollView extends Sprite implements SensorEventListener {
             Point cur = new Point(event.getRawX(), event.getRawY());
             Point distance = cur.subtract(prevTouch);
 //            Log.d(LOGTAG, "distance: " + distance + " " + contentPosition);
-            if(scrollType == ScrollType.HORIZONTAL || scrollType == ScrollType.NONE){
+            if(scrollType == ScrollType.HORIZONTAL || scrollType == ScrollType.NONE || scrollType == ScrollType.SENSOR){
                 distance.y = 0;
             }
-            if(scrollType == ScrollType.VERTICAL || scrollType == ScrollType.NONE){
+            if(scrollType == ScrollType.VERTICAL || scrollType == ScrollType.NONE || scrollType == ScrollType.SENSOR){
                 distance.x = 0;
             }
 
@@ -256,6 +261,9 @@ public class ScrollView extends Sprite implements SensorEventListener {
 
     public void setScrollType(ScrollType type){
         scrollType = type;
+        if(type == ScrollType.SENSOR && !canSensorEnable){
+            scrollType = ScrollType.BOTH;
+        }
     }
 
     public ScrollType getScrollType(){
@@ -454,10 +462,10 @@ public class ScrollView extends Sprite implements SensorEventListener {
 //                    && Math.abs(orientationAngles[2]) < Math.PI/2 + delta){
                 Point distance = new Point(0,0);
                 if(Math.abs(sensorValues[1] - orientationAngles[1]) > 0.015){
-                    distance.x = (maxDx / sensorSensitivity)*(sensorValues[1] - orientationAngles[1]);
+                    distance.x = (maxDx / (1/sensorSensitivity))*(sensorValues[1] - orientationAngles[1]);
                 }
                 if(Math.abs(sensorValues[2] - orientationAngles[2]) > 0.015){
-                    distance.y = (maxDy / sensorSensitivity)*(sensorValues[2] - orientationAngles[2]);
+                    distance.y = (maxDy / (1/sensorSensitivity))*(sensorValues[2] - orientationAngles[2]);
                 }
                 sensorValues[1] = orientationAngles[1]*filter + sensorValues[1]*(1-filter);
                 sensorValues[2] = orientationAngles[2]*filter + sensorValues[2]*(1-filter);

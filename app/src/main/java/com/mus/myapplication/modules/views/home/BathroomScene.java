@@ -139,13 +139,16 @@ public class BathroomScene extends GameScene{
     }
 
     private void initScene(){
+        float scaleFactor = 1.7f;
         ScrollView scroller = new ScrollView(this, Utils.getScreenWidth(), Utils.getScreenHeight());
-        scroller.setContentSize(1920*1.3f, 1080*1.3f);
+        scroller.setContentSize(1920*scaleFactor, 1080*scaleFactor);
+        scroller.setScrollType(ScrollView.ScrollType.SENSOR);
+        scroller.setSensorSensitivity(0.125f);
         Sprite bg = new Sprite(scroller);
 //        scroller.addChild(bg);
         bg.setSpriteAnimation(R.drawable.bathroom_background);
 
-        bg.setScale(1.3f);
+        bg.setScale(scaleFactor);
         bg.setSwallowTouches(false);
 
         final ItemButton window = new ItemButton(bg);
@@ -155,7 +158,7 @@ public class BathroomScene extends GameScene{
         window.setDebugMode(false);
         mappingChild(window, "window");
         window.setScale(1.0f);
-        window.setPosition(52.04126f, 220.55511f);
+        window.setPosition(52.04126f*scaleFactor/1.3f, 220.55511f*scaleFactor/1.3f);
         window.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton toilet = new ItemButton(bg);
@@ -165,7 +168,7 @@ public class BathroomScene extends GameScene{
         toilet.setDebugMode(false);
         mappingChild(toilet, "toilet");
         toilet.setScale(1.0f);
-        toilet.setPosition(430.5448f, 703.0516f);
+        toilet.setPosition(430.5448f*scaleFactor/1.3f, 703.0516f*scaleFactor/1.3f);
         toilet.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton mirror = new ItemButton(bg);
@@ -175,7 +178,7 @@ public class BathroomScene extends GameScene{
         mirror.setDebugMode(false);
         mappingChild(mirror, "mirror");
         mirror.setScale(1.0f);
-        mirror.setPosition(735.5448f, 288.05157f);
+        mirror.setPosition(735.5448f*scaleFactor/1.3f, 288.05157f*scaleFactor/1.3f);
         mirror.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton washbasin = new ItemButton(bg);
@@ -185,7 +188,7 @@ public class BathroomScene extends GameScene{
         washbasin.setDebugMode(false);
         mappingChild(washbasin, "washbasin");
         washbasin.setScale(1.0f);
-        washbasin.setPosition(738.5448f, 677.5516f);
+        washbasin.setPosition(738.5448f*scaleFactor/1.3f, 677.5516f*scaleFactor/1.3f);
         washbasin.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton bathtub = new ItemButton(bg);
@@ -195,7 +198,7 @@ public class BathroomScene extends GameScene{
         bathtub.setDebugMode(false);
         mappingChild(bathtub, "bathtub");
         bathtub.setScale(1.0f);
-        bathtub.setPosition(1138.5447f, 859.5516f);
+        bathtub.setPosition(1138.5447f*scaleFactor/1.3f, 859.5516f*scaleFactor/1.3f);
         bathtub.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton shower = new ItemButton(bg);
@@ -205,7 +208,7 @@ public class BathroomScene extends GameScene{
         shower.setDebugMode(false);
         mappingChild(shower, "shower");
         shower.setScale(1.0f);
-        shower.setPosition(1425.5447f, 372.55157f);
+        shower.setPosition(1425.5447f*scaleFactor/1.3f, 372.55157f*scaleFactor/1.3f);
         shower.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton curtain = new ItemButton(bg);
@@ -215,7 +218,7 @@ public class BathroomScene extends GameScene{
         curtain.setDebugMode(false);
         mappingChild(curtain, "curtain");
         curtain.setScale(1.0f);
-        curtain.setPosition(1605.5447f, 291.55157f);
+        curtain.setPosition(1605.5447f*scaleFactor/1.3f, 291.55157f*scaleFactor/1.3f);
         curtain.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton door = new ItemButton(bg);
@@ -225,7 +228,7 @@ public class BathroomScene extends GameScene{
         door.setDebugMode(false);
         mappingChild(door, "door");
         door.setScale(1.0f);
-        door.setPosition(2217.545f, 199.55157f);
+        door.setPosition(2217.545f*scaleFactor/1.3f, 199.55157f*scaleFactor/1.3f);
         door.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         Button btnBack = new Button(this);

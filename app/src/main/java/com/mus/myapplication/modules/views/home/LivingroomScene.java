@@ -139,13 +139,16 @@ public class LivingroomScene extends GameScene{
     }
 
     private void initScene(){
+        float scaleFactor = 1.7f;
         ScrollView scroller = new ScrollView(this, Utils.getScreenWidth(), Utils.getScreenHeight());
-        scroller.setContentSize(1920*1.3f, 1080*1.3f);
+        scroller.setContentSize(1920*scaleFactor, 1080*scaleFactor);
+        scroller.setScrollType(ScrollView.ScrollType.SENSOR);
+        scroller.setSensorSensitivity(0.125f);
         Sprite bg = new Sprite(scroller);
 //        scroller.addChild(bg);
         bg.setSpriteAnimation(R.drawable.livingroom_background);
 
-        bg.setScale(1.3f);
+        bg.setScale(scaleFactor);
         bg.setSwallowTouches(false);
 
         final ItemButton window1 = new ItemButton(bg);
@@ -155,7 +158,7 @@ public class LivingroomScene extends GameScene{
         window1.setDebugMode(false);
         mappingChild(window1, "window1");
         window1.setScale(1.0f);
-        window1.setPosition(1819.0415f, 280.5551f);
+        window1.setPosition(1819.0415f*scaleFactor/1.3f, 280.5551f*scaleFactor/1.3f);
         window1.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton window2 = new ItemButton(bg);
@@ -165,7 +168,7 @@ public class LivingroomScene extends GameScene{
         window2.setDebugMode(false);
         mappingChild(window2, "window2");
         window2.setScale(1.0f);
-        window2.setPosition(2215.042f, 283.5551f);
+        window2.setPosition(2215.042f*scaleFactor/1.3f, 283.5551f*scaleFactor/1.3f);
         window2.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton curtain = new ItemButton(bg);
@@ -175,7 +178,7 @@ public class LivingroomScene extends GameScene{
         curtain.setDebugMode(false);
         mappingChild(curtain, "curtain");
         curtain.setScale(1.0f);
-        curtain.setPosition(1531.5414f, 182.41235f);
+        curtain.setPosition(1531.5414f*scaleFactor/1.3f, 182.41235f*scaleFactor/1.3f);
         curtain.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton cupboard = new ItemButton(bg);
@@ -185,7 +188,7 @@ public class LivingroomScene extends GameScene{
         cupboard.setDebugMode(false);
         mappingChild(cupboard, "cupboard");
         cupboard.setScale(1.0f);
-        cupboard.setPosition(1104.5414f, 866.4123f);
+        cupboard.setPosition(1104.5414f*scaleFactor/1.3f, 866.4123f*scaleFactor/1.3f);
         cupboard.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton picture = new ItemButton(bg);
@@ -195,7 +198,7 @@ public class LivingroomScene extends GameScene{
         picture.setDebugMode(false);
         mappingChild(picture, "picture");
         picture.setScale(1.0f);
-        picture.setPosition(367.5415f, 336.41223f);
+        picture.setPosition(367.5415f*scaleFactor/1.3f, 336.41223f*scaleFactor/1.3f);
         picture.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton lamp = new ItemButton(bg);
@@ -205,7 +208,7 @@ public class LivingroomScene extends GameScene{
         lamp.setDebugMode(false);
         mappingChild(lamp, "lamp");
         lamp.setScale(1.0f);
-        lamp.setPosition(1111.4756f, 613.1133f);
+        lamp.setPosition(1111.4756f*scaleFactor/1.3f, 613.1133f*scaleFactor/1.3f);
         lamp.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton sofa1 = new ItemButton(bg);
@@ -215,7 +218,7 @@ public class LivingroomScene extends GameScene{
         sofa1.setDebugMode(false);
         mappingChild(sofa1, "sofa1");
         sofa1.setScale(1.0f);
-        sofa1.setPosition(318.83862f, 835.34753f);
+        sofa1.setPosition(318.83862f*scaleFactor/1.3f, 835.34753f*scaleFactor/1.3f);
         sofa1.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton sofa2 = new ItemButton(bg);
@@ -225,7 +228,7 @@ public class LivingroomScene extends GameScene{
         sofa2.setDebugMode(false);
         mappingChild(sofa2, "sofa2");
         sofa2.setScale(1.0f);
-        sofa2.setPosition(1674.8386f, 1048.3474f);
+        sofa2.setPosition(1674.8386f*scaleFactor/1.3f, 1048.3474f*scaleFactor/1.3f);
         sofa2.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton pillow = new ItemButton(bg);
@@ -235,7 +238,7 @@ public class LivingroomScene extends GameScene{
         pillow.setDebugMode(false);
         mappingChild(pillow, "pillow");
         pillow.setScale(1.0f);
-        pillow.setPosition(899.4136f, 901.28564f);
+        pillow.setPosition(899.4136f*scaleFactor/1.3f, 901.28564f*scaleFactor/1.3f);
         pillow.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton table = new ItemButton(bg);
@@ -245,7 +248,7 @@ public class LivingroomScene extends GameScene{
         table.setDebugMode(false);
         mappingChild(table, "table");
         table.setScale(1.0f);
-        table.setPosition(980.4136f, 1094.2852f);
+        table.setPosition(980.4136f*scaleFactor/1.3f, 1094.2852f*scaleFactor/1.3f);
         table.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton bonsaiPot = new ItemButton(bg);
@@ -255,7 +258,7 @@ public class LivingroomScene extends GameScene{
         bonsaiPot.setDebugMode(false);
         mappingChild(bonsaiPot, "bonsaiPot");
         bonsaiPot.setScale(1.0f);
-        bonsaiPot.setPosition(47.835327f, 822.28564f);
+        bonsaiPot.setPosition(47.835327f*scaleFactor/1.3f, 822.28564f*scaleFactor/1.3f);
         bonsaiPot.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton ceilingLight1 = new ItemButton(bg);
@@ -265,7 +268,7 @@ public class LivingroomScene extends GameScene{
         ceilingLight1.setDebugMode(false);
         mappingChild(ceilingLight1, "ceilingLight1");
         ceilingLight1.setScale(1.0f);
-        ceilingLight1.setPosition(816.8353f, -1.7143555f);
+        ceilingLight1.setPosition(816.8353f*scaleFactor/1.3f, -1.7143555f*scaleFactor/1.3f);
         ceilingLight1.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton ceilingLight2 = new ItemButton(bg);
@@ -275,7 +278,7 @@ public class LivingroomScene extends GameScene{
         ceilingLight2.setDebugMode(false);
         mappingChild(ceilingLight2, "ceilingLight2");
         ceilingLight2.setScale(1.0f);
-        ceilingLight2.setPosition(1337.3352f, -0.71435547f);
+        ceilingLight2.setPosition(1337.3352f*scaleFactor/1.3f, -0.71435547f*scaleFactor/1.3f);
         ceilingLight2.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         final ItemButton ceilingLight3 = new ItemButton(bg);
@@ -285,7 +288,7 @@ public class LivingroomScene extends GameScene{
         ceilingLight3.setDebugMode(false);
         mappingChild(ceilingLight3, "ceilingLight3");
         ceilingLight3.setScale(1.0f);
-        ceilingLight3.setPosition(1881.3356f, -1.7143555f);
+        ceilingLight3.setPosition(1881.3356f*scaleFactor/1.3f, -1.7143555f*scaleFactor/1.3f);
         ceilingLight3.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
 
         Button btnBack = new Button(this);
