@@ -573,6 +573,11 @@ public class Sprite extends GameView{
         setScale(trueScale * height/getContentSize(false).height);
     }
 
+    public void scaleToMaxSize(float width, float height){
+        float scale = Math.min(trueScale * height/getContentSize(false).height, trueScale * width/getContentSize(false).width);
+        setScale(scale);
+    }
+
     public void debug(){
 ////        Log.d("Button", "scale " + getRecursiveScale() + "contentSize " + contentSize + "real " + realContentSize);
 ////        Log.d("Layout", lp.leftMargin + " " + lp.topMargin + " " + lp.rightMargin + " " + lp.bottomMargin);
