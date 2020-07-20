@@ -17,12 +17,18 @@ import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.ScrollView;
 import com.mus.myapplication.modules.views.base.Sprite;
+import com.mus.myapplication.modules.views.base.TestScene;
 import com.mus.myapplication.modules.views.base.actions.ScaleTo;
 import com.mus.myapplication.modules.views.scene.MapScene;
 import com.mus.myapplication.modules.views.home.ItemButton;
 import com.mus.myapplication.modules.views.setting.SettingUI;
 import com.vuforia.engine.ImageTargets.ImageTargets;
-public class BedroomScene extends GameScene {
+public class BedroomScene extends TestScene {
+    @Override
+    public void onTimeOut() {
+
+    }
+
     public BedroomScene(GameView parent){
         super(parent);
 //        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -31,6 +37,7 @@ public class BedroomScene extends GameScene {
 //                getViewTreeObserver().removeOnGlobalLayoutListener(this);
 //            }
 //        });
+        timeRemain = 15*60;
     }
     @Override
     protected void afterAddChild() {
@@ -59,112 +66,18 @@ public class BedroomScene extends GameScene {
                     }
                 };
 
-                ItemButton window = (ItemButton)getChild("window");
-                window.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.WINDOW, that);
-                    }
-                });
-                window.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
+                for(final GameView v: getAllChildrenWithName().values()){
+                    if(v instanceof ItemButton){
+                        ((ItemButton) v).addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
+                            @Override
+                            public void run() {
+                                UIManager.getInstance().getFlashcardPopup(v.getName(), that);
+                            }
+                        });
 
-                ItemButton drawers = (ItemButton)getChild("drawers");
-                drawers.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.DRAWER, that);
+                        ((ItemButton) v).addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
                     }
-                });
-                drawers.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-                ItemButton mirror = (ItemButton)getChild("mirror");
-                mirror.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.MIRROR, that);
-                    }
-                });
-                mirror.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-                ItemButton picture = (ItemButton)getChild("picture");
-                picture.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.PICTURE, that);
-                    }
-                });
-                picture.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-//                ItemButton cupboard1 = (ItemButton)getChild("cupboard1");
-//                cupboard1.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        UIManager.getInstance().getFlashcardPopup(WordCache.CUPBOARD, that);
-//                    }
-//                });
-
-                ItemButton lamp = (ItemButton)getChild("lamp");
-                lamp.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.LAMP, that);
-                    }
-                });
-                lamp.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-                ItemButton bed = (ItemButton)getChild("bed");
-                bed.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.BED, that);
-                    }
-                });
-                bed.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-                ItemButton pillow = (ItemButton)getChild("pillow");
-                pillow.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.PILLOW, that);
-                    }
-                });
-                pillow.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-                ItemButton blanket = (ItemButton)getChild("blanket");
-                blanket.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.BLANKET, that);
-                    }
-                });
-                blanket.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-                ItemButton cupboard2 = (ItemButton)getChild("cupboard2");
-                cupboard2.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.CUPBOARD, that);
-                    }
-                });
-                cupboard2.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-                ItemButton bonsaiPot = (ItemButton)getChild("bonsai_pot");
-                bonsaiPot.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.POT, that);
-                    }
-                });
-                bonsaiPot.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
-
-                ItemButton carpet = (ItemButton)getChild("carpet");
-                carpet.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getFlashcardPopup(WordCache.CARPET, that);
-                    }
-                });
-                carpet.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
+                }
             }
         });
     }

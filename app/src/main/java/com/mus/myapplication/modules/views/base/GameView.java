@@ -483,6 +483,9 @@ public class GameView extends AppCompatImageView {
         return childrenMap.get(name);
     }
 
+    public HashMap<String, GameView> getAllChildrenWithName(){
+        return childrenMap;
+    }
 
     public GameView getGameParent(){
         return parent;

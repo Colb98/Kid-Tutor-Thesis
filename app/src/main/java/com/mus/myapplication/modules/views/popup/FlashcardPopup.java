@@ -116,22 +116,25 @@ public class FlashcardPopup extends Sprite {
         word.setText(w.word, FontCache.Font.UVNNguyenDu, 30);
         // Set vị trí
         word.setPosition(0, 10);
+        word.scaleToMaxWidthNoScaleUp((getContentSize().width*2/3 - 5)*0.7f);
         word.setPositionCenterParent(false, true);
-        word.move(bg.getContentSize().width/6 + 20, 0);
+        word.move(bg.getContentSize().width/6, 0);
 
         GameTextView pronounce = (GameTextView) getChild("pronounce");
         pronounce.setText(w.pronounce, FontCache.Font.TimesNewRoman, 16);
         // Set vị trí
         pronounce.setPosition(0, 20 + word.getContentSize().height);
+        pronounce.scaleToMaxWidthNoScaleUp((getContentSize().width*1/3)*0.7f);
         pronounce.setPositionCenterParent(false, true);
-        pronounce.move(bg.getContentSize().width/6 + 20, 0);
+        pronounce.move(bg.getContentSize().width/6, 0);
 
         GameTextView desc = (GameTextView) getChild("desc");
         desc.setText(w.desc, FontCache.Font.UVNKyThuat, 40);
         // Set vị trí
+        desc.scaleToMaxWidthNoScaleUp((getContentSize().width*2/3 - 5)*0.7f);
         desc.setPositionY(bg.getContentSize().height - 10 - desc.getContentSize().height);
         desc.setPositionCenterParent(false, true);
-        desc.move(bg.getContentSize().width/6 + 20, 0);
+        desc.move(bg.getContentSize().width/6, 0);
 
         content = w;
     }

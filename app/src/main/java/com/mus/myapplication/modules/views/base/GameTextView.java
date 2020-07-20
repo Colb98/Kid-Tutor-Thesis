@@ -114,6 +114,20 @@ public class GameTextView extends Sprite {
         updateMeasure();
     }
 
+    public void scaleToMaxWidthNoScaleUp(float width){
+        float curWidth = contentSize.width;
+        float ratio = width/curWidth;
+        if(ratio > 1) return;
+        setFontSize(fontSize*ratio);
+    }
+
+    @Override
+    public void scaleToMaxWidth(float width) {
+        float curWidth = contentSize.width;
+        float ratio = width/curWidth;
+        setFontSize(fontSize*ratio);
+    }
+
     //no scale for text view
     @Override
     public void setScale(float scale) {

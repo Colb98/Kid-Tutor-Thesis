@@ -46,6 +46,11 @@ public class UIManager {
         popup.show();
         return popup;
     }
+    public FlashcardPopup getFlashcardPopup(String word, GameView parent){
+        if(WordCache.getWordDesc(word) != null)
+            return getFlashcardPopup(WordCache.getWordDesc(word), parent);
+        return null;
+    }
 
     public <T extends GameView> T getUI(Class<T> uiClass, GameView parent){
         if(map.containsKey(uiClass)){
