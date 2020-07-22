@@ -123,12 +123,6 @@ public class Utils {
                 new RotateTo(0.05f, startAngle-rBound),
                 new RotateTo(0.05f, startAngle)
         );
-        shake.addOnFinishedCallback(new Runnable() {
-            @Override
-            public void run() {
-                s.setRotation(dStartAngle);
-            }
-        });
         shake = new Sequence(new Repeat(shake, 5), new DelayTime(0.4f));
 
         Action repeat = new Repeat(shake, 4);
@@ -136,6 +130,12 @@ public class Utils {
             @Override
             public void run() {
                 s.setAnchorPoint(anchorPoint.x, anchorPoint.y);
+            }
+        });
+        repeat.addOnFinishedCallback(new Runnable() {
+            @Override
+            public void run() {
+                s.setRotation(dStartAngle);
             }
         });
         Action a = isForever ? new RepeatForever(shake) : repeat;

@@ -1,5 +1,7 @@
 package com.mus.myapplication.modules.views.home;
 
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
@@ -14,6 +16,7 @@ import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.classes.WordCache;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.Button;
+import com.mus.myapplication.modules.views.base.ColorLayer;
 import com.mus.myapplication.modules.views.base.FindWordScene;
 import com.mus.myapplication.modules.views.base.GameImageView;
 import com.mus.myapplication.modules.views.base.GameScene;
@@ -27,6 +30,9 @@ import com.mus.myapplication.modules.views.scene.MapScene;
 import com.mus.myapplication.modules.views.home.ItemButton;
 import com.mus.myapplication.modules.views.setting.SettingUI;
 import com.vuforia.engine.ImageTargets.ImageTargets;
+
+import java.util.HashMap;
+
 public class BedroomScene extends FindWordScene {
 
     public BedroomScene(GameView parent){
@@ -38,13 +44,54 @@ public class BedroomScene extends FindWordScene {
 //            }
 //        });
         questionCount = 9;
-        word = new String[]{"window", "drawers", "bed", "pillow", "blanket", "carpet", "pot", "picture", "mirror", "cupboard", "lamp"};
+        word = new String[]{"window", "drawers", /*"bed", */"pillow", "blanket", "carpet", "pot", "picture", "mirror", "cupboard", "lamp"};
     }
     @Override
     protected void afterAddChild() {
         super.afterAddChild();
         initScene();
         initButtons();
+
+        initLayer();
+    }
+
+    @Override
+    public void openTestScene() {
+        super.openTestScene();
+        setItemTesting(true);
+    }
+
+    @Override
+    public void openLearnScene() {
+        super.openLearnScene();
+        setItemTesting(true);
+    }
+
+    private void setItemTesting(boolean val){
+        HashMap<String, GameView> map = getAllChildrenWithName();
+        for(GameView v : map.values()){
+            if(v instanceof ItemButton){
+                ((ItemButton)v).isTesting = val;
+            }
+        }
+    }
+
+    protected void initLayer(){
+        ColorLayer l = new ColorLayer(this);
+
+        float width = Utils.getScreenWidth();
+
+        Sprite tiltIcon = new Sprite(l);
+        tiltIcon.setSpriteAnimation(R.drawable.tilt_phone_icon);
+
+        GameTextView desc = new GameTextView(l);
+        SpannableString string = new SpannableString("Nghiêng điện thoại để khám phá!!");
+        string.setSpan(new ForegroundColorSpan(0xffffffff), 0, string.length(), 0);
+        desc.setText(string, FontCache.Font.UVNKyThuat, 20);
+
+        float groupW = desc.getContentSize().width + tiltIcon.getContentSize().width + 20;
+        tiltIcon.setPosition((width - groupW)/2, 30);
+        desc.setPosition((width - groupW)/2 + tiltIcon.getContentSize().width + 20, 30 + tiltIcon.getContentSize().height/2 - desc.getContentSize().height/2);
     }
 
     protected void initButtons(){
@@ -143,7 +190,7 @@ public class BedroomScene extends FindWordScene {
         initSprite(blanket, R.drawable.bedroom_blanket, new Point(1022.07544f*scaleFactor/1.3f, 854.28564f*scaleFactor/1.3f), 1f);
 
         final ItemButton cupboard2 = new ItemButton(bg);
-        mappingChild(cupboard2, "cupboard2");
+        mappingChild(cupboard2, "cupboard");
         initSprite(cupboard2, R.drawable.bedroom_cupboard, new Point(2053.413f*scaleFactor/1.3f, 856.28564f*scaleFactor/1.3f), 1f);
 
         final ItemButton bonsaiPot = new ItemButton(bg);

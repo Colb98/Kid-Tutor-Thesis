@@ -28,6 +28,7 @@ public class AchievementManager {
         put("gara", new CategoryInfo("gara", "Kỹ sư", R.drawable.engineer_level_1, R.drawable.engineer_level_2, R.drawable.engineer_level_3));
 //        put("family", "home");
         put("food", new CategoryInfo("kitchen", "Đầu bếp", R.drawable.chef_level_1, R.drawable.chef_level_2, R.drawable.chef_level_3));
+        put("word", new CategoryInfo("word", "Ngôn ngữ", R.drawable.language_specialist_level_1, R.drawable.language_specialist_level_2, R.drawable.language_specialist_level_3));
     }};
 
     private static AchievementManager instance;

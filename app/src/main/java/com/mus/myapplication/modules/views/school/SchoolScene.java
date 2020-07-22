@@ -82,6 +82,8 @@ public class SchoolScene extends GameScene {
         btnBack.setPosition(50, 50);
 
         mappingChild(iq, "iq");
+        mappingChild(alphabet, "alphabet");
+        mappingChild(math, "math");
         mappingChild(btnBack, "btnBack");
     }
 
@@ -107,6 +109,15 @@ public class SchoolScene extends GameScene {
                     @Override
                     public void run() {
                         category = "iq";
+                        chooseLevel();
+                    }
+                });
+
+                Button alphabet = (Button)getChild("alphabet");
+                alphabet.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        category = "alphabet";
                         chooseLevel();
                     }
                 });
@@ -141,8 +152,12 @@ public class SchoolScene extends GameScene {
     private void openScene(int level){
         switch(category){
             case "iq":
-                IQTestScene scene = (IQTestScene) Director.getInstance().loadScene(SceneCache.getScene("iq"));
-                scene.setTest(level);
+                IQTestScene iqScene = (IQTestScene) Director.getInstance().loadScene(SceneCache.getScene("iq"));
+                iqScene.setTest(level);
+                break;
+            case "alphabet":
+                ABCLearnScene abcScene = (ABCLearnScene) Director.getInstance().loadScene(SceneCache.getScene("alphabet"));
+                abcScene.setLevel(level);
                 break;
             default:
                 Log.d("School Scene", "select a category or level that is not available");

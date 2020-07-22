@@ -55,6 +55,14 @@ public class AreaMusicManager {
         return instance;
     }
 
+    public void pauseMusic(){
+        currentPlayer.pause();
+    }
+
+    public void resumeMusic(){
+        currentPlayer.start();
+    }
+
     public MediaPlayer playAreaMusic(final String area){
         return playAreaMusic(area, false);
     }

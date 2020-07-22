@@ -23,6 +23,7 @@ import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.AppAlarmService;
+import com.mus.myapplication.modules.controllers.AreaMusicManager;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.views.base.GameScene;
@@ -120,6 +121,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AreaMusicManager.getInstance().pauseMusic();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        AreaMusicManager.getInstance().resumeMusic();
     }
 
     public void startImageTargetsActivity(){

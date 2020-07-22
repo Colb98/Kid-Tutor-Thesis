@@ -6,6 +6,7 @@ import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.GameVuforiaScene;
 
 public class ABCTestScene extends GameVuforiaScene {
+    int level = 0;
     public ABCTestScene(GameView parent){
         super(parent);
     }
@@ -23,5 +24,9 @@ public class ABCTestScene extends GameVuforiaScene {
         back.setSpriteAnimation(R.drawable.back_button);
         back.setPosition(50, 50);
         mappingChild(back, "btnBack");
+    }
+
+    public void setLevel(int level){
+        this.level = level;
     }
 }

@@ -11,6 +11,7 @@ public class ItemButton extends Button {
     private float noTouchTime = 0;
     private float noTouchThreshold;
     private float shakeTimes = 0;
+    public boolean isTesting = false;
 
     public ItemButton(GameView parent){
         super(parent);
@@ -36,12 +37,14 @@ public class ItemButton extends Button {
     @Override
     public void update(float dt) {
         super.update(dt);
-        noTouchTime += dt;
-        if(noTouchTime >= noTouchThreshold){
-            shakeTimes ++;
-            noTouchTime = 0;
-            noTouchThreshold = (float)(Math.random()*60) + 30 * shakeTimes;
-            Utils.setSpriteShaking(this, 0.05f, false);
+        if(!isTesting){
+            noTouchTime += dt;
+            if(noTouchTime >= noTouchThreshold){
+                shakeTimes ++;
+                noTouchTime = 0;
+                noTouchThreshold = (float)(Math.random()*60) + 30 * shakeTimes;
+                Utils.setSpriteShaking(this, 0.05f, false);
+            }
         }
     }
 }

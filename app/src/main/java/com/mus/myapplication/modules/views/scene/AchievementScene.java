@@ -194,7 +194,7 @@ public class AchievementScene extends GameScene {
                 return;
             }
         }
-        icon.setSpriteAnimation(AchievementManager.categoryMap.get(key).resIds[0]);
+        icon.setSpriteAnimation(AchievementManager.categoryMap.get(key).resIds[2]);
     }
 
     private void initRightSide(Sprite bg){

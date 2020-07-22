@@ -352,6 +352,12 @@ public class Sprite extends GameView{
         }
     }
 
+    public void removeTouchEventListeners(CallbackType type){
+        if(listenerCallbacks.containsKey(type)){
+            listenerCallbacks.get(type).clear();
+        }
+    }
+
     // Because we call this from onTouchEvent, this code will be executed for both
     // normal touch events and for when the system calls this using Accessibility
     @Override

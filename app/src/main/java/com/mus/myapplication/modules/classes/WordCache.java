@@ -27,6 +27,33 @@ public class WordCache {
         put("sister", new FlashcardPopup.WordDesc(R.drawable.relative_sister, R.raw.sound_us_sister, "Sister", "Chị/em gái", "/ˈsɪs.tɚ/"));
         put("brother", new FlashcardPopup.WordDesc(R.drawable.relative_brother, R.raw.sound_us_brother, "Brother", "Anh/em trai", "/ˈbrʌð.ɚ/"));
         put("cousin", new FlashcardPopup.WordDesc(R.drawable.relative_cousin2, R.raw.sound_us_cousin, "Cousin", "Anh chị em họ", "/ˈkʌz.ən/"));
+
+        put("apple", new FlashcardPopup.WordDesc(R.drawable.alphabet_apple, R.raw.sound_us_apple, "Apple", "Quả táo", "/ˈæp.əl/"));
+        put("banana", new FlashcardPopup.WordDesc(R.drawable.alphabet_banana, R.raw.sound_us_banana, "Banana", "Quả chuối", "/bəˈnæn.ə/"));
+        put("cat", new FlashcardPopup.WordDesc(R.drawable.alphabet_cat, R.raw.sound_us_cat, "Cat", "Con mèo", "/kæt/"));
+        put("dog", new FlashcardPopup.WordDesc(R.drawable.alphabet_dog, R.raw.sound_us_dog, "Dog", "Con chó", "/dɑːɡ/"));
+        put("elephant", new FlashcardPopup.WordDesc(R.drawable.alphabet_elephant, R.raw.sound_us_elephant, "Elephant", "Con voi", "/ˈel.ə.fənt/"));
+        put("fish", new FlashcardPopup.WordDesc(R.drawable.alphabet_fish, R.raw.sound_us_fish, "Fish", "Con cá", "/fɪʃ/"));
+        put("ghost", new FlashcardPopup.WordDesc(R.drawable.alphabet_ghost, R.raw.sound_us_ghost, "Ghost", "Con ma", "/ɡoʊst/"));
+        put("hat", new FlashcardPopup.WordDesc(R.drawable.alphabet_hat, R.raw.sound_us_hat, "Hat", "Cái mũ/nón", "/hæt/"));
+        put("ice cream", new FlashcardPopup.WordDesc(R.drawable.alphabet_icecream, R.raw.sound_us_ice_cream, "Ice Cream", "Kem", "/ˈaɪs ˌkriːm/"));
+        put("jump", new FlashcardPopup.WordDesc(R.drawable.alphabet_jump, R.raw.sound_us_jump, "Jump", "Nhảy", "/dʒʌmp/"));
+        put("king", new FlashcardPopup.WordDesc(R.drawable.alphabet_king, R.raw.sound_us_king, "King", "Vua", "/kɪŋ/"));
+        put("lamb", new FlashcardPopup.WordDesc(R.drawable.alphabet_lamb, R.raw.sound_us_lamb, "Lamb", "Con cừu", "/læm/"));
+        put("moon", new FlashcardPopup.WordDesc(R.drawable.alphabet_moon, R.raw.sound_us_moon, "Moon", "Mặt trăng", "/muːn/"));
+        put("nervous", new FlashcardPopup.WordDesc(R.drawable.alphabet_nervous, R.raw.sound_us_nervous, "Nervous", "Lo lắng", "/ˈnɝː.vəs/"));
+        put("octopus", new FlashcardPopup.WordDesc(R.drawable.alphabet_octopus, R.raw.sound_us_octopus, "Octopus", "Con bạch tuộc", "/ˈɑːk.tə.pəs/"));
+        put("pig", new FlashcardPopup.WordDesc(R.drawable.alphabet_pig, R.raw.sound_us_pig, "Pig", "Con lợn/heo", "/pɪɡ/"));
+        put("queen", new FlashcardPopup.WordDesc(R.drawable.alphabet_queen, R.raw.sound_us_queen, "Queen", "Hoàng hậu", "/kwiːn/"));
+        put("ruler", new FlashcardPopup.WordDesc(R.drawable.alphabet_ruler, R.raw.sound_us_ruler, "Ruler", "Cây thước", "/ˈruː.lɚ/"));
+        put("ship", new FlashcardPopup.WordDesc(R.drawable.alphabet_ship, R.raw.sound_us_ship, "Ship", "Tàu thuỷ", "/ʃɪp/"));
+        put("train", new FlashcardPopup.WordDesc(R.drawable.alphabet_train, R.raw.sound_us_train, "Train", "Tàu hoả", "/treɪn/"));
+        put("umbrella", new FlashcardPopup.WordDesc(R.drawable.alphabet_umbrella, R.raw.sound_us_umbrella, "Umbrella", "Cây dù", "/ʌmˈbrel.ə/"));
+        put("village", new FlashcardPopup.WordDesc(R.drawable.alphabet_village, R.raw.sound_us_village, "Village", "Ngôi làng", "/ˈvɪl.ɪdʒ/"));
+        put("wolf", new FlashcardPopup.WordDesc(R.drawable.alphabet_wolf, R.raw.sound_us_wolf, "Wolf", "Con sói", "/wʊlf/"));
+        put("x ray", new FlashcardPopup.WordDesc(R.drawable.alphabet_xray, R.raw.sound_us_x_ray, "X Ray", "Phim X quang", "/ˈeks.reɪ/"));
+        put("yellow", new FlashcardPopup.WordDesc(R.drawable.alphabet_yellow, R.raw.sound_us_yellow, "Yellow", "Màu vàng", "/ˈjel.oʊ/"));
+        put("zebra", new FlashcardPopup.WordDesc(R.drawable.alphabet_zebra, R.raw.sound_us_zebra, "Zebra", "Ngựa vằn", "/ˈziː.brə/"));
     }};
 
     public static FlashcardPopup.WordDesc getWordDesc(String s){
