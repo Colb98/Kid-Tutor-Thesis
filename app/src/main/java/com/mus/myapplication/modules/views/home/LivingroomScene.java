@@ -154,7 +154,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton window1 = new ItemButton(bg);
         window1.setEnableClickEffect(false);
         window1.setSpriteAnimation(R.drawable.livingroom_window1);
-        window1.setSwallowTouches(false);
+        //window1.setSwallowTouches(false);
         window1.setDebugMode(false);
         mappingChild(window1, "window1");
         window1.setScale(1.0f);
@@ -164,7 +164,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton window2 = new ItemButton(bg);
         window2.setEnableClickEffect(false);
         window2.setSpriteAnimation(R.drawable.livingroom_window2);
-        window2.setSwallowTouches(false);
+        //window2.setSwallowTouches(false);
         window2.setDebugMode(false);
         mappingChild(window2, "window2");
         window2.setScale(1.0f);
@@ -174,7 +174,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton curtain = new ItemButton(bg);
         curtain.setEnableClickEffect(false);
         curtain.setSpriteAnimation(R.drawable.livingroom_curtain);
-        curtain.setSwallowTouches(false);
+        //curtain.setSwallowTouches(false);
         curtain.setDebugMode(false);
         mappingChild(curtain, "curtain");
         curtain.setScale(1.0f);
@@ -184,7 +184,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton cupboard = new ItemButton(bg);
         cupboard.setEnableClickEffect(false);
         cupboard.setSpriteAnimation(R.drawable.livingroom_cupboard);
-        cupboard.setSwallowTouches(false);
+        //cupboard.setSwallowTouches(false);
         cupboard.setDebugMode(false);
         mappingChild(cupboard, "cupboard");
         cupboard.setScale(1.0f);
@@ -194,7 +194,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton picture = new ItemButton(bg);
         picture.setEnableClickEffect(false);
         picture.setSpriteAnimation(R.drawable.livingroom_picture);
-        picture.setSwallowTouches(false);
+        //picture.setSwallowTouches(false);
         picture.setDebugMode(false);
         mappingChild(picture, "picture");
         picture.setScale(1.0f);
@@ -204,7 +204,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton lamp = new ItemButton(bg);
         lamp.setEnableClickEffect(false);
         lamp.setSpriteAnimation(R.drawable.livingroom_lamp);
-        lamp.setSwallowTouches(false);
+        //lamp.setSwallowTouches(false);
         lamp.setDebugMode(false);
         mappingChild(lamp, "lamp");
         lamp.setScale(1.0f);
@@ -214,7 +214,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton sofa1 = new ItemButton(bg);
         sofa1.setEnableClickEffect(false);
         sofa1.setSpriteAnimation(R.drawable.livingroom_sofa1);
-        sofa1.setSwallowTouches(false);
+        //sofa1.setSwallowTouches(false);
         sofa1.setDebugMode(false);
         mappingChild(sofa1, "sofa1");
         sofa1.setScale(1.0f);
@@ -224,7 +224,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton sofa2 = new ItemButton(bg);
         sofa2.setEnableClickEffect(false);
         sofa2.setSpriteAnimation(R.drawable.livingroom_sofa2);
-        sofa2.setSwallowTouches(false);
+        //sofa2.setSwallowTouches(false);
         sofa2.setDebugMode(false);
         mappingChild(sofa2, "sofa2");
         sofa2.setScale(1.0f);
@@ -234,7 +234,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton pillow = new ItemButton(bg);
         pillow.setEnableClickEffect(false);
         pillow.setSpriteAnimation(R.drawable.livingroom_pillow);
-        pillow.setSwallowTouches(false);
+        //pillow.setSwallowTouches(false);
         pillow.setDebugMode(false);
         mappingChild(pillow, "pillow");
         pillow.setScale(1.0f);
@@ -244,7 +244,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton table = new ItemButton(bg);
         table.setEnableClickEffect(false);
         table.setSpriteAnimation(R.drawable.livingroom_table);
-        table.setSwallowTouches(false);
+        //table.setSwallowTouches(false);
         table.setDebugMode(false);
         mappingChild(table, "table");
         table.setScale(1.0f);
@@ -254,7 +254,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton bonsaiPot = new ItemButton(bg);
         bonsaiPot.setEnableClickEffect(false);
         bonsaiPot.setSpriteAnimation(R.drawable.livingroom_bonsai_pot);
-        bonsaiPot.setSwallowTouches(false);
+        //bonsaiPot.setSwallowTouches(false);
         bonsaiPot.setDebugMode(false);
         mappingChild(bonsaiPot, "bonsaiPot");
         bonsaiPot.setScale(1.0f);
@@ -264,7 +264,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton ceilingLight1 = new ItemButton(bg);
         ceilingLight1.setEnableClickEffect(false);
         ceilingLight1.setSpriteAnimation(R.drawable.livingroom_ceiling_light1);
-        ceilingLight1.setSwallowTouches(false);
+        //ceilingLight1.setSwallowTouches(false);
         ceilingLight1.setDebugMode(false);
         mappingChild(ceilingLight1, "ceilingLight1");
         ceilingLight1.setScale(1.0f);
@@ -274,7 +274,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton ceilingLight2 = new ItemButton(bg);
         ceilingLight2.setEnableClickEffect(false);
         ceilingLight2.setSpriteAnimation(R.drawable.livingroom_ceiling_light2);
-        ceilingLight2.setSwallowTouches(false);
+        //ceilingLight2.setSwallowTouches(false);
         ceilingLight2.setDebugMode(false);
         mappingChild(ceilingLight2, "ceilingLight2");
         ceilingLight2.setScale(1.0f);
@@ -284,7 +284,7 @@ public class LivingroomScene extends GameScene{
         final ItemButton ceilingLight3 = new ItemButton(bg);
         ceilingLight3.setEnableClickEffect(false);
         ceilingLight3.setSpriteAnimation(R.drawable.livingroom_ceiling_light3);
-        ceilingLight3.setSwallowTouches(false);
+        //ceilingLight3.setSwallowTouches(false);
         ceilingLight3.setDebugMode(false);
         mappingChild(ceilingLight3, "ceilingLight3");
         ceilingLight3.setScale(1.0f);

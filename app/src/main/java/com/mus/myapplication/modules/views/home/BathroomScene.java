@@ -194,7 +194,7 @@ public class BathroomScene extends GameScene{
         final ItemButton bathtub = new ItemButton(bg);
         bathtub.setEnableClickEffect(false);
         bathtub.setSpriteAnimation(R.drawable.bathroom_bathtub);
-        bathtub.setSwallowTouches(false);
+        //bathtub.setSwallowTouches(false);
         bathtub.setDebugMode(false);
         mappingChild(bathtub, "bathtub");
         bathtub.setScale(1.0f);

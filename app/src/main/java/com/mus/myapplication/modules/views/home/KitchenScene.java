@@ -146,7 +146,7 @@ public class KitchenScene extends GameScene{
         scroller.setSensorSensitivity(0.125f);
         Sprite bg = new Sprite(scroller);
 //        scroller.addChild(bg);
-        bg.setSpriteAnimation(R.drawable.kitchen_background_1);
+        bg.setSpriteAnimation(R.drawable.kitchen_background);
 
         bg.setScale(scaleFactor);
         bg.setSwallowTouches(false);
