@@ -336,6 +336,7 @@ public class IQTestScene extends TestScene {
         for(int i=1;i<6;i++){
             int j = (int)(Math.random()*(i+1));
             if(j != i){
+                // swap
                 int t = currentAnswerMap[i];
                 currentAnswerMap[i] = currentAnswerMap[j];
                 currentAnswerMap[j] = t;

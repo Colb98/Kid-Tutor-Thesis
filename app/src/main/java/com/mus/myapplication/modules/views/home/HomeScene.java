@@ -111,6 +111,7 @@ public class HomeScene extends GameScene{
         btnBack.setPosition(50, 50);
 
         mappingChild(item, "item");
+        mappingChild(relative, "relative");
         mappingChild(btnBack, "btnBack");
     }
 
@@ -131,13 +132,13 @@ public class HomeScene extends GameScene{
                     }
                 });
 
-                /*Button relative = (Button)getChild("relative");
+                Button relative = (Button)getChild("relative");
                 relative.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
-                        //
+                        openScene("relative");
                     }
-                });*/
+                });
 
                 Button item = (Button)getChild("item");
                 item.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
@@ -195,6 +196,9 @@ public class HomeScene extends GameScene{
                 break;
             case "kitchen":
                 KitchenScene kitchenScene = (KitchenScene) Director.getInstance().loadScene(SceneCache.getScene("kitchen"));
+                break;
+            case "relative":
+                RelativeScene scene = (RelativeScene) Director.getInstance().loadScene(SceneCache.getScene("relative"));
                 break;
             default:
                 Log.d("School Scene", "select a category or level that is not available");

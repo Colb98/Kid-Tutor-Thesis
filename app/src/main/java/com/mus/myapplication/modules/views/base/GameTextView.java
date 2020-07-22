@@ -80,6 +80,7 @@ public class GameTextView extends Sprite {
     }
 
     private void updateMeasure(){
+        if(view == null) return;
         view.measure(0, 0);
         contentSize = new Size(view.getMeasuredWidth(), view.getMeasuredHeight());
         realContentSize = contentSize;
@@ -113,22 +114,42 @@ public class GameTextView extends Sprite {
         updateMeasure();
     }
 
-    @Override
-    public void setScale(float scale) {
-        super.setScale(scale);
-        float recurScale = getRecursiveScale();
-//        Log.d("TEXTVIEW", "text view set scale " + scale + " " + fontSize);
-        view.setTextSize(fontSize * recurScale);
+    public void scaleToMaxWidthNoScaleUp(float width){
+        float curWidth = contentSize.width;
+        float ratio = width/curWidth;
+        if(ratio > 1) return;
+        setFontSize(fontSize*ratio);
     }
 
     @Override
+    public void scaleToMaxWidth(float width) {
+        float curWidth = contentSize.width;
+        float ratio = width/curWidth;
+        setFontSize(fontSize*ratio);
+    }
+
+    //no scale for text view
+    @Override
+    public void setScale(float scale) {
+        return;
+
+//        super.setScale(scale);
+//        float recurScale = getRecursiveScale();
+////        Log.d("TEXTVIEW", "text view set scale " + scale + " " + fontSize);
+//        view.setTextSize(fontSize * recurScale);
+    }
+
+    // no scale for text view
+    @Override
     protected void updateRecurScale() {
-        if(view != null){
-            float recurScale = getRecursiveScale();
-            updateBound();
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize * recurScale);
-        }
-        super.updateRecurScale();
+        return;
+//        if(view != null){
+//            float recurScale = getRecursiveScale();
+//            updateBound();
+//            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize * recurScale);
+//        }
+//        super.updateRecurScale();
+//        updateMeasure();
 
 //        if(view != null){
 //
@@ -164,6 +185,6 @@ public class GameTextView extends Sprite {
     }
 
     public Size getContentSize() {
-        return super.getContentSize(true);
+        return super.getContentSize(false);
     }
 }

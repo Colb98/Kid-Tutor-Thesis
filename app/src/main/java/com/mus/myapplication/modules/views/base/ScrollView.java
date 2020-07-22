@@ -26,6 +26,7 @@ public class ScrollView extends Sprite implements SensorEventListener {
 
     private Point prevTouch;
     private ScrollType scrollType;
+    private ScrollType oldScrollType;
     private boolean isTouching = false;
     private boolean floating = false;
     private Point floatVelocity = new Point(0,0);
@@ -226,7 +227,6 @@ public class ScrollView extends Sprite implements SensorEventListener {
             prevTouch = cur;
         }
     }
-
 
     //TODO: fix bug here
     private void moveAllChild(Point distance) {
@@ -481,6 +481,15 @@ public class ScrollView extends Sprite implements SensorEventListener {
         }
     }
 
+
+    private void pause(){
+        oldScrollType = scrollType;
+        this.setScrollType(ScrollType.NONE);
+    }
+
+    private void resume(){
+        this.setScrollType(oldScrollType);
+    }
     @Override
     public ViewContainer.Node getViewTreeNodeAsParent() {
         return containerRootNode;

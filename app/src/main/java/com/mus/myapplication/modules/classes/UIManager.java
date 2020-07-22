@@ -3,6 +3,7 @@ package com.mus.myapplication.modules.classes;
 import com.mus.myapplication.modules.controllers.GameViewCache;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameView;
+import com.mus.myapplication.modules.views.popup.FlashcardPopup;
 import com.mus.myapplication.modules.views.setting.SettingUI;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,6 +25,31 @@ public class UIManager {
         }
 
         return instance;
+    }
+
+    public void hideFlashcardPopup(GameView parent){
+        FlashcardPopup popup = (FlashcardPopup) parent.getChild("flashcard");
+        if(popup != null){
+            popup.hide();
+        }
+    }
+
+    public FlashcardPopup getFlashcardPopup(FlashcardPopup.WordDesc word, GameView parent){
+        FlashcardPopup popup = (FlashcardPopup) parent.getChild("flashcard");
+        if(popup == null){
+            popup = new FlashcardPopup(parent);
+            parent.mappingChild(popup, "flashcard");
+            popup.setPositionCenterParent(false, true);
+        }
+
+        popup.loadContent(word);
+        popup.show();
+        return popup;
+    }
+    public FlashcardPopup getFlashcardPopup(String word, GameView parent){
+        if(WordCache.getWordDesc(word) != null)
+            return getFlashcardPopup(WordCache.getWordDesc(word), parent);
+        return null;
     }
 
     public <T extends GameView> T getUI(Class<T> uiClass, GameView parent){

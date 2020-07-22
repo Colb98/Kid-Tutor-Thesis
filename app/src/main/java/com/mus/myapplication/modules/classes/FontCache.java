@@ -14,6 +14,7 @@ public class FontCache {
         public static String UVNChimBienR = "fonts/UVNChimBien_R.ttf";
         public static String UVNChimBienNang = "fonts/UVNChimBienNang.ttf";
         public static String UVNChimBienNhe = "fonts/UVNChimBienNhe.ttf";
+        public static String TimesNewRoman = "fonts/times.ttf";
     }
 
     private static Hashtable<String, Typeface> fontCache = new Hashtable<String, Typeface>();

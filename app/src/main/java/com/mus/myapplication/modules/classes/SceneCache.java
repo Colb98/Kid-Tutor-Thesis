@@ -9,6 +9,7 @@ import com.mus.myapplication.modules.views.home.BedroomScene;
 import com.mus.myapplication.modules.views.home.LivingroomScene;
 import com.mus.myapplication.modules.views.home.BathroomScene;
 import com.mus.myapplication.modules.views.home.KitchenScene;
+import com.mus.myapplication.modules.views.home.RelativeScene;
 import com.mus.myapplication.modules.views.mart.MartScene;
 import com.mus.myapplication.modules.views.zoo.ZooScene;
 import com.mus.myapplication.modules.views.gara.GaraScene;
@@ -56,6 +57,8 @@ public class SceneCache {
                 scene = new BathroomScene(mainView); break;
             case "kitchen":
                 scene = new KitchenScene(mainView); break;
+            case "relative":
+                scene = new RelativeScene(mainView); break;
             default: return null;
         }
         mainView.mappingChild(scene, name);

@@ -325,7 +325,9 @@ public class GameView extends AppCompatImageView {
         long cur = System.currentTimeMillis();
 //        Log.d(LOGTAG, "DEBUG:" + (cur - lastUpdate));
         lastUpdate = cur;
-        for(GameView child : children){
+        int n=children.size();
+        for(int i=0;i<n;i++){
+            GameView child = children.get(i);
             child.update(dt);
         }
 //        invalidate();
@@ -483,6 +485,9 @@ public class GameView extends AppCompatImageView {
         return childrenMap.get(name);
     }
 
+    public HashMap<String, GameView> getAllChildrenWithName(){
+        return childrenMap;
+    }
 
     public GameView getGameParent(){
         return parent;

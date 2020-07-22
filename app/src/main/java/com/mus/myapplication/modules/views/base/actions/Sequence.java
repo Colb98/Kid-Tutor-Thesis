@@ -58,7 +58,7 @@ public class Sequence extends Action{
                 action.addOnFinishedCallback(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("Sequence", "run action index: " + index + ". class: " + actions.get(index).getClass().getName());
+//                        Log.d("Sequence", "run action index: " + index + ". class: " + actions.get(index).getClass().getName());
                         runAction(index);
                     }
                 });

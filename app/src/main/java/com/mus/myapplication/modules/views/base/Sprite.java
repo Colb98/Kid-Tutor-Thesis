@@ -312,10 +312,10 @@ public class Sprite extends GameView{
         Point curPos = new Point(event.getRawX(), event.getRawY());
         if(System.currentTimeMillis() - touchDownTime < 1000 && curPos.sqrDistanceTo(touchBeganPosition) < 100)
             performClick();
-//
-//        if(debugMode){
-//            Log.d("DEBUG", "object: " + getName() + " pos at " + getPosition() + " scale: " + trueScale);
-//        }
+
+        if(debugMode){
+            Log.d("DEBUG", "object: " + getName() + " pos at " + getPosition() + " scale: " + trueScale);
+        }
 
         int[] viewOrder = container.getDrawOrderIndexing(this);
         for(int i=viewOrder.length - 1;i>=0;i--){
@@ -571,6 +571,11 @@ public class Sprite extends GameView{
 
     public void scaleToMaxHeight(float height){
         setScale(trueScale * height/getContentSize(false).height);
+    }
+
+    public void scaleToMaxSize(float width, float height){
+        float scale = Math.min(trueScale * height/getContentSize(false).height, trueScale * width/getContentSize(false).width);
+        setScale(scale);
     }
 
     public void debug(){
