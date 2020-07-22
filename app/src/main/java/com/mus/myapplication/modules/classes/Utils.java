@@ -112,6 +112,7 @@ public class Utils {
 
     public static void setSpriteShaking(final Sprite s, float rBound, boolean isForever){
         float startAngle = Utils.degreeToRad(s.getRotation());
+        final float dStartAngle = s.getRotation();
         final com.mus.myapplication.modules.classes.Point anchorPoint = s.getAnchorPoint();
 //        if(!isForever){
             s.setAnchorPoint(0.5f,0.5f);
@@ -122,6 +123,12 @@ public class Utils {
                 new RotateTo(0.05f, startAngle-rBound),
                 new RotateTo(0.05f, startAngle)
         );
+        shake.addOnFinishedCallback(new Runnable() {
+            @Override
+            public void run() {
+                s.setRotation(dStartAngle);
+            }
+        });
         shake = new Sequence(new Repeat(shake, 5), new DelayTime(0.4f));
 
         Action repeat = new Repeat(shake, 4);

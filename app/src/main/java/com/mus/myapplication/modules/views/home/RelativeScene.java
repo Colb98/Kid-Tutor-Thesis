@@ -5,24 +5,31 @@ import android.view.ViewTreeObserver;
 
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.FontCache;
+import com.mus.myapplication.modules.classes.LayoutPosition;
 import com.mus.myapplication.modules.classes.Point;
 import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.classes.WordCache;
 import com.mus.myapplication.modules.controllers.Director;
+import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.views.base.Button;
+import com.mus.myapplication.modules.views.base.FindWordScene;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameTextView;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
+import com.mus.myapplication.modules.views.base.TestScene;
+import com.mus.myapplication.modules.views.base.actions.DelayTime;
+import com.mus.myapplication.modules.views.popup.ConfirmPopup;
+import com.mus.myapplication.modules.views.popup.ResultPopup;
 import com.mus.myapplication.modules.views.school.IQTestScene;
 import com.mus.myapplication.modules.views.home.BedroomScene;
-public class RelativeScene extends GameScene{
-    private String category;
-    private int step = 0;
+public class RelativeScene extends FindWordScene {
     public RelativeScene(GameView parent){
         super(parent);
+        questionCount = 8;
+        word = new String[]{"grandfather", "grandmother", "father", "mother", "aunt", "uncle", "sister", "brother", "cousin"};
 //        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 //            @Override
 //            public void onGlobalLayout() {
@@ -36,7 +43,10 @@ public class RelativeScene extends GameScene{
         initScene();
         initButtons();
     }
-    private void initButtons(){
+
+
+    protected void initButtons(){
+        super.initButtons();
         final RelativeScene that = this;
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -46,16 +56,29 @@ public class RelativeScene extends GameScene{
                 back.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
-                        if (step == 0)
-                            Director.getInstance().loadScene(SceneCache.getScene("map"));
-                        else
-                        {}
+                        onBackButton(new Runnable() {
+                            @Override
+                            public void run() {
+                                Director.getInstance().loadScene(SceneCache.getScene("home"));
+                            }
+                        });
                             //chooseCategory();
                     }
                 });
             }
         });
     }
+
+    @Override
+    protected void loadQuestion(int idx) {
+        super.loadQuestion(idx);
+
+        Sprite bg = (Sprite)getChild("background");
+        GameTextView question = (GameTextView) getChild("lbQuestion");
+        float bgOffset = (Utils.getScreenWidth() - bg.getContentSize().width)/2;
+        question.setPositionX(bgOffset + bg.getContentSize().width*0.06f);
+    }
+
     private void initScene() {
         setSceneBackground(R.drawable.relative_background);
         Sprite bg = (Sprite) getChild("background");
@@ -100,29 +123,43 @@ public class RelativeScene extends GameScene{
         btnBack.setSpriteAnimation(R.drawable.back_button);
         btnBack.setPosition(50, 50);
         mappingChild(btnBack, "btnBack");
-    }
 
-    private void initSprite(final Sprite s, int resId, Point pos, float scale){
-        final RelativeScene that = this;
-        s.setSpriteAnimation(resId);
-        s.setScale(scale);
-        s.setPosition(pos);
-//        s.setDebugMode(true);
-        s.setSwallowTouches(true);
-        Runnable hideFlashcard = new Runnable() {
+        float bgOffset = (Utils.getScreenWidth() - bg.getContentSize().width)/2;
+        Button btnTest = new Button(this);
+        btnTest.setSpriteAnimation(R.drawable.button_test);
+        btnTest.scaleToMaxWidth(150);
+        btnTest.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("right", btnTest.getContentSize(false).width+bgOffset+10) , LayoutPosition.getRule("top", 50)));
+        mappingChild(btnTest, "testBtn");
+
+        GameView test = new GameView(this);
+        mappingChild(test, "testGroup");
+
+        Sprite countDownBox = new Sprite(test);
+        countDownBox.setSpriteAnimation(R.drawable.school_iq_quiz_count_down);
+        countDownBox.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("right", countDownBox.getContentSize(false).width+bgOffset+10), LayoutPosition.getRule("top", 50)));
+        final GameTextView lbCountDown = new GameTextView(countDownBox);
+        lbCountDown.setText(Utils.secondToString(timeRemain));
+        lbCountDown.setFont(FontCache.Font.UVNNguyenDu);
+        lbCountDown.setPositionCenterParent(false, false);
+        lbCountDown.addUpdateRunnable(new UpdateRunnable() {
             @Override
             public void run() {
-                UIManager.getInstance().hideFlashcardPopup(that);
-            }
-        };
-        s.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
-            @Override
-            public void run() {
-                Sprite flashcard = UIManager.getInstance().getFlashcardPopup(s.getName(), that);
-                flashcard.setPositionX(0);
-                flashcard.setPositionCenterScreen(true, false);
+                if(stoppedCountDown || !isTesting) return;
+                timeRemain -= dt;
+                if(timeRemain < 0){
+                    onTimeOut();
+                    return;
+                }
+                lbCountDown.setText(Utils.secondToString(timeRemain));
+                lbCountDown.setPositionCenterParent(false, true);
             }
         });
-        s.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
+
+        GameTextView question = new GameTextView(test);
+        question.setText("Grandfather", FontCache.Font.UVNNguyenDu, 32);
+        question.setPositionX(bgOffset + bg.getContentSize().width*0.06f);
+        question.setPositionCenterScreen(true, false);
+        mappingChild(question, "lbQuestion");
     }
+
 }

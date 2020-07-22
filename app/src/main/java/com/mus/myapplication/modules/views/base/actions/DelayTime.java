@@ -27,12 +27,6 @@ public class DelayTime extends Action {
     }
 
     @Override
-    public void start() {
-        super.start();
-        Log.d("delay start", "asdf");
-    }
-
-    @Override
     public void forceFinish(Sprite sprite) {
         running = false;
     }

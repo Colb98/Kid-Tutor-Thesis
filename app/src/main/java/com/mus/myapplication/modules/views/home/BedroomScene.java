@@ -5,15 +5,19 @@ import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
 import com.mus.myapplication.R;
+import com.mus.myapplication.modules.classes.FontCache;
 import com.mus.myapplication.modules.classes.LayoutPosition;
+import com.mus.myapplication.modules.classes.Point;
 import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.classes.WordCache;
 import com.mus.myapplication.modules.controllers.Director;
 import com.mus.myapplication.modules.views.base.Button;
+import com.mus.myapplication.modules.views.base.FindWordScene;
 import com.mus.myapplication.modules.views.base.GameImageView;
 import com.mus.myapplication.modules.views.base.GameScene;
+import com.mus.myapplication.modules.views.base.GameTextView;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.ScrollView;
 import com.mus.myapplication.modules.views.base.Sprite;
@@ -23,11 +27,7 @@ import com.mus.myapplication.modules.views.scene.MapScene;
 import com.mus.myapplication.modules.views.home.ItemButton;
 import com.mus.myapplication.modules.views.setting.SettingUI;
 import com.vuforia.engine.ImageTargets.ImageTargets;
-public class BedroomScene extends TestScene {
-    @Override
-    public void onTimeOut() {
-
-    }
+public class BedroomScene extends FindWordScene {
 
     public BedroomScene(GameView parent){
         super(parent);
@@ -37,7 +37,8 @@ public class BedroomScene extends TestScene {
 //                getViewTreeObserver().removeOnGlobalLayoutListener(this);
 //            }
 //        });
-        timeRemain = 15*60;
+        questionCount = 9;
+        word = new String[]{"window", "drawers", "bed", "pillow", "blanket", "carpet", "pot", "picture", "mirror", "cupboard", "lamp"};
     }
     @Override
     protected void afterAddChild() {
@@ -45,7 +46,9 @@ public class BedroomScene extends TestScene {
         initScene();
         initButtons();
     }
-    private void initButtons(){
+
+    protected void initButtons(){
+        super.initButtons();
         final BedroomScene that = this;
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -62,7 +65,9 @@ public class BedroomScene extends TestScene {
                 Runnable hideFlashcard = new Runnable() {
                     @Override
                     public void run() {
-                        UIManager.getInstance().hideFlashcardPopup(that);
+                        if(!isTesting) {
+                            UIManager.getInstance().hideFlashcardPopup(that);
+                        }
                     }
                 };
 
@@ -71,7 +76,13 @@ public class BedroomScene extends TestScene {
                         ((ItemButton) v).addTouchEventListener(Sprite.CallbackType.ON_TOUCH_DOWN, new Runnable() {
                             @Override
                             public void run() {
-                                UIManager.getInstance().getFlashcardPopup(v.getName(), that);
+                                if(isTesting){
+                                    if(disableSubmitAnswer) return;
+                                    submitAnswer(((ItemButton)v));
+                                }
+                                else{
+                                    UIManager.getInstance().getFlashcardPopup(v.getName(), that);
+                                }
                             }
                         });
 
@@ -96,128 +107,103 @@ public class BedroomScene extends TestScene {
         bg.setSwallowTouches(false);
 
         final ItemButton drawers = new ItemButton(bg);
-        drawers.setEnableClickEffect(false);
-        drawers.setSpriteAnimation(R.drawable.bedroom_drawers);
-        drawers.setSwallowTouches(true);
-        drawers.setDebugMode(false);
         mappingChild(drawers, "drawers");
-        drawers.setScale(1.0f);
-        drawers.setPosition(114.54144f*scaleFactor/1.3f, 915.41235f*scaleFactor/1.3f);
-        drawers.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(drawers, R.drawable.bedroom_drawers, new Point(114.54144f*scaleFactor/1.3f, 915.41235f*scaleFactor/1.3f), 1f);
 
         final Sprite cupboard1 = new Sprite(bg);
-//        cupboard1.setEnableClickEffect(false);
-        cupboard1.setSpriteAnimation(R.drawable.bedroom_cupboard);
-        cupboard1.setSwallowTouches(true);
-        cupboard1.setDebugMode(false);
         mappingChild(cupboard1, "cupboard1");
-        cupboard1.setScale(1.0f);
-        cupboard1.setPosition(1269.4756f*scaleFactor/1.3f, 768.1133f*scaleFactor/1.3f);
-//        cupboard1.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(cupboard1, R.drawable.bedroom_cupboard, new Point(1269.4756f*scaleFactor/1.3f, 768.1133f*scaleFactor/1.3f), 1f);
 
         final ItemButton bed = new ItemButton(bg);
-        bed.setEnableClickEffect(false);
-        bed.setSpriteAnimation(R.drawable.bedroom_bed);
-        bed.setSwallowTouches(true);
-        bed.setDebugMode(false);
         mappingChild(bed, "bed");
-        bed.setScale(1.0f);
-        bed.setPosition(876.4136f*scaleFactor/1.3f, 632.28534f*scaleFactor/1.3f);
-        bed.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(bed, R.drawable.bedroom_bed, new Point(876.4136f*scaleFactor/1.3f, 632.28534f*scaleFactor/1.3f), 1f);
 
         final ItemButton window = new ItemButton(bg);
-        window.setEnableClickEffect(false);
-        window.setSpriteAnimation(R.drawable.bedroom_window);
-        window.setSwallowTouches(true);
-        window.setDebugMode(false);
         mappingChild(window, "window");
-        window.setScale(1.0f);
-        window.setPosition(503.04144f*scaleFactor/1.3f, 293.5551f*scaleFactor/1.3f);
-        window.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(window, R.drawable.bedroom_window, new Point(503.04144f*scaleFactor/1.3f, 293.5551f*scaleFactor/1.3f), 1f);
 
         final ItemButton mirror = new ItemButton(bg);
-        mirror.setEnableClickEffect(false);
-        mirror.setSpriteAnimation(R.drawable.bedroom_mirror);
-        mirror.setSwallowTouches(true);
-        mirror.setDebugMode(false);
         mappingChild(mirror, "mirror");
-        mirror.setScale(1.0f);
-        mirror.setPosition(133.54144f*scaleFactor/1.3f, 415.41235f*scaleFactor/1.3f);
-        mirror.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(mirror, R.drawable.bedroom_mirror, new Point(133.54144f*scaleFactor/1.3f, 415.41235f*scaleFactor/1.3f), 1f);
 
         final ItemButton picture = new ItemButton(bg);
-        picture.setEnableClickEffect(false);
-        picture.setSpriteAnimation(R.drawable.bedroom_picture);
-        picture.setSwallowTouches(true);
-        picture.setDebugMode(false);
         mappingChild(picture, "picture");
-        picture.setScale(1.0f);
-        picture.setPosition(1671.5415f*scaleFactor/1.3f, 381.41235f*scaleFactor/1.3f);
-        picture.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(picture, R.drawable.bedroom_picture, new Point(1671.5415f*scaleFactor/1.3f, 381.41235f*scaleFactor/1.3f), 1f);
 
         final ItemButton lamp = new ItemButton(bg);
-        lamp.setEnableClickEffect(false);
-        lamp.setSpriteAnimation(R.drawable.bedroom_lamp);
-        lamp.setSwallowTouches(true);
-        lamp.setDebugMode(false);
         mappingChild(lamp, "lamp");
-        lamp.setScale(1.0f);
-        lamp.setPosition(1315.3386f*scaleFactor/1.3f, 632.34753f*scaleFactor/1.3f);
-        lamp.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(lamp, R.drawable.bedroom_lamp, new Point(1315.3386f*scaleFactor/1.3f, 632.34753f*scaleFactor/1.3f), 1f);
 
         final ItemButton pillow = new ItemButton(bg);
-        pillow.setEnableClickEffect(false);
-        pillow.setSpriteAnimation(R.drawable.bedroom_pillow);
-        pillow.setSwallowTouches(true);
-        pillow.setDebugMode(false);
         mappingChild(pillow, "pillow");
-        pillow.setScale(1.0f);
-        pillow.setPosition(1488.4136f*scaleFactor/1.3f, 666.28564f*scaleFactor/1.3f);
-        pillow.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(pillow, R.drawable.bedroom_pillow, new Point(1488.4136f*scaleFactor/1.3f, 666.28564f*scaleFactor/1.3f), 1f);
 
         final ItemButton blanket = new ItemButton(bg);
-        blanket.setEnableClickEffect(false);
-        blanket.setSpriteAnimation(R.drawable.bedroom_blanket);
-        blanket.setSwallowTouches(true);
-        blanket.setDebugMode(false);
         mappingChild(blanket, "blanket");
-        blanket.setScale(1.0f);
-        blanket.setPosition(1022.07544f*scaleFactor/1.3f, 854.28564f*scaleFactor/1.3f);
-        blanket.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(blanket, R.drawable.bedroom_blanket, new Point(1022.07544f*scaleFactor/1.3f, 854.28564f*scaleFactor/1.3f), 1f);
 
         final ItemButton cupboard2 = new ItemButton(bg);
-        cupboard2.setEnableClickEffect(false);
-        cupboard2.setSpriteAnimation(R.drawable.bedroom_cupboard);
-        cupboard2.setSwallowTouches(true);
-        cupboard2.setDebugMode(false);
         mappingChild(cupboard2, "cupboard2");
-        cupboard2.setScale(1.0f);
-        cupboard2.setPosition(2053.413f*scaleFactor/1.3f, 856.28564f*scaleFactor/1.3f);
-        cupboard2.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(cupboard2, R.drawable.bedroom_cupboard, new Point(2053.413f*scaleFactor/1.3f, 856.28564f*scaleFactor/1.3f), 1f);
 
         final ItemButton bonsaiPot = new ItemButton(bg);
-        bonsaiPot.setEnableClickEffect(false);
-        bonsaiPot.setSpriteAnimation(R.drawable.bedroom_bonsai_pot);
-        bonsaiPot.setSwallowTouches(true);
-        bonsaiPot.setDebugMode(false);
-        mappingChild(bonsaiPot, "bonsai_pot");
-        bonsaiPot.setScale(1.0f);
-        bonsaiPot.setPosition(2164.413f*scaleFactor/1.3f, 683.28564f*scaleFactor/1.3f);
-        bonsaiPot.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        mappingChild(bonsaiPot, "pot");
+        initSprite(bonsaiPot, R.drawable.bedroom_bonsai_pot, new Point(2164.413f*scaleFactor/1.3f, 683.28564f*scaleFactor/1.3f), 1f);
 
         final ItemButton carpet = new ItemButton(bg);
-        carpet.setEnableClickEffect(false);
-        carpet.setSpriteAnimation(R.drawable.bedroom_carpet);
-        carpet.setSwallowTouches(true);
-        carpet.setDebugMode(false);
         mappingChild(carpet, "carpet");
-        carpet.setScale(1.0f);
-        carpet.setPosition(1576.4135f*scaleFactor/1.3f, 1174.2854f*scaleFactor/1.3f);
-        carpet.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        initSprite(carpet, R.drawable.bedroom_carpet, new Point(1576.4135f*scaleFactor/1.3f, 1174.2854f*scaleFactor/1.3f), 1f);
 
         Button btnBack = new Button(this);
         btnBack.setSpriteAnimation(R.drawable.back_button);
         btnBack.setPosition(50, 50);
         mappingChild(btnBack, "btnBack");
+
+        Button btnTest = new Button(this);
+        btnTest.setSpriteAnimation(R.drawable.button_test);
+        btnTest.scaleToMaxWidth(150);
+        btnTest.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("right", btnTest.getContentSize(false).width+bg.getContentSize().width*0.06f) , LayoutPosition.getRule("top", +bg.getContentSize().width*0.03f)));
+        mappingChild(btnTest, "testBtn");
+
+        GameView test = new GameView(this);
+        mappingChild(test, "testGroup");
+
+        Sprite countDownBox = new Sprite(test);
+        countDownBox.setSpriteAnimation(R.drawable.school_iq_quiz_count_down);
+        countDownBox.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("right", countDownBox.getContentSize(false).width+bg.getContentSize().width*0.06f), LayoutPosition.getRule("top", bg.getContentSize().width*0.03f)));
+        final GameTextView lbCountDown = new GameTextView(countDownBox);
+        lbCountDown.setText(Utils.secondToString(timeRemain));
+        lbCountDown.setFont(FontCache.Font.UVNNguyenDu);
+        lbCountDown.setPositionCenterParent(false, false);
+        lbCountDown.addUpdateRunnable(new UpdateRunnable() {
+            @Override
+            public void run() {
+                if(stoppedCountDown || !isTesting) return;
+                timeRemain -= dt;
+                if(timeRemain < 0){
+                    onTimeOut();
+                    return;
+                }
+                lbCountDown.setText(Utils.secondToString(timeRemain));
+                lbCountDown.setPositionCenterParent(false, true);
+            }
+        });
+
+        GameTextView question = new GameTextView(test);
+        question.setText("Grandfather", FontCache.Font.UVNNguyenDu, 32);
+        question.setPositionX(bg.getContentSize().width*0.06f);
+        question.setPositionCenterScreen(true, false);
+        mappingChild(question, "lbQuestion");
+    }
+
+    @Override
+    protected void initSprite(Sprite s, int resId, Point pos, float scale) {
+        super.initSprite(s, resId, pos, scale);
+        s.setSwallowTouches(true);
+        if(s instanceof ItemButton){
+            ItemButton b = (ItemButton) s;
+            b.setEnableClickEffect(false);
+            b.touchEventListener(0.2f, 1.15f,0.2f, 1.0f);
+        }
     }
 }

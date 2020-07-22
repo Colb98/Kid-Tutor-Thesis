@@ -11,11 +11,11 @@ import com.mus.myapplication.modules.views.base.Sprite;
 
 public class FlashcardPopup extends Sprite {
     public static class WordDesc{
-        String word;
-        String desc;
-        String pronounce;
-        int resId;
-        int soundId;
+        public String word;
+        public String desc;
+        public String pronounce;
+        public int resId;
+        public int soundId;
 
         public WordDesc(int resId, String word, String desc, String pronounce){
             this.resId = resId;

@@ -29,6 +29,12 @@ public abstract class TestScene extends GameScene {
         AreaMusicManager.playArea("test");
     }
 
+    @Override
+    public void hide() {
+        super.hide();
+        stopCountDown();
+    }
+
     protected void loadQuestion(int index){
         currentQuestion = index;
     }
