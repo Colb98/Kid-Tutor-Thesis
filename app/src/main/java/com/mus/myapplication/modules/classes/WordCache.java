@@ -27,6 +27,25 @@ public class WordCache {
         put("sister", new FlashcardPopup.WordDesc(R.drawable.relative_sister, R.raw.sound_us_sister, "Sister", "Chị/em gái", "/ˈsɪs.tɚ/"));
         put("brother", new FlashcardPopup.WordDesc(R.drawable.relative_brother, R.raw.sound_us_brother, "Brother", "Anh/em trai", "/ˈbrʌð.ɚ/"));
         put("cousin", new FlashcardPopup.WordDesc(R.drawable.relative_cousin2, R.raw.sound_us_cousin, "Cousin", "Anh chị em họ", "/ˈkʌz.ən/"));
+        put("fridge", new FlashcardPopup.WordDesc(R.drawable.kitchen_fridge, R.raw.sound_us_fridge, "Fridge", "Tủ lạnh", "/ˈfrɪdʒ/"));
+        put("table", new FlashcardPopup.WordDesc(R.drawable.kitchen_table, R.raw.sound_us_table, "Table", "Cái bàn", "/ˈteɪ.bəl/"));
+        put("stove", new FlashcardPopup.WordDesc(R.drawable.kitchen_stove, R.raw.sound_us_stove, "Stove", "Cái bếp", "/ˈstoʊv/"));
+        put("chair", new FlashcardPopup.WordDesc(R.drawable.kitchen_chair1, R.raw.sound_us_chair, "Chair", "Cái ghế", "/ˈtʃer/"));
+        put("kitchen_cupboard", new FlashcardPopup.WordDesc(R.drawable.kitchen_cupboard1, R.raw.sound_us_cupboard, "Cupboard", "Cái tủ", "/ˈkʌb.ɚd/"));
+        put("curtain", new FlashcardPopup.WordDesc(R.drawable.livingroom_curtain, R.raw.sound_us_curtain, "Curtain", "Tấm màn", "/ˈkɝː.t̬ən/"));
+        put("sofa", new FlashcardPopup.WordDesc(R.drawable.livingroom_sofa, R.raw.sound_us_sofa, "Sofa", "Ghế sô pha", "/ˈsoʊ.fə/"));
+        put("bonsaiPot", new FlashcardPopup.WordDesc(R.drawable.livingroom_bonsai_pot, R.raw.sound_us_bonsai, "Bonsai", "Cây cảnh", "/bɑːnˈsaɪ/"));
+        put("ceilingLight", new FlashcardPopup.WordDesc(R.drawable.livingroom_ceiling_light1, R.raw.sound_us_light, "Light", "Cái đèn", "/laɪt/"));
+        put("livingroom_table", new FlashcardPopup.WordDesc(R.drawable.livingroom_table, R.raw.sound_us_table, "Table", "Cái bàn", "/ˈteɪ.bəl/"));
+        put("livingroom_window", new FlashcardPopup.WordDesc(R.drawable.livingroom_window1, R.raw.sound_us_window, "Window", "Cửa sổ", "/ˈwɪn.doʊ/"));
+        put("bathroom_window", new FlashcardPopup.WordDesc(R.drawable.bathroom_window, R.raw.sound_us_window, "Window", "Cửa sổ", "/ˈwɪn.doʊ/"));
+        put("toilet", new FlashcardPopup.WordDesc(R.drawable.bathroom_toilet, R.raw.sound_us_toilet, "Toilet", "Bồn cầu", "/ˈtɔɪ.lət/"));
+        put("bathroom_mirror", new FlashcardPopup.WordDesc(R.drawable.bathroom_mirror, R.raw.sound_us_mirror, "Mirror", "Gương/Kính", "/ˈmɪr.ɚ/"));
+        put("washbasin", new FlashcardPopup.WordDesc(R.drawable.bathroom_washbasin, R.raw.sound_us_washbasin, "Washbasin", "Bồn rửa mặt", "/ˈwɑːʃˌbeɪ.sən/"));
+        put("bathtub", new FlashcardPopup.WordDesc(R.drawable.bathroom_bathtub, R.raw.sound_us_bathtub, "Bathtub", "Bồn tắm", "/ˈbæθ.tʌb/"));
+        put("shower", new FlashcardPopup.WordDesc(R.drawable.bathroom_shower, R.raw.sound_us_shower, "Shower", "Vòi sen", "/ˈʃaʊ.ɚ/"));
+        put("bathroom_curtain", new FlashcardPopup.WordDesc(R.drawable.bathroom_curtain, R.raw.sound_us_curtain, "Curtain", "Tấm màn", "/ˈkɝː.t̬ən/"));
+        put("door", new FlashcardPopup.WordDesc(R.drawable.bathroom_door, R.raw.sound_us_door, "Door", "Cửa", "/dɔːr/"));
     }};
 
     public static FlashcardPopup.WordDesc getWordDesc(String s){

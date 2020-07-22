@@ -13,6 +13,7 @@ import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.classes.WordCache;
 import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.views.base.actions.DelayTime;
+import com.mus.myapplication.modules.views.home.ItemButton;
 import com.mus.myapplication.modules.views.home.RelativeScene;
 import com.mus.myapplication.modules.views.popup.ConfirmPopup;
 import com.mus.myapplication.modules.views.popup.ResultPopup;
@@ -104,7 +105,8 @@ public class FindWordScene extends TestScene {
     }
 
     private void randomQuestionMap(){
-        questionMap = new int[]{0,1,2,3,4,5,6,7,8};
+        questionMap = new int[word.length-1];
+        for(int i=0;i<word.length-1;i++){ questionMap[i] = i;}
         for(int i=1;i<questionMap.length;i++){
             int j = (int)(Math.random()*(i+1));
             if(j != i){
@@ -138,7 +140,7 @@ public class FindWordScene extends TestScene {
 
 
     protected void submitAnswer(Sprite button){
-        String w = button.getName();
+        String w = getWord(button.getName());
         if(w.equals(word[questionMap[currentQuestion]])){
             correctAnswer++;
             Sounds.play(R.raw.sound_correct);
@@ -182,12 +184,20 @@ public class FindWordScene extends TestScene {
                     submitAnswer(s);
                 }
                 else{
-                    Sprite flashcard = UIManager.getInstance().getFlashcardPopup(s.getName(), that);
+                    Sprite flashcard = UIManager.getInstance().getFlashcardPopup(getWord(s.getName()), that);
                     flashcard.setPositionX(0);
                     flashcard.setPositionCenterScreen(true, false);
                 }
             }
         });
         s.addTouchEventListener(Sprite.CallbackType.ON_TOUCH_UP, hideFlashcard);
+    }
+
+    public String getWord(String name){
+        String word = name;
+        char key = word.charAt(word.length() - 1);
+        if(key <= '9' && key >= '0')
+            word = word.substring(0,word.length() - 1);
+        return word;
     }
 }

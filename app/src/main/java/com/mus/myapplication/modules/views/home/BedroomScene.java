@@ -37,9 +37,10 @@ public class BedroomScene extends FindWordScene {
 //                getViewTreeObserver().removeOnGlobalLayoutListener(this);
 //            }
 //        });
-        questionCount = 9;
+        questionCount = 8;
         word = new String[]{"window", "drawers", "bed", "pillow", "blanket", "carpet", "pot", "picture", "mirror", "cupboard", "lamp"};
     }
+
     @Override
     protected void afterAddChild() {
         super.afterAddChild();
@@ -81,7 +82,7 @@ public class BedroomScene extends FindWordScene {
                                     submitAnswer(((ItemButton)v));
                                 }
                                 else{
-                                    UIManager.getInstance().getFlashcardPopup(v.getName(), that);
+                                    UIManager.getInstance().getFlashcardPopup(getWord(v.getName()), that);
                                 }
                             }
                         });
