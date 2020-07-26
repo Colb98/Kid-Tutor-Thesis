@@ -7,14 +7,14 @@
     tools:context=".MainActivity">
 
 
-    <com.mus.myapplication.modules.views.base.GameView
+    <com.mus.kidpartner.modules.views.base.GameView
         android:id="@+id/gameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="false"
         android:contentDescription="View1" />
 
-    <com.mus.myapplication.modules.views.base.ViewContainer
+    <com.mus.kidpartner.modules.views.base.ViewContainer
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
