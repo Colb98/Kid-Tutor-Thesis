@@ -71,8 +71,11 @@ int screenHeight                = 0;
 
 
 jclass activityClass            = 0;
-JNIEnv* environment             = 0;
+//static JavaVM* javaVm           = 0;
+//JNIEnv* environment             = 0;
 jobject actObj                  = 0;
+char* detectName                = 0;
+bool isPausedTracking           = false;
 
 // Indicates whether screen is in portrait (true) or landscape (false) mode
 bool isActivityInPortraitMode   = false;
@@ -83,7 +86,7 @@ static const float kBuildingsObjectScale = 0.012f;
 
 static const float kBuildingsTranslation = -0.06f;
 
-Vuforia::DataSet* dataSetStonesAndChips  = 0;
+Vuforia::DataSet* dataSetAlphabet  = 0;
 Vuforia::DataSet* dataSetTarmac          = 0;
 
 SampleAppRenderer* sampleAppRenderer = 0;
@@ -100,6 +103,7 @@ class ImageTargets_UpdateCallback : public Vuforia::UpdateCallback
 {   
     virtual void Vuforia_onUpdate(Vuforia::State& /*state*/)
     {
+        if(isPausedTracking) return;
         if (switchDataSetAsap)
         {
             switchDataSetAsap = false;
@@ -108,7 +112,7 @@ class ImageTargets_UpdateCallback : public Vuforia::UpdateCallback
             Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
             Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(
                 trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
-            if (objectTracker == 0 || dataSetStonesAndChips == 0 || dataSetTarmac == 0 ||
+            if (objectTracker == 0 || dataSetAlphabet == 0 || dataSetTarmac == 0 ||
                 objectTracker->getActiveDataSets().at(0) == 0)
             {
                 LOG("Failed to switch data set.");
@@ -119,17 +123,17 @@ class ImageTargets_UpdateCallback : public Vuforia::UpdateCallback
             {
                 default:
                 case STONES_AND_CHIPS_DATASET_ID:
-                    if (objectTracker->getActiveDataSets().at(0) != dataSetStonesAndChips)
+                    if (objectTracker->getActiveDataSets().at(0) != dataSetAlphabet)
                     {
                         objectTracker->deactivateDataSet(dataSetTarmac);
-                        objectTracker->activateDataSet(dataSetStonesAndChips);
+                        objectTracker->activateDataSet(dataSetAlphabet);
                     }
                     break;
                     
                 case TARMAC_DATASET_ID:
                     if (objectTracker->getActiveDataSets().at(0) != dataSetTarmac)
                     {
-                        objectTracker->deactivateDataSet(dataSetStonesAndChips);
+                        objectTracker->deactivateDataSet(dataSetAlphabet);
                         objectTracker->activateDataSet(dataSetTarmac);
                     }
                     break;
@@ -258,8 +262,8 @@ Java_com_vuforia_engine_ImageTargets_ImageTargets_loadTrackerData(JNIEnv *, jobj
     }
 
     // Create the data sets:
-    dataSetStonesAndChips = objectTracker->createDataSet();
-    if (dataSetStonesAndChips == 0)
+    dataSetAlphabet = objectTracker->createDataSet();
+    if (dataSetAlphabet == 0)
     {
         LOG("Failed to create a new tracking data.");
         return 0;
@@ -273,7 +277,7 @@ Java_com_vuforia_engine_ImageTargets_ImageTargets_loadTrackerData(JNIEnv *, jobj
     }
 
     // Load the data sets:
-    if (!dataSetStonesAndChips->load("StonesAndChips.xml", Vuforia::STORAGE_APPRESOURCE))
+    if (!dataSetAlphabet->load("Alphabet2.xml", Vuforia::STORAGE_APPRESOURCE))
     {
         LOG("Failed to load data set.");
         return 0;
@@ -286,7 +290,7 @@ Java_com_vuforia_engine_ImageTargets_ImageTargets_loadTrackerData(JNIEnv *, jobj
     }
 
     // Activate the data set:
-    if (!objectTracker->activateDataSet(dataSetStonesAndChips))
+    if (!objectTracker->activateDataSet(dataSetAlphabet))
     {
         LOG("Failed to activate data set.");
         return 0;
@@ -313,24 +317,24 @@ Java_com_vuforia_engine_ImageTargets_ImageTargets_destroyTrackerData(JNIEnv *, j
         return 0;
     }
     
-    if (dataSetStonesAndChips != 0)
+    if (dataSetAlphabet != 0)
     {
-        if (objectTracker->getActiveDataSets().at(0) == dataSetStonesAndChips &&
-            !objectTracker->deactivateDataSet(dataSetStonesAndChips))
+        if (objectTracker->getActiveDataSets().at(0) == dataSetAlphabet &&
+            !objectTracker->deactivateDataSet(dataSetAlphabet))
         {
-            LOG("Failed to destroy the tracking data set StonesAndChips because the data set "
+            LOG("Failed to destroy the tracking data set Alphabet because the data set "
                 "could not be deactivated.");
             return 0;
         }
 
-        if (!objectTracker->destroyDataSet(dataSetStonesAndChips))
+        if (!objectTracker->destroyDataSet(dataSetAlphabet))
         {
-            LOG("Failed to destroy the tracking data set StonesAndChips.");
+            LOG("Failed to destroy the tracking data set Alphabet.");
             return 0;
         }
 
-        LOG("Successfully destroyed the data set StonesAndChips.");
-        dataSetStonesAndChips = 0;
+        LOG("Successfully destroyed the data set Alphabet.");
+        dataSetAlphabet = 0;
     }
 
     if (dataSetTarmac != 0)
@@ -502,6 +506,7 @@ void renderFrameForView(const Vuforia::State& state, Vuforia::Matrix44F& project
     }
 
     // Did we find any trackables this frame?
+    detectName = "";
     const auto& trackableResultList = state.getTrackableResults();
     for (const auto& result : trackableResultList)
     {
@@ -521,24 +526,37 @@ void renderFrameForView(const Vuforia::State& state, Vuforia::Matrix44F& project
             else if (strcmp(trackable.getName(), "stones") == 0)
             {
                 textureIndex = 1;
-                
-                jmethodID getTextureCountMethodID = environment->GetMethodID(activityClass,
-                                                                "testCallFromNative", "()V");
-
-                environment->CallVoidMethod(actObj, getTextureCountMethodID);\
+//                javaVm->DetachCurrentThread();
             }
             else
             {
                 textureIndex = 2;
             }
+            detectName = strdup(trackable.getName());
 
-            renderModel(projectionMatrix, devicePoseMatrix, mModelViewMatrix, textureIndex);
+//            renderModel(projectionMatrix, devicePoseMatrix, mModelViewMatrix, textureIndex);
         }
     }
 
     glDisable(GL_DEPTH_TEST);
 }
 
+
+JNIEXPORT jstring JNICALL
+Java_com_vuforia_engine_ImageTargets_ImageTargets_getDetectName(JNIEnv *env, jobject thiz) {
+    return env->NewStringUTF(detectName);
+}
+
+
+JNIEXPORT void JNICALL
+Java_com_vuforia_engine_ImageTargets_ImageTargets_resumeTracking(JNIEnv *env, jobject thiz) {
+    isPausedTracking = false;
+}
+
+JNIEXPORT void JNICALL
+Java_com_vuforia_engine_ImageTargets_ImageTargets_pauseTracking(JNIEnv *env, jobject thiz) {
+    isPausedTracking = true;
+}
 
 void
 configureVideoBackground()
@@ -674,9 +692,11 @@ Java_com_vuforia_engine_ImageTargets_ImageTargets_initApplicationNative(
     sampleAppRenderer = new SampleAppRenderer();
 
     // Handle to the activity class:
-    environment = env;
+//    int gotVM = env->GetJavaVM(&javaVm);
+//    environment = env;
     activityClass = env->GetObjectClass(obj);
-    actObj = obj;
+//    actObj = obj;
+//    LOG("Got VM? %s", gotVM ? "true":"false");
 
     jmethodID getTextureCountMethodID = env->GetMethodID(activityClass,
                                                     "getTextureCount", "()I");

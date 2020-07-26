@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver;
 
 import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.FontCache;
+import com.mus.myapplication.modules.classes.LayoutPosition;
 import com.mus.myapplication.modules.classes.SceneCache;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.classes.WordCache;
@@ -17,40 +18,14 @@ import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.Sprite;
 import com.mus.myapplication.modules.views.home.BedroomScene;
 import com.mus.myapplication.modules.views.popup.FlashcardPopup;
+import com.vuforia.engine.ImageTargets.ImageTargets;
 
 import java.util.HashMap;
 
 public class ABCLearnScene extends GameScene {
     private int level = 0;
     private int curIdx = 0;
-    private static String[] listWord = new String[]{
-            "apple",
-            "banana",
-            "cat",
-            "dog",
-            "elephant",
-            "fish",
-            "ghost",
-            "hat",
-            "ice cream",
-            "jump",
-            "king",
-            "lamb",
-            "moon",
-            "nervous",
-            "octopus",
-            "pig",
-            "queen",
-            "ruler",
-            "ship",
-            "train",
-            "umbrella",
-            "village",
-            "wolf",
-            "x ray",
-            "yellow",
-            "zebra"
-    };
+
 
     public ABCLearnScene(GameView parent){
         super(parent);
@@ -74,6 +49,14 @@ public class ABCLearnScene extends GameScene {
                     @Override
                     public void run() {
                         Director.getInstance().loadScene(SceneCache.getScene("school"));
+                    }
+                });
+
+                Button test = (Button) getChild("testBtn");
+                test.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().runActivity(ImageTargets.class);
                     }
                 });
 
@@ -142,6 +125,12 @@ public class ABCLearnScene extends GameScene {
         pre.setPositionX(width * 0.2f - pre.getContentSize().width);
         pre.setPositionCenterScreen(true, false);
         mappingChild(pre, "previous");
+
+        Button btnTest = new Button(this);
+        btnTest.setSpriteAnimation(R.drawable.button_test);
+        btnTest.scaleToMaxWidth(150);
+        btnTest.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("right", btnTest.getContentSize(false).width+width*0.03f) , LayoutPosition.getRule("top", width*0.015f)));
+        mappingChild(btnTest, "testBtn");
     }
 
     public void setLevel(int level){
@@ -170,7 +159,7 @@ public class ABCLearnScene extends GameScene {
             return;
         }
         idx = level*9 + idx;
-        final FlashcardPopup.WordDesc w = WordCache.getWordDesc(listWord[idx]);
+        final FlashcardPopup.WordDesc w = WordCache.getWordDesc(WordCache.listWord[idx]);
 
         GameTextView word = (GameTextView) getChild("word");
         GameTextView meaning = (GameTextView) getChild("meaning");

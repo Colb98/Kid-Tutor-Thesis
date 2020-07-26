@@ -11,6 +11,11 @@ public class DelayTime extends Action {
         super(duration);
     }
 
+    public DelayTime(float duration, Runnable callback){
+        super(duration);
+        addOnFinishedCallback(callback);
+    }
+
     @Override
     public Action clone() {
         DelayTime ans = new DelayTime(duration);

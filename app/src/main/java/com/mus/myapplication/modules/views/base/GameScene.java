@@ -3,6 +3,7 @@ package com.mus.myapplication.modules.views.base;
 import android.util.Log;
 import android.widget.RelativeLayout;
 
+import com.mus.myapplication.R;
 import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.classes.Utils;
 
@@ -45,8 +46,9 @@ public class GameScene extends GameView{
         Sprite bg = new Sprite(this);
         bg.setSpriteAnimation(resIdBackground);
         Size bgSize = bg.getContentSize(false);
-        float widthRatio = bgSize.width / Utils.getScreenWidth();
-        float heightRatio = bgSize.height / Utils.getScreenHeight();
+        float width = Utils.getScreenWidth(), height = Utils.getScreenHeight();
+        float widthRatio = bgSize.width / width;
+        float heightRatio = bgSize.height / height;
         float scaleRatio;
 //        Log.d("scene", "width ratio: " + widthRatio + " " + heightRatio);
         if(widthRatio < 1 || heightRatio < 1){

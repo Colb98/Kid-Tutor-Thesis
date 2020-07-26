@@ -4,14 +4,9 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.mus.myapplication.modules.classes.Size;
 import com.mus.myapplication.modules.views.base.Button;
 import com.mus.myapplication.modules.views.base.GameScene;
-import com.mus.myapplication.modules.views.base.GameTextView;
-import com.mus.myapplication.modules.views.base.ScrollView;
 import com.mus.myapplication.modules.views.base.Sprite;
-import com.mus.myapplication.spriteanimation.MonsterCat;
-import com.mus.myapplication.spriteanimation.MonsterRabbit;
 
 public class ScrollViewTestScene extends GameScene {
 

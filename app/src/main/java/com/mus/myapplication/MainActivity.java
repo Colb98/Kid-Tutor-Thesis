@@ -6,21 +6,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.ComponentName;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.mus.myapplication.modules.classes.SceneCache;
-import com.mus.myapplication.modules.classes.UIManager;
 import com.mus.myapplication.modules.classes.Utils;
 import com.mus.myapplication.modules.controllers.AppAlarmService;
 import com.mus.myapplication.modules.controllers.AreaMusicManager;
@@ -29,16 +27,14 @@ import com.mus.myapplication.modules.controllers.Sounds;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
 import com.mus.myapplication.modules.views.base.ViewContainer;
-import com.mus.myapplication.modules.views.scene.MapScene;
-import com.mus.myapplication.modules.views.scene.TestMenuScene;
-import com.mus.myapplication.modules.views.setting.SettingUI;
+import com.mus.myapplication.modules.views.popup.ConfirmPopup;
 import com.vuforia.engine.ImageTargets.ImageTargets;
 
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     boolean backPressed = false;
+    final static int REQUEST_UPDATE_PLAY_API = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +98,6 @@ public class MainActivity extends AppCompatActivity {
                                     return;
                                 }
                                 mainView.update((cur - lastUpdate)/1000f);
-                                if(cur - first > 5000){
-                                    ((ViewContainer) findViewById(R.id.mainContainer)).getDrawOrder();
-                                }
                                 lastUpdate = cur;
                             }
                         });
@@ -117,6 +110,29 @@ public class MainActivity extends AppCompatActivity {
 
         thread.start();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        GoogleApiAvailability instance = GoogleApiAvailability.getInstance();
+        final int result = instance.isGooglePlayServicesAvailable(this);
+        if(result != ConnectionResult.SUCCESS){
+            GameView v = Director.getInstance().getMainView();
+            ConfirmPopup popup = new ConfirmPopup(v);
+            v.mappingChild(popup, "confirm");
+            popup.setMessage("Vui lòng cập nhật Google Play Service bản mới nhất");
+            popup.setTextNormal("OK");
+            popup.setTextRed("THÔI");
+            popup.addOnNormalCallback(new Runnable() {
+                @Override
+                public void run() {
+                    GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, result, REQUEST_UPDATE_PLAY_API);
+                }
+            });
+        }
+    }
+
 
     @Override
     protected void onStop() {

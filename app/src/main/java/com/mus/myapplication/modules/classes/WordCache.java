@@ -56,6 +56,34 @@ public class WordCache {
         put("zebra", new FlashcardPopup.WordDesc(R.drawable.alphabet_zebra, R.raw.sound_us_zebra, "Zebra", "Ngựa vằn", "/ˈziː.brə/"));
     }};
 
+    public static String[] listWord = new String[]{
+            "apple",
+            "banana",
+            "cat",
+            "dog",
+            "elephant",
+            "fish",
+            "ghost",
+            "hat",
+            "ice cream",
+            "jump",
+            "king",
+            "lamb",
+            "moon",
+            "nervous",
+            "octopus",
+            "pig",
+            "queen",
+            "ruler",
+            "ship",
+            "train",
+            "umbrella",
+            "village",
+            "wolf",
+            "x ray",
+            "yellow",
+            "zebra"
+    };
     public static FlashcardPopup.WordDesc getWordDesc(String s){
         return map.get(s);
     }

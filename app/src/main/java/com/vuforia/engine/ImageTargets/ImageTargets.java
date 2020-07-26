@@ -552,9 +552,46 @@ public class ImageTargets extends Activity
 
         gv.setViewGroup(c);
         ABCTestScene scene = new ABCTestScene(gv);
+        scene.setActivityRef(this);
         this.scene = scene;
+        initThread(gv);
 //        scene.setPosition(Utils.getScreenWidth()/2, 0);
     }
+
+    private void initThread(final GameView mainView){
+        Thread thread = new Thread(){
+            private long first = System.currentTimeMillis();
+            private long lastUpdate = System.currentTimeMillis();
+
+            @Override
+            public void run() {
+                while(!isInterrupted()){
+                    try{
+                        Thread.sleep(6);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                long cur = System.currentTimeMillis();
+                                if(cur-lastUpdate < 1000/24) {
+                                    return;
+                                }
+                                mainView.update((cur - lastUpdate)/1000f);
+                                lastUpdate = cur;
+                            }
+                        });
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        thread.start();
+    }
+
+    public native void pauseTracking();
+
+    public native void resumeTracking();
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -584,10 +621,6 @@ public class ImageTargets extends Activity
                 getAssets()));
         mTextures
                 .add(Texture.loadTextureFromApk("Buildings.png", getAssets()));
-    }
-
-    public void testCallFromNative(){
-        showToast("abcd");
     }
 
     /** Native tracker initialization and deinitialization. */
@@ -978,6 +1011,7 @@ public class ImageTargets extends Activity
 
     private native boolean autofocus();
 
+    public native String getDetectName();
 
     private native boolean setFocusMode(int mode);
 
@@ -1099,7 +1133,7 @@ public class ImageTargets extends Activity
     }
 
 
-    private void showToast(String text)
+    public void showToast(String text)
     {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }

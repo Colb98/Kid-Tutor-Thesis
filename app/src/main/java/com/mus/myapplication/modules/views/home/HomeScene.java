@@ -129,6 +129,7 @@ public class HomeScene extends GameScene{
                             Director.getInstance().loadScene(SceneCache.getScene("map"));
                         else
                             chooseCategory();
+                        Log.d("Home scene", "has bar??? : " + (getChild("barT") != null));
                     }
                 });
 

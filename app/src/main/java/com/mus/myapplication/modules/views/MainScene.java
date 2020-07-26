@@ -1,14 +1,9 @@
 package com.mus.myapplication.modules.views;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.vuforia.engine.ImageTargets.ImageTargets;
 import com.mus.myapplication.modules.views.base.GameScene;
 import com.mus.myapplication.modules.views.base.GameView;
-import com.mus.myapplication.modules.views.base.Sprite;
-import com.mus.myapplication.spriteanimation.CuteGirl;
 
 public class MainScene extends GameScene {
     private static final String LOGTAG = "MainScene";

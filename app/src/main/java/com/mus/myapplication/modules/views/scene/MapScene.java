@@ -144,15 +144,15 @@ public class MapScene extends GameScene {
         btn_achievement.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("top", 50), LayoutPosition.getRule("right", btn_setting.getContentSize(false).width + 150 + btn_achievement.getContentSize(false).width)));
         mappingChild(btn_achievement, "achievement");
 
-//        Button testVuforia = new Button(this);
-//        testVuforia.setZOrder(100);
-//        testVuforia.setPosition(100, 50);
-//        testVuforia.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
-//            @Override
-//            public void run() {
-//                Director.getInstance().runActivity(ImageTargets.class);
-//            }
-//        });
+        Button testVuforia = new Button(this);
+        testVuforia.setZOrder(100);
+        testVuforia.setPosition(100, 50);
+        testVuforia.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+            @Override
+            public void run() {
+                Director.getInstance().runActivity(ImageTargets.class);
+            }
+        });
 
         Button home = new Button(bg);
         home.setSpriteAnimation(R.drawable.map_home);
