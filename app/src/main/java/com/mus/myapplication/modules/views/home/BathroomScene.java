@@ -35,7 +35,7 @@ public class BathroomScene extends FindWordScene {
 //            }
 //        });
         questionCount = 6;
-        word = new String[]{"bathroom_window", "toilet", "bathroom_mirror", "washbasin", "bathtub", "shower", "bathroom_curtain", "door"};
+        word = new String[]{"window", "toilet", "mirror", "washbasin", "bathtub", "shower", "curtain", "door"};
     }
     @Override
     protected void afterAddChild() {
@@ -101,7 +101,7 @@ public class BathroomScene extends FindWordScene {
         bg.setSwallowTouches(false);
 
         final ItemButton window = new ItemButton(bg);
-        mappingChild(window, "bathroom_window");
+        mappingChild(window, "window");
         initSprite(window, R.drawable.bathroom_window, new Point(52.04126f*scaleFactor/1.3f, 220.55511f*scaleFactor/1.3f), 1f);
 
         final ItemButton toilet = new ItemButton(bg);
@@ -109,7 +109,7 @@ public class BathroomScene extends FindWordScene {
         initSprite(toilet, R.drawable.bathroom_toilet, new Point(430.5448f*scaleFactor/1.3f, 703.0516f*scaleFactor/1.3f), 1f);
 
         final ItemButton mirror = new ItemButton(bg);
-        mappingChild(mirror, "bathroom_mirror");
+        mappingChild(mirror, "mirror");
         initSprite(mirror, R.drawable.bathroom_mirror, new Point(735.5448f*scaleFactor/1.3f, 288.05157f*scaleFactor/1.3f), 1f);
 
         final ItemButton washbasin = new ItemButton(bg);
@@ -125,7 +125,7 @@ public class BathroomScene extends FindWordScene {
         initSprite(shower, R.drawable.bathroom_shower, new Point(1425.5447f*scaleFactor/1.3f, 372.55157f*scaleFactor/1.3f), 1f);
 
         final ItemButton curtain = new ItemButton(bg);
-        mappingChild(curtain, "bathroom_curtain");
+        mappingChild(curtain, "curtain");
         initSprite(curtain, R.drawable.bathroom_curtain, new Point(1605.5447f*scaleFactor/1.3f, 291.55157f*scaleFactor/1.3f), 1f);
 
         final ItemButton door = new ItemButton(bg);

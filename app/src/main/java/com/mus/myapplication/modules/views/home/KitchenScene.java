@@ -106,19 +106,19 @@ public class KitchenScene extends FindWordScene {
         initSprite(fridge, R.drawable.kitchen_fridge, new Point(1600.5447f*scaleFactor/1.3f, 153.55157f*scaleFactor/1.3f), 1f);
 
         final ItemButton cupboard1 = new ItemButton(bg);
-        mappingChild(cupboard1, "kitchen_cupboard1");
+        mappingChild(cupboard1, "cupboard1");
         initSprite(cupboard1, R.drawable.kitchen_cupboard1, new Point(196.04468f*scaleFactor/1.3f, 61.051575f*scaleFactor/1.3f), 1f);
 
         final ItemButton cupboard2 = new ItemButton(bg);
-        mappingChild(cupboard2, "kitchen_cupboard2");
+        mappingChild(cupboard2, "cupboard2");
         initSprite(cupboard2, R.drawable.kitchen_cupboard2, new Point(189.54468f*scaleFactor/1.3f, 525.0516f*scaleFactor/1.3f), 1f);
 
         final ItemButton cupboard3 = new ItemButton(bg);
-        mappingChild(cupboard3, "kitchen_cupboard3");
+        mappingChild(cupboard3, "cupboard3");
         initSprite(cupboard3, R.drawable.kitchen_cupboard3, new Point(1491.5447f*scaleFactor/1.3f, 581.0516f*scaleFactor/1.3f), 1f);
 
         final ItemButton cupboard4 = new ItemButton(bg);
-        mappingChild(cupboard4, "kitchen_cupboard4");
+        mappingChild(cupboard4, "cupboard4");
         initSprite(cupboard4, R.drawable.kitchen_cupboard4, new Point(1472.0447f*scaleFactor/1.3f, 154.05157f*scaleFactor/1.3f), 1f);
 
         final ItemButton stove = new ItemButton(bg);

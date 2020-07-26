@@ -35,7 +35,7 @@ public class LivingroomScene extends FindWordScene {
 //            }
 //        });
         questionCount = 8;
-        word = new String[]{"livingroom_window","curtain","cupboard","picture","lamp", "sofa", "pillow", "livingroom_table", "bonsaiPot", "ceilingLight"};
+        word = new String[]{"window","curtain","cupboard","picture","lamp", "sofa", "pillow", "table", "bonsaiPot", "ceilingLight"};
     }
     @Override
     protected void afterAddChild() {
@@ -101,11 +101,11 @@ public class LivingroomScene extends FindWordScene {
         bg.setSwallowTouches(false);
 
         final ItemButton window1 = new ItemButton(bg);
-        mappingChild(window1, "livingroom_window1");
+        mappingChild(window1, "window1");
         initSprite(window1, R.drawable.livingroom_window1, new Point(1819.0415f*scaleFactor/1.3f, 280.5551f*scaleFactor/1.3f), 1f);
 
         final ItemButton window2 = new ItemButton(bg);
-        mappingChild(window2, "livingroom_window2");
+        mappingChild(window2, "window2");
         initSprite(window2, R.drawable.livingroom_window2, new Point(2215.042f*scaleFactor/1.3f, 283.5551f*scaleFactor/1.3f), 1f);
 
         final ItemButton curtain = new ItemButton(bg);
@@ -137,7 +137,7 @@ public class LivingroomScene extends FindWordScene {
         initSprite(pillow, R.drawable.livingroom_pillow, new Point(899.4136f*scaleFactor/1.3f, 901.28564f*scaleFactor/1.3f), 1f);
 
         final ItemButton table = new ItemButton(bg);
-        mappingChild(table, "livingroom_table");
+        mappingChild(table, "table");
         initSprite(table, R.drawable.livingroom_table, new Point(980.4136f*scaleFactor/1.3f, 1094.2852f*scaleFactor/1.3f), 1f);
 
         final ItemButton bonsaiPot = new ItemButton(bg);
