@@ -20,6 +20,10 @@ public class Achievement {
         achievedTimestamp = System.currentTimeMillis();
     }
 
+    public void setAchieved(long t){
+        achievedTimestamp = t;
+    }
+
     public boolean isAchieved(){
         return achievedTimestamp > 0;
     }

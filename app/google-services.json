@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "827655789887",
+    "firebase_url": "https://kidtutor.firebaseio.com",
+    "project_id": "kidtutor",
+    "storage_bucket": "kidtutor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827655789887:android:94a1d48e85bd66bfd9878a",
+        "android_client_info": {
+          "package_name": "com.mus.kidpartner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827655789887-k5ota0mkg9hkib4e53h51h1majhiiib1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mus.kidpartner",
+            "certificate_hash": "cfb2ab0a759d3ababac98e4fe196a817f23f2e75"
+          }
+        },
+        {
+          "client_id": "827655789887-vgm0tqi2c4baj6r5851sma7c05qu7mtd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjoN89TN8-aexgKNZAQeXpbbEahqcWMEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827655789887-vgm0tqi2c4baj6r5851sma7c05qu7mtd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

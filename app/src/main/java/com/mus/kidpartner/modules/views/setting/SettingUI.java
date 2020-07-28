@@ -4,6 +4,7 @@ import com.mus.kidpartner.R;
 import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.Point;
 import com.mus.kidpartner.modules.classes.Utils;
+import com.mus.kidpartner.modules.controllers.Director;
 import com.mus.kidpartner.modules.controllers.Sounds;
 import com.mus.kidpartner.modules.views.base.Button;
 import com.mus.kidpartner.modules.views.base.ComplexUI;
@@ -56,6 +57,8 @@ public class SettingUI extends ComplexUI {
 
     @Override
     public void hide() {
+        Director.getInstance().saveSetting();
+
         stopAllActions();
         MoveTo moveOutAction = new MoveTo(0.5f, new Point(Utils.getScreenWidth(), 0));
         moveOutAction.addOnFinishedCallback(new Runnable() {
@@ -100,7 +103,7 @@ public class SettingUI extends ComplexUI {
         final Slider music = new Slider(this);
         music.setPositionDp(270, 70);
         music.view.setMax(100);
-        music.view.setProgress(100);
+        music.view.setProgress((int)(Sounds.getMusicVolume()*100));
         music.addOnChangeValueCallback(new Runnable() {
             @Override
             public void run() {
@@ -111,7 +114,7 @@ public class SettingUI extends ComplexUI {
         final Slider sfx = new Slider(this);
         sfx.setPositionDp(270, 120);
         sfx.view.setMax(100);
-        sfx.view.setProgress(100);
+        sfx.view.setProgress((int)(Sounds.getSoundVolume()*100));
         sfx.addOnChangeValueCallback(new Runnable() {
             @Override
             public void run() {

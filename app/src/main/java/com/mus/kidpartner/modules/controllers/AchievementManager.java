@@ -59,6 +59,15 @@ public class AchievementManager {
         }
     }
 
+    public void setAchieved(String category, int level, long time){
+        Achievement a = getAchievement(category, level);
+        if(a.isAchieved()) return;
+
+        a.setAchieved(time);
+        if(!achievements.contains(a))
+            achievements.add(a);
+    }
+
     public Achievement getAchievement(String category, int level){
         return allAchievements.get(category).get(level);
     }
@@ -70,12 +79,16 @@ public class AchievementManager {
         if(score == maxScore){
             a.setAchieved();
             achievements.add(a);
+            Director.getInstance().saveAchievement(achievements.size()-1, a);
             return a;
         }
         return null;
     }
 
 
+    public List<Achievement> getAchieved(){
+        return achievements;
+    }
 
     // Load and Save achievement
     // Reset achievement

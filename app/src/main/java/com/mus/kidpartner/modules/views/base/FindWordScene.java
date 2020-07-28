@@ -38,6 +38,7 @@ public class FindWordScene extends TestScene {
 
     @Override
     protected int showResult() {
+        isTesting = false;
         openLearnScene();
         ResultPopup popup = (ResultPopup) getChild("resultPopup");
         if(popup == null){

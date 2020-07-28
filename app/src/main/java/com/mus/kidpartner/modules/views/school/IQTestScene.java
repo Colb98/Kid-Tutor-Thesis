@@ -32,6 +32,7 @@ import com.mus.kidpartner.modules.views.popup.AchievementPopup;
 public class IQTestScene extends TestScene {
     private int currentAnswer = -1;
     private int[] currentAnswerMap;
+    private boolean disableSubmit = false;
 
     public IQTestScene(GameView parent){
         super(parent);
@@ -259,6 +260,9 @@ public class IQTestScene extends TestScene {
     }
 
     private void submitAnswer() {
+        if(disableSubmit) return;
+
+        disableSubmit = true;
         IQQuestion oldQ = ((IQTest) currentTest).getQuestions().get(currentQuestion);
         oldQ.setAnswerIndex(currentAnswer);
 
@@ -319,6 +323,7 @@ public class IQTestScene extends TestScene {
             public void run() {
                 indi.setSpriteAnimation(R.drawable.school_iq_quiz_select_border);
                 nextQuestion();
+                disableSubmit = false;
             }
         });
 

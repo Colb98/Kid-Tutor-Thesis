@@ -15,8 +15,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mus.kidpartner.modules.classes.SceneCache;
 import com.mus.kidpartner.modules.classes.Utils;
 import com.mus.kidpartner.modules.controllers.AppAlarmService;
@@ -34,6 +37,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
     boolean backPressed = false;
     final static int REQUEST_UPDATE_PLAY_API = 10;
+    final static String LOGTAG = "Main Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +58,18 @@ public class MainActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN; // hide status bar
 //                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOptions);
+//        initializeFirestore();
+
 
         // Must have. Setting up everything
         Director.getInstance().setMainActivity(this);
-        Utils.init(this);
         try {
             Sounds.init(this);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
+        Utils.init(this);
+        Director.getInstance().loadSaveFiles();
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
@@ -110,36 +117,66 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
+    private void initializeFirestore() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(LOGTAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.w(LOGTAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
-        GoogleApiAvailability instance = GoogleApiAvailability.getInstance();
-        final int result = instance.isGooglePlayServicesAvailable(this);
-        if(result != ConnectionResult.SUCCESS){
-            GameView v = Director.getInstance().getMainView();
-            ConfirmPopup popup = new ConfirmPopup(v);
-            v.mappingChild(popup, "confirm");
-            popup.setMessage("Vui lòng cập nhật Google Play Service bản mới nhất");
-            popup.setTextNormal("OK");
-            popup.setTextRed("THÔI");
-            popup.addOnNormalCallback(new Runnable() {
-                @Override
-                public void run() {
-                    GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, result, REQUEST_UPDATE_PLAY_API);
-                }
-            });
-        }
+//
+//        GoogleApiAvailability instance = GoogleApiAvailability.getInstance();
+//        final int result = instance.isGooglePlayServicesAvailable(this);
+//        if(result != ConnectionResult.SUCCESS){
+//            GameView v = Director.getInstance().getMainView();
+//            ConfirmPopup popup = new ConfirmPopup(v);
+//            v.mappingChild(popup, "confirm");
+//            popup.setMessage("Vui lòng cập nhật Google Play Service bản mới nhất");
+//            popup.setTextNormal("OK");
+//            popup.setTextRed("THÔI");
+//            popup.addOnNormalCallback(new Runnable() {
+//                @Override
+//                public void run() {
+//                    GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, result, REQUEST_UPDATE_PLAY_API);
+//                }
+//            });
+//        }
     }
 
 
     @Override
+    protected void onDestroy() {
+        Log.d(LOGTAG, "onDestroy");
+        super.onDestroy();
+        Director.getInstance().saveData();
+    }
+
+    @Override
     protected void onStop() {
+        Log.d(LOGTAG, "onStop");
+        Director.getInstance().saveData();
         super.onStop();
     }
 
     @Override
     protected void onPause() {
+        Log.d(LOGTAG, "onPause");
         super.onPause();
         AreaMusicManager.getInstance().pauseMusic();
     }
