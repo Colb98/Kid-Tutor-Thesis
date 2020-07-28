@@ -10,6 +10,7 @@ import com.mus.kidpartner.modules.views.base.Button;
 import com.mus.kidpartner.modules.views.base.ComplexUI;
 import com.mus.kidpartner.modules.views.base.GameTextView;
 import com.mus.kidpartner.modules.views.base.GameView;
+import com.mus.kidpartner.modules.views.base.GoogleSignInButtonWrapper;
 import com.mus.kidpartner.modules.views.base.Slider;
 import com.mus.kidpartner.modules.views.base.Sprite;
 import com.mus.kidpartner.modules.views.base.actions.MoveTo;
@@ -174,6 +175,9 @@ public class SettingUI extends ComplexUI {
 //        btnAbout.setLabelFont(FontCache.Font.UVNNguyenDu);
         mappingChild(btnAbout, "btnAbout");
 
-
+        GoogleSignInButtonWrapper signIn = new GoogleSignInButtonWrapper(this);
+        signIn.setContentSize(260, 115);
+        signIn.setPositionDp(350, 260);
+        mappingChild(signIn, "signIn");
     }
 }

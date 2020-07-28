@@ -12,16 +12,28 @@ import android.graphics.Color;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mus.kidpartner.R;
+import com.mus.kidpartner.modules.classes.SaveData;
 import com.mus.kidpartner.modules.models.common.Achievement;
 import com.vuforia.engine.ImageTargets.ImageTargets;
 import com.mus.kidpartner.MainActivity;
 import com.mus.kidpartner.modules.views.base.GameScene;
 import com.mus.kidpartner.modules.views.base.GameView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 public class Director {
@@ -29,6 +41,9 @@ public class Director {
     private GameView mainGameView = null;
     private Context context = null;
     private MainActivity mainActivity = null;
+    private boolean saveDataOffline = true;
+    private GoogleSignInClient mGoogleSignInClient = null;
+    private GoogleSignInAccount mGoogleSignInAccount = null;
 
     private Director(){
 
@@ -145,45 +160,73 @@ public class Director {
     }
 
     public void loadSaveFiles(){
-        SharedPreferences sharedPreferences = mainActivity.getPreferences(Context.MODE_PRIVATE);
-        Log.d("a", "get pref");
-        if(sharedPreferences.contains("user")){
-            Log.d("a", "has pref");
-            Map<String, ?> data = sharedPreferences.getAll();
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
-            if(data == null) {
-                createNewUser();
-                return;
-            }
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(mainActivity, gso);
 
-            String saveID = (String)data.get("user");
-            String androidId = Settings.Secure.getString(mainActivity.getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(mainActivity);
+        updateSignInState(account);
 
-            Log.d("save ID", saveID);
-            Log.d("device ID", androidId);
-            if(!saveID.equals(androidId)){
-                // Create new user
-                // No need to load more
-                createNewUser();
-                return;
-            }
-            try{
-                Sounds.setMusicVolume((Float) data.get("volumeM"));
-                Sounds.setSoundVolume((Float) data.get("volumeS"));
-                Integer achievementCount = (Integer) data.get("achievement");
-                if(achievementCount != null) {
-                    for(int i=0;i<achievementCount;i++){
-                        String cate = (String) data.get("cate_"+i);
-                        int level = (Integer) data.get("level_"+i);
-                        long time = (Long) data.get("time_"+i);
-                        AchievementManager.getInstance().setAchieved(cate, level, time);
-                    }
+        if(saveDataOffline){
+            SharedPreferences sharedPreferences = mainActivity.getPreferences(Context.MODE_PRIVATE);
+            if(sharedPreferences.contains("user")){
+                SaveData data = new SaveData();
+                data.user = sharedPreferences.getString("user", data.user);
+                data.googleId = sharedPreferences.getString("googleId", data.googleId);
+                data.volumeS = sharedPreferences.getFloat("volumeS", data.volumeS);
+                data.volumeM = sharedPreferences.getFloat("volumeM", data.volumeM);
+                data.achievement = sharedPreferences.getInt("achievement", data.achievement);
+                data.achievements = new ArrayList<>();
+                for(int i=0;i<data.achievement;i++){
+                    SaveData.AchievementData d = new SaveData.AchievementData();
+                    d.idx = i;
+                    d.cate = sharedPreferences.getString("cate_"+i, d.cate);
+                    d.level = sharedPreferences.getInt("level_"+i, d.level);
+                    d.time = sharedPreferences.getLong("time_"+i, d.time);
+                    data.achievements.add(d);
                 }
-            }catch (NullPointerException e){
-                e.printStackTrace();
+                Log.d("Load", data.toString());
+                SaveData.applySaveData(data);
             }
         }
+        // Load from firestore
+        else{
+//            FirebaseFirestore db = FirebaseFirestore.getInstance();
+//            db.collection("users").document(mGoogleSignInAccount.getId())
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            if(task.isSuccessful()){
+//                                QuerySnapshot document;
+//                                document = task.getResult();
+//                            }
+//                        }
+//                    });
+        }
+    }
+
+    public void updateSignInState(GoogleSignInAccount account){
+        saveDataOffline = account == null;
+        saveDataOffline = true;
+        if(account != null){
+            Log.d("Sign In Google", "sign in with: " + account.getDisplayName());
+            Log.d("Sign In Google", "email: " + account.getEmail());
+            Log.d("Sign In Google", "ID: " + account.getId());
+            mGoogleSignInAccount = account;
+        }
+    }
+
+    public void signIn(){
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        mainActivity.startActivityForResult(signInIntent, MainActivity.RC_SIGN_IN);
     }
 
     private void createNewUser(){
@@ -204,11 +247,13 @@ public class Director {
         SharedPreferences sharedPreferences = mainActivity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        String androidId = Settings.Secure.getString(mainActivity.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        editor.putString("user", androidId);
-        editor.putFloat("volumeM", Sounds.getMusicVolume());
-        editor.putFloat("volumeS", Sounds.getSoundVolume());
+        SaveData data = SaveData.getSaveData();
+        editor.putString("user", data.user);
+        editor.putString("googleId", data.googleId);
+        editor.putFloat("volumeM", data.volumeM);
+        editor.putFloat("volumeS", data.volumeS);
+
+        Log.d("s", "data: " + data.toString());
 
         editor.apply();
     }
@@ -217,17 +262,26 @@ public class Director {
         SharedPreferences sharedPreferences = mainActivity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        String androidId = Settings.Secure.getString(mainActivity.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        editor.putString("user", androidId);
+        SaveData data = SaveData.getSaveData();
+        editor.putString("user", data.user);
+        editor.putString("googleId", data.googleId);
 
-        List<Achievement> achievements = AchievementManager.getInstance().getAchieved();
-        editor.putInt("achievement", achievements.size());
+        editor.putInt("achievement", data.achievement);
         editor.putString("cate_"+index, a.getCategory());
         editor.putInt("level_"+index, a.getLevel());
         editor.putLong("time_"+index, a.getAchievedTimestamp());
 
+        Log.d("a", "data: " + data.toString());
         editor.apply();
+    }
+
+    public String getUser(){
+        return Settings.Secure.getString(mainActivity.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+    }
+
+    public String getGoogleId(){
+        return mGoogleSignInAccount.getId();
     }
 
     public void saveData(boolean reset){
@@ -235,23 +289,23 @@ public class Director {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
-        String androidId = Settings.Secure.getString(mainActivity.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        editor.putString("user", androidId);
-        editor.putFloat("volumeM", Sounds.getMusicVolume());
-        editor.putFloat("volumeS", Sounds.getSoundVolume());
+        SaveData data = SaveData.getSaveData();
+        editor.putString("user", data.user);
+        editor.putString("googleId", data.googleId);
+        editor.putFloat("volumeM", data.volumeM);
+        editor.putFloat("volumeS", data.volumeS);
 
         if(!reset){
             // Achievement
-            List<Achievement> achievements = AchievementManager.getInstance().getAchieved();
-            editor.putInt("achievement", achievements.size());
-            for(int i=0;i<achievements.size();i++){
-                Achievement a = achievements.get(i);
-                editor.putString("cate_"+i, a.getCategory());
-                editor.putInt("level_"+i, a.getLevel());
-                editor.putLong("time_"+i, a.getAchievedTimestamp());
+            editor.putInt("achievement", data.achievement);
+            for(int i=0;i<data.achievement;i++){
+                SaveData.AchievementData a = data.achievements.get(i);
+                editor.putString("cate_"+i, a.cate);
+                editor.putInt("level_"+i, a.level);
+                editor.putLong("time_"+i, a.time);
             }
         }
+        Log.d("a", "reset: " + reset + ", data: " + data.toString());
 
         editor.apply();
     }

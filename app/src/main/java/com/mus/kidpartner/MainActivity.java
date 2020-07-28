@@ -1,6 +1,7 @@
 package com.mus.kidpartner;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,6 +16,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,6 +41,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
     boolean backPressed = false;
     final static int REQUEST_UPDATE_PLAY_API = 10;
+    public final static int RC_SIGN_IN = 11;
     final static String LOGTAG = "Main Activity";
 
     @Override
@@ -117,46 +122,33 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
-    private void initializeFirestore() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(LOGTAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(LOGTAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
+    private void initializeFirestore() {
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("users")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(LOGTAG, document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.w(LOGTAG, "Error getting documents.", task.getException());
+//                        }
+//                    }
+//                });
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//
-//        GoogleApiAvailability instance = GoogleApiAvailability.getInstance();
-//        final int result = instance.isGooglePlayServicesAvailable(this);
-//        if(result != ConnectionResult.SUCCESS){
-//            GameView v = Director.getInstance().getMainView();
-//            ConfirmPopup popup = new ConfirmPopup(v);
-//            v.mappingChild(popup, "confirm");
-//            popup.setMessage("Vui lòng cập nhật Google Play Service bản mới nhất");
-//            popup.setTextNormal("OK");
-//            popup.setTextRed("THÔI");
-//            popup.addOnNormalCallback(new Runnable() {
-//                @Override
-//                public void run() {
-//                    GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, result, REQUEST_UPDATE_PLAY_API);
-//                }
-//            });
-//        }
     }
 
 
@@ -193,6 +185,31 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent(MainActivity.this, ImageTargets.class);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RC_SIGN_IN){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            // Signed in successfully, show authenticated UI.
+//            updateUI(account);
+            Director.getInstance().updateSignInState(account);
+        } catch (ApiException e)
+        {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(LOGTAG, "signInResult:failed code=" + e.getStatusCode());
+            Director.getInstance().updateSignInState(null);
         }
     }
 
