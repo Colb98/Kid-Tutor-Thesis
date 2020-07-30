@@ -66,24 +66,6 @@ public class BedroomScene extends FindWordScene {
         }
     }
 
-    protected void initLayer(){
-        ColorLayer l = new ColorLayer(this);
-
-        float width = Utils.getScreenWidth();
-
-        Sprite tiltIcon = new Sprite(l);
-        tiltIcon.setSpriteAnimation(R.drawable.tilt_phone_icon);
-
-        GameTextView desc = new GameTextView(l);
-        SpannableString string = new SpannableString("Nghiêng điện thoại để khám phá!!");
-        string.setSpan(new ForegroundColorSpan(0xffffffff), 0, string.length(), 0);
-        desc.setText(string, FontCache.Font.UVNKyThuat, 20);
-
-        float groupW = desc.getContentSize().width + tiltIcon.getContentSize().width + 20;
-        tiltIcon.setPosition((width - groupW)/2, 30);
-        desc.setPosition((width - groupW)/2 + tiltIcon.getContentSize().width + 20, 30 + tiltIcon.getContentSize().height/2 - desc.getContentSize().height/2);
-    }
-
     protected void initButtons(){
         super.initButtons();
         final BedroomScene that = this;

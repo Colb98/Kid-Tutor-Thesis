@@ -2,11 +2,14 @@ package com.mus.kidpartner.modules.views.base;
 
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.ViewTreeObserver;
 
 import com.mus.kidpartner.R;
+import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.Point;
 import com.mus.kidpartner.modules.classes.UIManager;
+import com.mus.kidpartner.modules.classes.Utils;
 import com.mus.kidpartner.modules.classes.WordCache;
 import com.mus.kidpartner.modules.controllers.Sounds;
 import com.mus.kidpartner.modules.views.base.actions.DelayTime;
@@ -31,6 +34,31 @@ public class FindWordScene extends TestScene {
         showResult();
     }
 
+    protected void initLayer(){
+        ColorLayer l = new ColorLayer(this);
+
+        float width = Utils.getScreenWidth();
+
+        Sprite tiltIcon = new Sprite(l);
+        tiltIcon.setSpriteAnimation(R.drawable.tilt_phone_icon);
+
+        GameTextView desc = new GameTextView(l);
+        SpannableString string = new SpannableString("Nghiêng điện thoại để khám phá!!");
+        string.setSpan(new ForegroundColorSpan(0xffffffff), 0, string.length(), 0);
+        desc.setText(string, FontCache.Font.UVNKyThuat, 20);
+        
+        GameTextView desc2 = new GameTextView(l);
+        SpannableString s = new SpannableString("Ấn vào hình để học từ nha");
+        s.setSpan(new ForegroundColorSpan(0xffffffff), 0, s.length(), 0);
+        desc2.setText(s, FontCache.Font.UVNKyThuat, 20);
+
+        float groupW = desc.getContentSize().width + tiltIcon.getContentSize().width + 20;
+        tiltIcon.setPosition((width - groupW)/2, 30);
+        desc.setPosition((width - groupW)/2 + tiltIcon.getContentSize().width + 20, 30 + tiltIcon.getContentSize().height/2 - desc.getContentSize().height/2);
+        desc2.setPositionY(30 + desc.getPosition().y + desc.getContentSize().height);
+        desc2.setPositionCenterScreen(false, true);
+    }
+    
     public void onBackButton(Runnable onConfirmBack){
         ConfirmPopup popup = new ConfirmPopup(this);
         popup.addOnRedCallback(onConfirmBack);
