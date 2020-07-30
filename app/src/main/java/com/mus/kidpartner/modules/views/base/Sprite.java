@@ -50,7 +50,7 @@ public class Sprite extends GameView{
     private Point touchBeganPosition;
     private boolean scaleWithParent = true; //update scale by parent (only use for some special intention)
 
-    private List<Action> actions;
+    protected List<Action> actions;
     private List<Action> toBeRemovedActions;
 
     private HashMap<CallbackType, List<Runnable>> listenerCallbacks;
@@ -207,13 +207,14 @@ public class Sprite extends GameView{
             animIdx = curIdx;
         }
         if(actions.size() > 0){
-            for(Action a : actions){
+            for(int i=0; i < actions.size(); i++){
+                Action a = actions.get(i);
                 a.updateEveryFrame(dt, this);
             }
         }
         if(toBeRemovedActions.size() > 0){
-            for(Action a : toBeRemovedActions){
-                actions.remove(a);
+            for(int i=0;i < toBeRemovedActions.size();i++){
+                actions.remove(toBeRemovedActions.get(i));
             }
             toBeRemovedActions.clear();
         }
@@ -534,6 +535,20 @@ public class Sprite extends GameView{
             return contentSize;
         }
         return realContentSize;
+    }
+
+    public Point setPositionXCenterWithView(Sprite v){
+        float centerPos = v.getWorldPosition().x + v.getContentSize().width/2;
+        setPositionX(centerPos - this.getContentSize().width/2);
+
+        return getPosition();
+    }
+
+    public Point setPositionYCenterWithView(Sprite v){
+        float centerPos = v.getWorldPosition().y + v.getContentSize().height/2;
+        setPositionY(centerPos - this.getContentSize().height/2);
+
+        return getPosition();
     }
 
     public Point setPositionCenterParent(boolean keepX, boolean keepY){

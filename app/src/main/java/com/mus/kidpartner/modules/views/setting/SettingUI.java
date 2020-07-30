@@ -1,5 +1,8 @@
 package com.mus.kidpartner.modules.views.setting;
 
+import android.provider.Settings;
+import android.view.ViewTreeObserver;
+
 import com.mus.kidpartner.R;
 import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.Point;
@@ -34,15 +37,41 @@ public class SettingUI extends ComplexUI {
         initViews();
         initButtons();
 
+        updateGoogleSignInState();
         setZOrder(100);
     }
 
     private void initButtons(){
-        Button btnBack = (Button)getChild("btnBack");
-        btnBack.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void run() {
-                hide();
+            public void onGlobalLayout() {
+                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                Director.getInstance().bindUIToUpdate(SettingUI.this);
+
+                Button btnBack = (Button)getChild("btnBack");
+                btnBack.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        hide();
+                    }
+                });
+
+                Button signOut = (Button)getChild("signOut");
+                signOut.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().signOut();
+                    }
+                });
+
+                Button reset = (Button)getChild("reset");
+                reset.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        Director.getInstance().resetData();
+                    }
+                });
             }
         });
     }
@@ -54,6 +83,7 @@ public class SettingUI extends ComplexUI {
         MoveTo action = new MoveTo(0.5f, new Point(0,0));
         runAction(action);
 
+        updateGoogleSignInState();
     }
 
     @Override
@@ -124,60 +154,84 @@ public class SettingUI extends ComplexUI {
         });
 //        slider.view.setIndeterminate(true);
 //        slider.view.setMinimumWidth(200);
-
-        GameTextView lbVib = new GameTextView(this);
-        lbVib.setText(Utils.getString(R.string.text_vibration));
-        lbVib.setPositionDp(200, 170);
-        lbVib.setFont(FontCache.Font.UVNNguyenDu);
-        lbVib.setFontSize(18);
-
-        Button btnAlarm = new Button(this);
-//        btnAlarm.setLabel(Utils.getString(R.string.text_alarm));
-        btnAlarm.setPositionDp(210, 220);
-//        btnAlarm.setLabelFont(FontCache.Font.UVNNguyenDu);
-        mappingChild(btnAlarm, "btnAlarm");
-
-        btnAlarm.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
-            private boolean val = false;
-            @Override
-            public void run() {
-                btnBack.setVisible(val);
-                val = !val;
-            }
-        });
+//
+//        GameTextView lbVib = new GameTextView(this);
+//        lbVib.setText(Utils.getString(R.string.text_vibration));
+//        lbVib.setPositionDp(200, 170);
+//        lbVib.setFont(FontCache.Font.UVNNguyenDu);
+//        lbVib.setFontSize(18);
+//
+//        Button btnAlarm = new Button(this);
+////        btnAlarm.setLabel(Utils.getString(R.string.text_alarm));
+//        btnAlarm.setPositionDp(210, 240);
+////        btnAlarm.setLabelFont(FontCache.Font.UVNNguyenDu);
+//        mappingChild(btnAlarm, "btnAlarm");
 
 
         Button btnLanguage = new Button(this);
-//        btnLanguage.setLabel(Utils.getString(R.string.text_language));
-        btnLanguage.setPositionDp(350, 220);
+        btnLanguage.setLabel("Debug");
+        btnLanguage.setPositionDp(350, 240);
 //        btnLanguage.setLabelFont(FontCache.Font.UVNNguyenDu);
         mappingChild(btnLanguage, "btnLanguage");
 
         btnLanguage.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
-            private boolean left = false;
             @Override
             public void run() {
-                if(left){
-                    btnBack.stopAllActions();
-                    btnBack.runAction(new MoveTo(0.5f, 50, 50));
-                }
-                else{
-                    btnBack.stopAllActions();
-                    btnBack.runAction(new MoveTo(0.5f, 450, 50));
-                }
-                left = !left;
+                Director.getInstance().debugCurrentState();
             }
         });
 
         Button btnAbout = new Button(this);
-//        btnAbout.setLabel(Utils.getString(R.string.text_about));
-        btnAbout.setPositionDp(490, 220);
+        btnAbout.setLabel(Utils.getString(R.string.text_about));
+        btnAbout.setPositionDp(490, 240);
+        btnAbout.setLabelFontSize(18);
 //        btnAbout.setLabelFont(FontCache.Font.UVNNguyenDu);
         mappingChild(btnAbout, "btnAbout");
 
         GoogleSignInButtonWrapper signIn = new GoogleSignInButtonWrapper(this);
         signIn.setContentSize(260, 115);
-        signIn.setPositionDp(350, 260);
+        signIn.setPositionDp(200, 170);
         mappingChild(signIn, "signIn");
+
+        GameView signedInGroup = new GameView(this);
+        mappingChild(signedInGroup, "signedIn");
+
+        Sprite googleIcon = new Sprite(signedInGroup);
+        googleIcon.setSpriteAnimation(R.drawable.google_icon);
+        googleIcon.scaleToMaxWidth(60);
+        googleIcon.setPosition(signIn.getPosition());
+
+        GameTextView accountName = new GameTextView(signedInGroup);
+        accountName.setPosition(googleIcon.getPosition().add(googleIcon.getContentSize().width + 10, 0));
+        accountName.setPositionYCenterWithView(googleIcon);
+        mappingChild(accountName, "name");
+
+        Button signOut = new Button(signedInGroup);
+        signOut.setLabel("Sign out");
+        mappingChild(signOut, "signOut");
+
+        signedInGroup.setVisible(false);
+
+        Button reset = new Button(this);
+        reset.setPositionDp(210, 240);
+        reset.setLabel("Reset");
+        mappingChild(reset, "reset");
+    }
+
+    public void updateGoogleSignInState(){
+        boolean isSignedIn = Director.getInstance().isSignedInGoogleAccount();
+        GameView signIn = getChild("signIn");
+        GameView signedIn = getChild("signedIn");
+
+        signedIn.setVisible(isSignedIn);
+        signIn.setVisible(!isSignedIn);
+
+        GameTextView name = (GameTextView) getChild("name");
+        if(isSignedIn){
+            name.setText(Director.getInstance().getGoogleName(), FontCache.Font.UVNKyThuat, 18);
+            Button signOut = (Button) getChild("signOut");
+            signOut.setPosition(name.getPosition().add(name.getContentSize().width + 10, 0));
+            signOut.setPositionYCenterWithView(name);
+        }
     }
 }

@@ -13,12 +13,16 @@ import android.widget.TextView;
 import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.Size;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.ColorInt;
 
 public class GameTextView extends Sprite {
     TextView view;
     CharSequence text;
     float fontSize;
+    List<Runnable> onTextChangeRunnables = new ArrayList<>();
     View[] subViews;
 
 
@@ -56,6 +60,16 @@ public class GameTextView extends Sprite {
         super.afterAddChild();
         setFontColor(Color.BLACK);
         setSwallowTouches(false);
+    }
+
+    public void addOnTextChange(Runnable r){
+        onTextChangeRunnables.add(r);
+    }
+
+    private void onTextChange(){
+        for(Runnable r : onTextChangeRunnables){
+            r.run();
+        }
     }
 
     private void initTextView(){
@@ -178,6 +192,11 @@ public class GameTextView extends Sprite {
         this.text = text;
         view.setText(text);
         updateMeasure();
+        onTextChange();
+    }
+
+    public int getTextLength(){
+        return text.length();
     }
 
     public Size getContentSize() {

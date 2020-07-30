@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AchievementManager {
+
     public static class CategoryInfo{
         public String destination;
         public String name;
@@ -57,6 +58,13 @@ public class AchievementManager {
                 hm.put(i, new Achievement(category, i, categoryMap.get(category).resIds[i], categoryMap.get(category).destination));
             }
         }
+    }
+
+    public void resetAchiements() {
+        for(Achievement a : achievements){
+            a.reset();
+        }
+        achievements.clear();
     }
 
     public void setAchieved(String category, int level, long time){
