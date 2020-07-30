@@ -500,7 +500,6 @@ public class Sprite extends GameView{
         float x = getPosition().x, y = getPosition().y;
         for(LayoutPosition.LayoutRule rule : rules){
             if(rule == null) continue;
-            // TODO: get parent size
             float width, height;
             if(parent.viewType == SPRITE){
                 width = ((Sprite)parent).getContentSize(false).width;
