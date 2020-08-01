@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver;
 import com.mus.kidpartner.R;
 import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.SceneCache;
+import com.mus.kidpartner.modules.classes.UIManager;
 import com.mus.kidpartner.modules.classes.Utils;
 import com.mus.kidpartner.modules.controllers.AreaMusicManager;
 import com.mus.kidpartner.modules.controllers.Director;
@@ -47,6 +48,10 @@ public class ZooScene extends GameScene{
         pet.setSpriteAnimation(R.drawable.zoo_icon_cat);
         farmAnimal.setSpriteAnimation(R.drawable.zoo_icon_pig);
         wildAnimal.setSpriteAnimation(R.drawable.zoo_icon_tiger);
+
+        mappingChild(pet, "pet");
+        mappingChild(farmAnimal, "farm");
+        mappingChild(wildAnimal, "wild");
 
         float buttonWidth = pet.getContentSize(false).width;
         float buttonHeight = pet.getContentSize(false).height;
@@ -96,6 +101,30 @@ public class ZooScene extends GameScene{
                             Director.getInstance().loadScene(SceneCache.getScene("map"));
                         else
                             chooseCategory();
+                    }
+                });
+
+                Button pet = (Button)getChild("pet");
+                pet.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(ZooScene.this);
+                    }
+                });
+
+                Button farm = (Button)getChild("farm");
+                farm.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(ZooScene.this);
+                    }
+                });
+                
+                Button wild = (Button)getChild("wild");
+                wild.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(ZooScene.this);
                     }
                 });
             }

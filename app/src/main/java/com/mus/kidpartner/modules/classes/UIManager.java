@@ -4,6 +4,7 @@ import com.mus.kidpartner.modules.controllers.GameViewCache;
 import com.mus.kidpartner.modules.views.base.GameView;
 import com.mus.kidpartner.modules.views.popup.FlashcardPopup;
 import com.mus.kidpartner.modules.views.setting.SettingUI;
+import com.mus.kidpartner.modules.views.tutorial.NotUnlockedScene;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -31,6 +32,16 @@ public class UIManager {
         if(popup != null){
             popup.hide();
         }
+    }
+
+    public NotUnlockedScene getNotUnlockedLayer(GameView parent){
+        NotUnlockedScene layer = (NotUnlockedScene) parent.getChild("notUnlocked");
+        if(layer == null){
+            layer = new NotUnlockedScene(parent);
+            parent.mappingChild(layer, "notUnlocked");
+        }
+        layer.show();
+        return layer;
     }
 
     public FlashcardPopup getFlashcardPopup(FlashcardPopup.WordDesc word, GameView parent){
