@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.mus.kidpartner.R;
 import com.mus.kidpartner.VuforiaSampleGLView;
 import com.mus.kidpartner.modules.classes.Utils;
+import com.mus.kidpartner.modules.controllers.Director;
 import com.mus.kidpartner.modules.views.base.GameView;
 import com.mus.kidpartner.modules.views.base.GameVuforiaScene;
 import com.mus.kidpartner.modules.views.base.ViewContainer;
@@ -118,6 +119,7 @@ public class ImageTargets extends Activity
     private GestureDetector mGestureDetector;
 
     private GameVuforiaScene scene;
+    private GameView gameView;
 
 //    private SampleAppMenu mSampleAppMenu;
 
@@ -550,11 +552,22 @@ public class ImageTargets extends Activity
 //        lp.setMargins(Utils.getScreenWidth(), 0, 0,0);
 
         gv.setViewGroup(c);
-        ABCTestScene scene = new ABCTestScene(gv);
-        scene.setActivityRef(this);
-        this.scene = scene;
+//        ABCTestScene scene = new ABCTestScene(gv);
+//        scene.setActivityRef(this);
+//        this.scene = scene;
+        this.gameView = gv;
+        Director.getInstance().setActivity(this);
         initThread(gv);
 //        scene.setPosition(Utils.getScreenWidth()/2, 0);
+    }
+
+    public GameView getGameView(){
+        return gameView;
+    }
+
+    public void setScene(GameVuforiaScene scene){
+        this.scene = scene;
+        scene.setActivityRef(this);
     }
 
     private void initThread(final GameView mainView){

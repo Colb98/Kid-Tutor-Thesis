@@ -87,6 +87,11 @@ public class FlashcardPopup extends Sprite {
         super.hide();
     }
 
+    public void forceHide(){
+        timeRemainAutoHide = 0;
+        hide();
+    }
+
     @Override
     public void update(float dt) {
         super.update(dt);

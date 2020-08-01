@@ -433,6 +433,15 @@ public class Sprite extends GameView{
         }
     }
 
+    public List<Action> getActions(){
+        return actions;
+    }
+
+    public Action getAction(int idx){
+        if(idx < 0 || idx >= actions.size()) return null;
+        return actions.get(idx);
+    }
+
     public void runAction(Action a){
         actions.add(a);
         a.start();
