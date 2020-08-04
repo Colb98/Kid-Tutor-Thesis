@@ -3,21 +3,19 @@ package com.mus.myapplication.modules.views.mart;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 
-import com.mus.myapplication.R;
-import com.mus.myapplication.modules.classes.FontCache;
-import com.mus.myapplication.modules.classes.SceneCache;
-import com.mus.myapplication.modules.classes.Utils;
-import com.mus.myapplication.modules.controllers.AreaMusicManager;
-import com.mus.myapplication.modules.controllers.Director;
-import com.mus.myapplication.modules.views.base.Button;
-import com.mus.myapplication.modules.views.base.GameScene;
-import com.mus.myapplication.modules.views.base.GameTextView;
-import com.mus.myapplication.modules.views.base.GameView;
-import com.mus.myapplication.modules.views.base.Sprite;
-import com.mus.myapplication.modules.views.home.HomeScene;
-import com.mus.myapplication.modules.views.school.IQTestScene;
-import com.mus.myapplication.modules.views.school.SchoolScene;
-import com.vuforia.Area;
+import com.mus.kidpartner.R;
+import com.mus.kidpartner.modules.classes.FontCache;
+import com.mus.kidpartner.modules.classes.SceneCache;
+import com.mus.kidpartner.modules.classes.UIManager;
+import com.mus.kidpartner.modules.classes.Utils;
+import com.mus.kidpartner.modules.controllers.AreaMusicManager;
+import com.mus.kidpartner.modules.controllers.Director;
+import com.mus.kidpartner.modules.views.base.Button;
+import com.mus.kidpartner.modules.views.base.GameScene;
+import com.mus.kidpartner.modules.views.base.GameTextView;
+import com.mus.kidpartner.modules.views.base.GameView;
+import com.mus.kidpartner.modules.views.base.Sprite;
+import com.mus.kidpartner.modules.views.res.ResScene;
 
 public class MartScene extends GameScene{
     private String category;
@@ -52,6 +50,10 @@ public class MartScene extends GameScene{
         fruit.setSpriteAnimation(R.drawable.mart_icon_fruit);
         vegetable.setSpriteAnimation(R.drawable.mart_icon_vegetable);
         meat.setSpriteAnimation(R.drawable.mart_icon_meat);
+
+        mappingChild(fruit, "fruit");
+        mappingChild(vegetable, "vegetable");
+        mappingChild(meat, "meat");
 
         float buttonWidth = fruit.getContentSize(false).width;
         float buttonHeight = fruit.getContentSize(false).height;
@@ -101,6 +103,30 @@ public class MartScene extends GameScene{
                             Director.getInstance().loadScene(SceneCache.getScene("map"));
                         else
                             chooseCategory();
+                    }
+                });
+
+                Button fruit = (Button)getChild("fruit");
+                fruit.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(MartScene.this);
+                    }
+                });
+
+                Button vegetable = (Button)getChild("vegetable");
+                vegetable.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(MartScene.this);
+                    }
+                });
+
+                Button meat = (Button)getChild("meat");
+                meat.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(MartScene.this);
                     }
                 });
             }

@@ -3,16 +3,17 @@ package com.mus.myapplication.modules.views.school;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 
-import com.mus.myapplication.R;
-import com.mus.myapplication.modules.classes.SceneCache;
-import com.mus.myapplication.modules.classes.Utils;
-import com.mus.myapplication.modules.controllers.AreaMusicManager;
-import com.mus.myapplication.modules.controllers.Director;
-import com.mus.myapplication.modules.models.school.IQQuestion;
-import com.mus.myapplication.modules.views.base.Button;
-import com.mus.myapplication.modules.views.base.GameScene;
-import com.mus.myapplication.modules.views.base.GameView;
-import com.mus.myapplication.modules.views.base.Sprite;
+import com.mus.kidpartner.R;
+import com.mus.kidpartner.modules.classes.SceneCache;
+import com.mus.kidpartner.modules.classes.UIManager;
+import com.mus.kidpartner.modules.classes.Utils;
+import com.mus.kidpartner.modules.controllers.AreaMusicManager;
+import com.mus.kidpartner.modules.controllers.Director;
+import com.mus.kidpartner.modules.views.base.Button;
+import com.mus.kidpartner.modules.views.base.GameScene;
+import com.mus.kidpartner.modules.views.base.GameView;
+import com.mus.kidpartner.modules.views.base.Sprite;
+import com.mus.kidpartner.modules.views.zoo.ZooScene;
 
 public class SchoolScene extends GameScene {
     private String category;
@@ -108,6 +109,23 @@ public class SchoolScene extends GameScene {
                     public void run() {
                         category = "iq";
                         chooseLevel();
+                    }
+                });
+
+                Button alphabet = (Button)getChild("alphabet");
+                alphabet.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        category = "alphabet";
+                        chooseLevel();
+                    }
+                });
+
+                Button math = (Button)getChild("math");
+                math.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(SchoolScene.this);
                     }
                 });
 
