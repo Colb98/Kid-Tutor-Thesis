@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Kid Partner</string>
     <string name="INIT_ERROR_DEVICE_NOT_SUPPORTED">Failed to initialize Vuforia Engine. This device is not supported.</string>
     <string name="INIT_ERROR_NO_CAMERA_ACCESS">Failed to initialize Vuforia Engine. Camera not accessible</string>
     <string name="INIT_LICENSE_ERROR_MISSING_KEY">Vuforia Engine App key is missing. Please get a valid key, by logging into your account at developer.vuforia.com and creating a new project.</string>

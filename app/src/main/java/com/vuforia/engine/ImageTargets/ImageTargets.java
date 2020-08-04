@@ -37,14 +37,13 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 
-import com.mus.myapplication.R;
-import com.mus.myapplication.VuforiaSampleGLView;
-import com.mus.myapplication.modules.classes.Utils;
-import com.mus.myapplication.modules.views.base.GameView;
-import com.mus.myapplication.modules.views.base.GameVuforiaScene;
-import com.mus.myapplication.modules.views.base.ViewContainer;
-import com.mus.myapplication.modules.views.school.ABCTestScene;
-import com.mus.myapplication.modules.views.school.IQTestScene;
+import com.mus.kidpartner.R;
+import com.mus.kidpartner.VuforiaSampleGLView;
+import com.mus.kidpartner.modules.classes.Utils;
+import com.mus.kidpartner.modules.views.base.GameView;
+import com.mus.kidpartner.modules.views.base.GameVuforiaScene;
+import com.mus.kidpartner.modules.views.base.ViewContainer;
+import com.mus.kidpartner.modules.views.school.ABCTestScene;
 import com.vuforia.Vuforia;
 import com.vuforia.INIT_ERRORCODE;
 import com.vuforia.INIT_FLAGS;
@@ -552,9 +551,46 @@ public class ImageTargets extends Activity
 
         gv.setViewGroup(c);
         ABCTestScene scene = new ABCTestScene(gv);
+        scene.setActivityRef(this);
         this.scene = scene;
+        initThread(gv);
 //        scene.setPosition(Utils.getScreenWidth()/2, 0);
     }
+
+    private void initThread(final GameView mainView){
+        Thread thread = new Thread(){
+            private long first = System.currentTimeMillis();
+            private long lastUpdate = System.currentTimeMillis();
+
+            @Override
+            public void run() {
+                while(!isInterrupted()){
+                    try{
+                        Thread.sleep(6);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                long cur = System.currentTimeMillis();
+                                if(cur-lastUpdate < 1000/24) {
+                                    return;
+                                }
+                                mainView.update((cur - lastUpdate)/1000f);
+                                lastUpdate = cur;
+                            }
+                        });
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        thread.start();
+    }
+
+    public native void pauseTracking();
+
+    public native void resumeTracking();
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -584,10 +620,6 @@ public class ImageTargets extends Activity
                 getAssets()));
         mTextures
                 .add(Texture.loadTextureFromApk("Buildings.png", getAssets()));
-    }
-
-    public void testCallFromNative(){
-        showToast("abcd");
     }
 
     /** Native tracker initialization and deinitialization. */
@@ -978,6 +1010,7 @@ public class ImageTargets extends Activity
 
     private native boolean autofocus();
 
+    public native String getDetectName();
 
     private native boolean setFocusMode(int mode);
 
@@ -1099,7 +1132,7 @@ public class ImageTargets extends Activity
     }
 
 
-    private void showToast(String text)
+    public void showToast(String text)
     {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }

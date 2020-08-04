@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.mus.myapplication.modules.views.base.ViewContainer
+    <com.mus.kidpartner.modules.views.base.ViewContainer
         android:id="@+id/mainContainerIT"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <com.mus.myapplication.modules.views.base.GameView
+    <com.mus.kidpartner.modules.views.base.GameView
         android:id="@+id/mainGameViewIT"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
