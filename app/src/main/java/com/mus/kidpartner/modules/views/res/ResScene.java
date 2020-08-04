@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver;
 import com.mus.kidpartner.R;
 import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.SceneCache;
+import com.mus.kidpartner.modules.classes.UIManager;
 import com.mus.kidpartner.modules.classes.Utils;
 import com.mus.kidpartner.modules.controllers.AreaMusicManager;
 import com.mus.kidpartner.modules.controllers.Director;
@@ -47,6 +48,10 @@ public class ResScene extends GameScene{
         spice.setSpriteAnimation(R.drawable.res_icon_spice);
         food.setSpriteAnimation(R.drawable.res_icon_food);
         juice.setSpriteAnimation(R.drawable.res_icon_juice);
+
+        mappingChild(spice, "spice");
+        mappingChild(food, "food");
+        mappingChild(juice, "juice");
 
         float buttonWidth = spice.getContentSize(false).width;
         float buttonHeight = spice.getContentSize(false).height;
@@ -96,6 +101,30 @@ public class ResScene extends GameScene{
                             Director.getInstance().loadScene(SceneCache.getScene("map"));
                         else
                             chooseCategory();
+                    }
+                });
+
+                Button spice = (Button)getChild("spice");
+                spice.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(ResScene.this);
+                    }
+                });
+
+                Button food = (Button)getChild("food");
+                food.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(ResScene.this);
+                    }
+                });
+
+                Button juice = (Button)getChild("juice");
+                juice.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(ResScene.this);
                     }
                 });
             }
