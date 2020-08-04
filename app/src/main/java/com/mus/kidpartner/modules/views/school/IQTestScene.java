@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import com.mus.kidpartner.R;
@@ -28,6 +29,7 @@ import com.mus.kidpartner.modules.views.base.TestScene;
 import com.mus.kidpartner.modules.views.base.actions.DelayTime;
 import com.mus.kidpartner.modules.views.base.actions.Sequence;
 import com.mus.kidpartner.modules.views.popup.AchievementPopup;
+import com.mus.kidpartner.modules.views.tutorial.IQTestTutorial;
 
 public class IQTestScene extends TestScene {
     private int currentAnswer = -1;
@@ -44,7 +46,12 @@ public class IQTestScene extends TestScene {
         timeRemain = TEST_DURATION;
         currentTest = TestsConfig.getIQTest(0);
         initScene();
+        initLayer();
         initButtons();
+    }
+
+    private void initLayer(){
+        IQTestTutorial layer = new IQTestTutorial(this);
     }
 
     public void setTest(int testIndex){
@@ -118,7 +125,9 @@ public class IQTestScene extends TestScene {
         Button buttonNext = new Button(testView);
         buttonNext.setSpriteAnimation(R.drawable.school_iq_quiz_button_next);
 //        countDownCircle.setPosition(, height/2 - countDownCircle.getContentSize(false).height/2 + bg2.getContentSize(false).height/2 + 150);
-        buttonNext.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("bottom", 30 + buttonNext.getContentSize(false).height), LayoutPosition.getRule("left", width/2 - buttonNext.getContentSize(false).width/2)));
+        Log.d("lol", "d: " + (30 + buttonNext.getContentSize(false).height));
+        buttonNext.setPositionY(Utils.getScreenHeight() - (30 + buttonNext.getContentSize().height));
+        buttonNext.setPositionCenterScreen(false, true);
         mappingChild(buttonNext, "btnNext");
 
         Sprite countDownBox = new Sprite(bg2);

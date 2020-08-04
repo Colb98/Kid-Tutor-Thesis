@@ -141,7 +141,7 @@ public class MapScene extends GameScene {
         testVuforia.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
             @Override
             public void run() {
-                Director.getInstance().runActivity(ImageTargets.class);
+                Director.getInstance().runActivity(ImageTargets.class, "abc", 0);
             }
         });
 

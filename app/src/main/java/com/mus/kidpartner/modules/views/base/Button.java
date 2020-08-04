@@ -1,8 +1,10 @@
 package com.mus.kidpartner.modules.views.base;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.mus.kidpartner.R;
+import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.Point;
 import com.mus.kidpartner.modules.views.base.actions.ScaleTo;
 
@@ -15,6 +17,7 @@ public class Button extends Sprite {
     private ScaleTo scaleDownAction = null;
     private Point anchorPointBefore;
     private boolean touchAnim = false;
+    private float labelSize = 0;
     private GameTextView label;
 
 
@@ -43,10 +46,18 @@ public class Button extends Sprite {
     }
 
     private void initLabel(String s){
-//        label = new GameTextView(s);
-//        this.addChild(label);
-//        label.setSwallowTouches(false);
-//        label.setFontSize(24);
+        label = new GameTextView(s);
+        this.addChild(label);
+        label.setSwallowTouches(false);
+        label.setFontSize(18);
+        label.setFont(FontCache.Font.UVNKyThuat);
+        labelSize = 18;
+        label.addOnTextChange(new Runnable() {
+            @Override
+            public void run() {
+                label.setPositionCenterParent(false, false);
+            }
+        });
     }
 
     @Override
@@ -68,15 +79,10 @@ public class Button extends Sprite {
         if(!bOnClickEffect)
             return;
         // Scale + glow on Click
-        if(scaleDownAction != null) {
-            scaleDownAction.addOnFinishedCallback(new Runnable() {
-                @Override
-                public void run() {
-                    touchAnim = true;
-                    scaleDownAction.removeOnFinishedCallback("resetAnim");
-                }
-            }, "resetAnim");
-            scaleDownAction.forceFinish(this);
+        if(touchAnim) {
+            setScale(scaleBeforeEffect);
+            scaleDownAction.reset();
+            actions.remove(scaleDownAction);
         }
 
         anchorPointBefore = getAnchorPoint();
@@ -138,20 +144,32 @@ public class Button extends Sprite {
         bOnClickSound = val;
     }
 
-    public void setLabel(String s){
+    public void setLabel(CharSequence s){
         label.setText(s);
     }
 
     @Override
     public void setScale(float scale) {
         super.setScale(scale);
+        if(label.getTextLength() > 0){
+            label.setFontSize(labelSize / scaleBeforeEffect * scale);
+            label.setPositionCenterParent(false, false);
+//            Log.d("Button", "scale " + scale + " label: " + labelSize / scaleBeforeEffect * scale);
+        }
         if(!touchAnim){
             scaleBeforeEffect = scale;
+
+            if(label.getTextLength() > 0) {
+                labelSize = label.fontSize;
+            }
         }
+
     }
 
     public void setLabelFontSize(int size){
+        labelSize = size;
         label.setFontSize(size);
+        label.setPositionCenterParent(false, false);
     }
 
     public void setLabelFont(String fontName){
@@ -166,7 +184,7 @@ public class Button extends Sprite {
         label.setPosition(x, y);
     }
 
-    public void setText(String text){
+    public void setText(CharSequence text){
         setLabel(text);
     }
 

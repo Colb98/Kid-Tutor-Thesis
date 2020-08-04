@@ -5,7 +5,6 @@ import android.view.ViewTreeObserver;
 
 import com.mus.kidpartner.R;
 import com.mus.kidpartner.modules.classes.SceneCache;
-import com.mus.kidpartner.modules.classes.UIManager;
 import com.mus.kidpartner.modules.classes.Utils;
 import com.mus.kidpartner.modules.controllers.AreaMusicManager;
 import com.mus.kidpartner.modules.controllers.Director;
@@ -13,7 +12,6 @@ import com.mus.kidpartner.modules.views.base.Button;
 import com.mus.kidpartner.modules.views.base.GameScene;
 import com.mus.kidpartner.modules.views.base.GameView;
 import com.mus.kidpartner.modules.views.base.Sprite;
-import com.mus.kidpartner.modules.views.zoo.ZooScene;
 
 public class SchoolScene extends GameScene {
     private String category;
@@ -122,14 +120,6 @@ public class SchoolScene extends GameScene {
                         chooseLevel();
                     }
                 });
-                Button math = (Button)getChild("math");
-                math.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
-                    @Override
-                    public void run() {
-                        UIManager.getInstance().getNotUnlockedLayer(SchoolScene.this);
-                    }
-                });
-
 
                 Button lv1 = (Button)getChild("lv1");
                 lv1.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {

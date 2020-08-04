@@ -34,6 +34,7 @@ public class ColorLayer extends Sprite {
         desc.setText(string, FontCache.Font.UVNKyThuat, 20);
         desc.setPositionY(height * 0.8f);
         desc.setPositionCenterScreen(false, true);
+        mappingChild(desc, "desc");
 
         addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
             @Override
@@ -41,5 +42,9 @@ public class ColorLayer extends Sprite {
                 hide();
             }
         });
+    }
+
+    protected void hideDesc(){
+        getChild("desc").setVisible(false);
     }
 }

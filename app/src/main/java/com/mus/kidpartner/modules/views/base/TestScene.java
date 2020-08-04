@@ -83,10 +83,16 @@ public abstract class TestScene extends GameScene {
 //            Log.d("Result", "Total true answer: " + score);
             showResult();
         }
+
     }
 
     public void onBackButton(Runnable onConfirmBack){
-        if(!isTesting) onConfirmBack.run();
+        Log.e("back","onbackbutton");
+        if(!isTesting) {
+            onConfirmBack.run();
+            return;
+        }
+        Log.e("back", "showPopup");
         ConfirmPopup popup = new ConfirmPopup(this);
         popup.addOnRedCallback(onConfirmBack);
     }

@@ -34,6 +34,7 @@ public class LivingroomScene extends FindWordScene {
         super.afterAddChild();
         initScene();
         initButtons();
+        initLayer();
     }
     protected void initButtons(){
         super.initButtons();

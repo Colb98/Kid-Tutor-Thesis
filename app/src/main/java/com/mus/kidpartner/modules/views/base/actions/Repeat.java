@@ -73,7 +73,7 @@ public class Repeat extends Action {
                 running = true;
             }
         }
-        Log.d("a", "updating for: " + toRepeat.getClass().getName());
+//        Log.d("a", "updating for: " + toRepeat.getClass().getName());
         toRepeat.updateEveryFrame(dt, sprite);
     }
 

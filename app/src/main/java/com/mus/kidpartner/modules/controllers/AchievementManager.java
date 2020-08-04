@@ -8,27 +8,30 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AchievementManager {
+
     public static class CategoryInfo{
         public String destination;
         public String name;
+        public String desc;
         public int[] resIds;
 
-        public CategoryInfo(String d, String n, int... ids){
+        public CategoryInfo(String d, String n, String d2, int... ids){
             destination = d;
             name = n;
+            desc = d2;
             resIds = ids;
         }
     }
 
     // TODO: dùng chuỗi localize tuỳ theo ngôn ngữ
     public final static HashMap<String, CategoryInfo> categoryMap = new HashMap<String, CategoryInfo>(){{
-        put("iq", new CategoryInfo("school", "Trí tuệ", R.drawable.iq_level_1, R.drawable.iq_level_2, R.drawable.iq_level_3));
-        put("math", new CategoryInfo("school", "Toán học", R.drawable.mathematician_level_1, R.drawable.mathematician_level_2, R.drawable.mathematician_level_3));
+        put("iq", new CategoryInfo("Test IQ Trường học", "Trí tuệ", "Bài test IQ với nhiều mức độ khó khác nhau.\nKhó để đạt được lắm đấy nhé!", R.drawable.iq_level_1, R.drawable.iq_level_2, R.drawable.iq_level_3));
+        put("math", new CategoryInfo("Toán Trường học", "Toán học", "Tính toán siêu hạng.\nHiện tại chưa mở khoá được bạn ơi.", R.drawable.mathematician_level_1, R.drawable.mathematician_level_2, R.drawable.mathematician_level_3));
 //        put("alphabet", "school");
-        put("gara", new CategoryInfo("gara", "Kỹ sư", R.drawable.engineer_level_1, R.drawable.engineer_level_2, R.drawable.engineer_level_3));
+        put("gara", new CategoryInfo("Gara", "Kỹ sư", "Lắp ráp các đồ vật từ thông dụng đến hiếm gặp.\nHãy để trí tưởng tượng phát huy hết khả năng nhé!", R.drawable.engineer_level_1, R.drawable.engineer_level_2, R.drawable.engineer_level_3));
 //        put("family", "home");
-        put("food", new CategoryInfo("kitchen", "Đầu bếp", R.drawable.chef_level_1, R.drawable.chef_level_2, R.drawable.chef_level_3));
-        put("language", new CategoryInfo("language", "Ngôn ngữ", R.drawable.language_specialist_level_1, R.drawable.language_specialist_level_2, R.drawable.language_specialist_level_3));
+        put("food", new CategoryInfo("Nhà hàng", "Đầu bếp", "Nhận dạng món ăn trong một nốt nhạc! \nChờ phiên bản sau mới mở khoá nha!", R.drawable.chef_level_1, R.drawable.chef_level_2, R.drawable.chef_level_3));
+        put("language", new CategoryInfo("ABC Trường học", "Ngôn ngữ", "Nhiều chữ quá đi! \nHãy cố gắng ghi nhớ để đạt được huy hiệu này!", R.drawable.language_specialist_level_1, R.drawable.language_specialist_level_2, R.drawable.language_specialist_level_3));
     }};
 
     private static AchievementManager instance;
@@ -57,6 +60,13 @@ public class AchievementManager {
                 hm.put(i, new Achievement(category, i, categoryMap.get(category).resIds[i], categoryMap.get(category).destination));
             }
         }
+    }
+
+    public void resetAchiements() {
+        for(Achievement a : achievements){
+            a.reset();
+        }
+        achievements.clear();
     }
 
     public void setAchieved(String category, int level, long time){

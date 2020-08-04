@@ -43,4 +43,8 @@ public class Achievement {
     public long getAchievedTimestamp() {
         return achievedTimestamp;
     }
+
+    public void reset() {
+        achievedTimestamp = -1;
+    }
 }

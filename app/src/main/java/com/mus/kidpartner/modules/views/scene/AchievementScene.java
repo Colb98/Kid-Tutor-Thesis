@@ -45,7 +45,7 @@ public class AchievementScene extends GameScene {
 
     private void initButtons(){
         // TODO delete this line (just for debug)
-        Achievement a = AchievementManager.getInstance().onFinishedTest("iq", 0, 1, 1);
+//        Achievement a = AchievementManager.getInstance().onFinishedTest("iq", 0, 1, 1);
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -74,7 +74,7 @@ public class AchievementScene extends GameScene {
             destination.setPositionCenterParent(false, true);
 
             GameTextView desc = (GameTextView) getChild("desc");
-            desc.setText("Dummy text " + category, FontCache.Font.UVNKyThuat, 16);
+            desc.setText(info.desc, FontCache.Font.UVNKyThuat, 16);
 
             Sprite bg = (Sprite) getChild("bg2");
             for(int i=0;i<achievements.size();i++){
