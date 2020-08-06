@@ -11,29 +11,28 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.provider.Settings;
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mus.kidpartner.R;
 import com.mus.kidpartner.modules.classes.SaveData;
-import com.mus.kidpartner.modules.classes.UIManager;
 import com.mus.kidpartner.modules.models.common.Achievement;
+import com.mus.kidpartner.modules.views.base.GameVuforiaScene;
+import com.mus.kidpartner.modules.views.school.ABCTestScene;
 import com.mus.kidpartner.modules.views.setting.SettingUI;
 import com.vuforia.engine.ImageTargets.ImageTargets;
 import com.mus.kidpartner.MainActivity;
 import com.mus.kidpartner.modules.views.base.GameScene;
 import com.mus.kidpartner.modules.views.base.GameView;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -45,6 +44,8 @@ public class Director {
     private GameView mainGameView = null;
     private Context context = null;
     private MainActivity mainActivity = null;
+    private ImageTargets imageTargetActivity = null;
+    private Pair<String, Object> imageTargetParam = null;
     private boolean saveDataOnline = false;
     private GoogleSignInClient mGoogleSignInClient = null;
     private GoogleSignInAccount mGoogleSignInAccount = null;
@@ -95,11 +96,30 @@ public class Director {
         return null;
     }
 
-    public void runActivity(Class activityClass){
+    public void setActivity(ImageTargets a){
+        imageTargetActivity = a;
+        if(imageTargetParam != null){
+            a.setScene(getVuforiaScene(imageTargetParam.first, imageTargetParam.second, a.getGameView()));
+        }
+    }
+
+    private GameVuforiaScene getVuforiaScene(String type, Object param, GameView gv){
+        switch(type){
+            case "abc":
+                ABCTestScene test = new ABCTestScene(gv);
+                test.setLevel((int) param);
+                return test;
+        }
+        // Default
+        return new ABCTestScene(gv);
+    }
+
+    public void runActivity(Class activityClass, String sceneClass, Object param){
         try{
             if(activityClass.equals(ImageTargets.class)){
 //                Log.d("HIHIHI", "start activity");
                 mainActivity.startImageTargetsActivity();
+                imageTargetParam = new Pair<>(sceneClass, param);
             }
             else{
                 Intent intent = new Intent(context, activityClass);

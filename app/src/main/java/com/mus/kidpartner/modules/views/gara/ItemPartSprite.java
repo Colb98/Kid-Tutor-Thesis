@@ -17,7 +17,12 @@ public class ItemPartSprite extends Sprite {
     private Point lastTouchPos;
     private Point linkPos;
     private ItemPartSprite subscribeView;
+    private OnAttachListener onAttachListener;
     private boolean isAttached = false;
+
+    public interface OnAttachListener{
+        void onAttach(int count, boolean all);
+    }
 
     public ItemPartSprite(GameView parent){
         super(parent);
@@ -84,7 +89,15 @@ public class ItemPartSprite extends Sprite {
             attachedPart.add(child);
             child.isAttached = true;
             child.setPosition(getPosition().add(child.linkPos));
+
+            if(onAttachListener != null){
+                onAttachListener.onAttach(attachedPart.size(), isAllAttached());
+            }
         }
+    }
+
+    public void setOnAttachListener(OnAttachListener l){
+        onAttachListener = l;
     }
 
     public void reset(){
@@ -92,6 +105,7 @@ public class ItemPartSprite extends Sprite {
         attachedPart.clear();
         subscribeView = null;
         isAttached = false;
+        onAttachListener = null;
     }
 
     public boolean isAllAttached(){

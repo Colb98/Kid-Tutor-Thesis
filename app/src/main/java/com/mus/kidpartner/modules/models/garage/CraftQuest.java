@@ -9,8 +9,10 @@ public class CraftQuest implements QuestionModel {
     public int[] orders;
     public Point[] relativePositions;
     public boolean isFinished;
+    public String word;
 
-    public CraftQuest(int[] resIds, Point[] positions, int[] orders){
+    public CraftQuest(String word, int[] resIds, Point[] positions, int[] orders){
+        this.word = word;
         this.resIds = resIds;
         this.orders = orders;
         this.relativePositions = positions;

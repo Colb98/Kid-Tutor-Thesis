@@ -10,6 +10,7 @@ import com.mus.kidpartner.R;
 import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.LayoutPosition;
 import com.mus.kidpartner.modules.classes.SceneCache;
+import com.mus.kidpartner.modules.classes.UIManager;
 import com.mus.kidpartner.modules.classes.Utils;
 import com.mus.kidpartner.modules.controllers.AchievementManager;
 import com.mus.kidpartner.modules.controllers.Director;
@@ -23,10 +24,18 @@ import com.mus.kidpartner.modules.views.base.GameTextView;
 import com.mus.kidpartner.modules.views.base.GameView;
 import com.mus.kidpartner.modules.views.base.Sprite;
 import com.mus.kidpartner.modules.views.base.TestScene;
+import com.mus.kidpartner.modules.views.base.actions.Action;
+import com.mus.kidpartner.modules.views.base.actions.DelayTime;
 import com.mus.kidpartner.modules.views.popup.AchievementPopup;
+import com.mus.kidpartner.modules.views.popup.FlashcardPopup;
+import com.mus.kidpartner.modules.views.tutorial.GaraTestTutorial;
 
-public class GaraTestScene extends TestScene {
+public class GaraTestScene extends TestScene implements ItemPartSprite.OnAttachListener {
 
+    private FlashcardPopup flashCard;
+    private boolean justNext = false;
+    private boolean disableNext = false;
+    private String curWord = "";
     public GaraTestScene(GameView parent) {
         super(parent);
     }
@@ -38,6 +47,12 @@ public class GaraTestScene extends TestScene {
         currentTest = TestsConfig.getCraftTest(0);
         initScene();
         initButtons();
+        initLayer();
+    }
+
+    private void initLayer(){
+        GaraTestTutorial layer = new GaraTestTutorial(this);
+
     }
 
     private void initScene(){
@@ -176,6 +191,7 @@ public class GaraTestScene extends TestScene {
         lbTitle.setText(builder);
 
         CraftQuest quest = ((CraftTest)currentTest).quests.get(currentQuestion);
+        curWord = quest.word;
         ItemPartSprite core = null;
         for(int i=0;i<Math.max(5, quest.resIds.length);i++){
             ItemPartSprite sprite = (ItemPartSprite)getChild("part" + (i < quest.orders.length ? quest.orders[i] : i));
@@ -191,6 +207,7 @@ public class GaraTestScene extends TestScene {
                 if (i == 0){
                     sprite.setCore(true);
                     core = sprite;
+                    sprite.setOnAttachListener(this);
                 }
                 else {
                     sprite.setCore(false);
@@ -269,8 +286,10 @@ public class GaraTestScene extends TestScene {
                 next.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
+                        if(disableNext) return;
                         submitAnswer();
                         nextQuestion();
+                        justNext = true;
                     }
                 });
 
@@ -285,6 +304,49 @@ public class GaraTestScene extends TestScene {
         });
     }
 
+    @Override
+    public void onAttach(int count, boolean all) {
+        if(all){
+            onCorrectAns();
+        }
+    }
+
+    private void onCorrectAns(){
+        final Sprite popup = UIManager.getInstance().getFlashcardPopup(curWord, this);
+        CraftQuest q = ((CraftTest) currentTest).getQuestions().get(currentQuestion);
+        q.isFinished = true;
+        DelayTime delay = new DelayTime(10, new Runnable() {
+            @Override
+            public void run() {
+                popup.hide();
+                nextQuestion();
+            }
+        });
+        popup.runAction(delay);
+    }
+
+    @Override
+    protected void nextQuestion() {
+        super.nextQuestion();
+        FlashcardPopup flashCard = (FlashcardPopup)getChild("flashcard");
+        if(flashCard != null){
+            Action a = flashCard.getAction(0);
+            if(a != null)
+                a.removeAllCallbacks();
+            flashCard.stopAllActions();
+            flashCard.forceHide();
+        }
+        disableNext = true;
+        final DelayTime lockNextButton = new DelayTime(1, new Runnable() {
+            @Override
+            public void run() {
+                disableNext = false;
+            }
+        });
+        Button back = (Button) getChild("btnBack");
+        back.runAction(lockNextButton);
+    }
+
     private boolean checkAllPartsAttach(){
         CraftQuest q = ((CraftTest) currentTest).getQuestions().get(currentQuestion);
         ItemPartSprite sprite = (ItemPartSprite)getChild("part" + q.orders[0]);
@@ -295,7 +357,8 @@ public class GaraTestScene extends TestScene {
         CraftQuest oldQ = ((CraftTest) currentTest).getQuestions().get(currentQuestion);
         oldQ.isFinished = checkAllPartsAttach();
         if(oldQ.isFinished){
-            Sounds.play(R.raw.sound_correct);
+//            onCorrectAns(); NO MORE NEED to call
+
         }
         else{
             Sounds.play(R.raw.sound_wrong);

@@ -83,6 +83,7 @@ public abstract class TestScene extends GameScene {
 //            Log.d("Result", "Total true answer: " + score);
             showResult();
         }
+
     }
 
     public void onBackButton(Runnable onConfirmBack){

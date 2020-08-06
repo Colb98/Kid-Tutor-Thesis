@@ -2,6 +2,7 @@ package com.mus.kidpartner.modules.views.school;
 
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import com.mus.kidpartner.R;
@@ -20,6 +21,7 @@ import com.mus.kidpartner.modules.views.base.actions.DelayTime;
 import com.mus.kidpartner.modules.views.popup.AchievementPopup;
 import com.mus.kidpartner.modules.views.popup.FlashcardPopup;
 import com.mus.kidpartner.modules.views.popup.ResultPopup;
+import com.mus.kidpartner.modules.views.tutorial.ABCTestTutorial;
 
 public class ABCTestScene extends GameVuforiaScene {
     int level = 0;
@@ -37,7 +39,12 @@ public class ABCTestScene extends GameVuforiaScene {
         super.afterAddChild();
         initScene();
         initButtons();
-        setLevel(1);
+        initLayer();
+//        setLevel(1);
+    }
+
+    private void initLayer(){
+        new ABCTestTutorial(this);
     }
 
     private void initButtons(){
@@ -120,6 +127,7 @@ public class ABCTestScene extends GameVuforiaScene {
     }
 
     public void setLevel(int level){
+        Log.d("test", "level is " + level);
         isShowedResult = false;
         this.level = level;
         correct = 0;
@@ -238,9 +246,9 @@ public class ABCTestScene extends GameVuforiaScene {
         Sprite img = (Sprite) getChild("img");
         float width = Utils.getScreenWidth(), height = Utils.getScreenHeight();
 
-        idx = level * 9 + idx;
+//        idx = level * 9 + idx;
         ans.hide();
-        FlashcardPopup.WordDesc w = WordCache.getWordDesc(WordCache.listWord[questionMap[question]]);
+        FlashcardPopup.WordDesc w = WordCache.getWordDesc(WordCache.listWord[level * 9 + questionMap[question]]);
         word.setText("_ " + w.word.substring(1));
         word.setPosition(width * 0.25f - word.getContentSize().width/2, height * 0.10f + img.getContentSize().height + 10);
 

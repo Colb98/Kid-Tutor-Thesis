@@ -40,6 +40,19 @@ public class WordCache {
         put("shower", new FlashcardPopup.WordDesc(R.drawable.bathroom_shower, R.raw.sound_us_shower, "Shower", "Vòi sen", "/ˈʃaʊ.ɚ/"));
         put("door", new FlashcardPopup.WordDesc(R.drawable.bathroom_door, R.raw.sound_us_door, "Door", "Cửa", "/dɔːr/"));
 
+        put("hair dryer", new FlashcardPopup.WordDesc(R.drawable.gara_hair_dryer, R.raw.sound_us_hair_dryer, "Hair Dryer", "Máy sấy tóc", "/ˈher ˌdraɪ.ɚ/"));
+        put("truck", new FlashcardPopup.WordDesc(R.drawable.gara_truck, R.raw.sound_us_truck, "Truck", "Xe tải", "/trʌk/"));
+        put("car", new FlashcardPopup.WordDesc(R.drawable.gara_car, R.raw.sound_us_car, "Car", "Ô tô", "/kɑːr/"));
+        put("blender", new FlashcardPopup.WordDesc(R.drawable.gara_blender, R.raw.sound_us_blender, "Blender", "Máy xay", "/ˈblen.dɚ/"));
+        put("fan", new FlashcardPopup.WordDesc(R.drawable.gara_fan, R.raw.sound_us_fan, "Fan", "Quạt", "/fæn/"));
+        put("bicycle", new FlashcardPopup.WordDesc(R.drawable.gara_bicycle, R.raw.sound_us_bicycle, "Bicycle", "Xe đạp", "/ˈbaɪ.sə.kəl/"));
+        put("motorcycle", new FlashcardPopup.WordDesc(R.drawable.gara_motorcycle, R.raw.sound_us_motorcycle, "Motorcycle", "Xe máy", "/ˈmoʊ.t̬ɚˌsaɪ.kəl/"));
+        put("drill", new FlashcardPopup.WordDesc(R.drawable.gara_drill, R.raw.sound_us_drill, "Drill", "Cái khoan", "/drɪl/"));
+        put("saw machine", new FlashcardPopup.WordDesc(R.drawable.gara_saw_machine, R.raw.sound_us_saw_machine, "Saw Machine", "Cưa máy", "/sɑː məˈʃiːn/"));
+        put("cutting machine", new FlashcardPopup.WordDesc(R.drawable.gara_cutting_machine, R.raw.sound_us_cutting_machine, "Cutting Machine", "Máy cắt", "/ˈkʌt̬.ɪŋ məˈʃiːn/"));
+        put("lathe machine", new FlashcardPopup.WordDesc(R.drawable.gara_lathe_machine, R.raw.sound_us_lathe_machine, "Lathe Machine", "Máy tiện", "/leɪð məˈʃiːn/"));
+
+
         put("apple", new FlashcardPopup.WordDesc(R.drawable.alphabet_apple, R.raw.sound_us_apple, "Apple", "Quả táo", "/ˈæp.əl/"));
         put("banana", new FlashcardPopup.WordDesc(R.drawable.alphabet_banana, R.raw.sound_us_banana, "Banana", "Quả chuối", "/bəˈnæn.ə/"));
         put("cat", new FlashcardPopup.WordDesc(R.drawable.alphabet_cat, R.raw.sound_us_cat, "Cat", "Con mèo", "/kæt/"));
