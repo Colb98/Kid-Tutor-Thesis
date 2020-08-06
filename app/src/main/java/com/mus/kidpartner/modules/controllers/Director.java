@@ -215,7 +215,8 @@ public class Director {
                             DocumentSnapshot document = task.getResult();
                             SaveData data = new SaveData();
                             data.user = document.getString("user");
-                            // New user
+                            // New user: apply current data to db
+                            // Old user: delete current data and sync from db to device
                             if(data.user == null){
                                 saveOnline(SaveData.getSaveData());
                             }

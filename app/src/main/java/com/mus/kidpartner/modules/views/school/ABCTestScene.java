@@ -103,10 +103,10 @@ public class ABCTestScene extends GameVuforiaScene {
         ans.setPosition(text.getPosition());
         mappingChild(ans, "ans");
 
-        GameTextView debugTrack = new GameTextView(bg);
-        debugTrack.setText(s, FontCache.Font.TimesNewRoman, 32);
-        debugTrack.setPosition(0, 0);
-        mappingChild(debugTrack, "debug");
+//        GameTextView debugTrack = new GameTextView(bg);
+//        debugTrack.setText(s, FontCache.Font.TimesNewRoman, 32);
+//        debugTrack.setPosition(0, 0);
+//        mappingChild(debugTrack, "debug");
 
         Button next = new Button(bg);
         next.setSpriteAnimation(R.drawable.school_iq_quiz_button_next);
@@ -189,11 +189,13 @@ public class ABCTestScene extends GameVuforiaScene {
             correctCurQuestion = detect;
 
             GameTextView v = (GameTextView)getChild("debug");
-            if(detectedObjectName != null){
-                v.setText(detectedObjectName);
-            }
-            else{
-                v.setText("Null");
+            if(v != null){
+                if(detectedObjectName != null){
+                    v.setText(detectedObjectName);
+                }
+                else{
+                    v.setText("Null");
+                }
             }
             FlashcardPopup.WordDesc w = WordCache.getWordDesc(WordCache.listWord[questionMap[question]]);
             if(detect) {
