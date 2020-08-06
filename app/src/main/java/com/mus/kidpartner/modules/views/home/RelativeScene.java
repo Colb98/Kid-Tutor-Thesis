@@ -1,5 +1,6 @@
 package com.mus.kidpartner.modules.views.home;
 
+import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import com.mus.kidpartner.R;
@@ -97,16 +98,17 @@ public class RelativeScene extends FindWordScene {
         mappingChild(cousinB, "cousin");
         mappingChild(cousinG, "cousin");
 
-        initSprite(grandpa, R.drawable.relative_grandfather , new Point(1137.5139f, 197.81683f), bg.getScale());
-        initSprite(grandma, R.drawable.relative_grandmother , new Point(1616.3092f, 198.81592f), bg.getScale());
-        initSprite(father , R.drawable.relative_father      , new Point(970.5852f, 454.5791f), bg.getScale());
-        initSprite(mother , R.drawable.relative_mother      , new Point(1224.4767f, 449.5837f), bg.getScale());
-        initSprite(aunt   , R.drawable.relative_aunt        , new Point(1791.2344f, 450.58282f), bg.getScale());
-        initSprite(uncle  , R.drawable.relative_uncle       , new Point(1523.349f, 451.58185f), bg.getScale());
-        initSprite(sister , R.drawable.relative_sister      , new Point(970.5851f, 771.2859f), bg.getScale());
-        initSprite(brother, R.drawable.relative_brother     , new Point(1234.4724f, 776.28125f), bg.getScale());
-        initSprite(cousinB, R.drawable.relative_cousin1     , new Point(1520.3502f, 777.2803f), bg.getScale());
-        initSprite(cousinG, R.drawable.relative_cousin2     , new Point(1789.983f, 778.14685f), bg.getScale());
+        Log.d("debug", "scale: " + bg.getPosition().x);
+        initSprite(grandpa, R.drawable.relative_grandfather , new Point(927.5139f, 197.81683f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(grandma, R.drawable.relative_grandmother , new Point(1406.3092f, 198.81592f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(father , R.drawable.relative_father      , new Point(760.5852f, 454.5791f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(mother , R.drawable.relative_mother      , new Point(1014.4767f, 449.5837f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(aunt   , R.drawable.relative_aunt        , new Point(1581.2344f, 450.58282f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(uncle  , R.drawable.relative_uncle       , new Point(1313.349f, 451.58185f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(sister , R.drawable.relative_sister      , new Point(760.5851f, 771.2859f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(brother, R.drawable.relative_brother     , new Point(1024.4724f, 776.28125f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(cousinB, R.drawable.relative_cousin1     , new Point(1310.3502f, 777.2803f).add(bg.getPosition().x, 0), bg.getScale());
+        initSprite(cousinG, R.drawable.relative_cousin2     , new Point(1579.983f, 778.14685f).add(bg.getPosition().x, 0), bg.getScale());
 
 
         Button btnBack = new Button(this);
