@@ -312,7 +312,14 @@ public class Sprite extends GameView{
             performClick();
 
         if(debugMode){
-            Log.d("DEBUG", "object: " + getName() + " pos at " + getPosition() + " scale: " + trueScale);
+            Size size;
+            if(parent instanceof Sprite){
+                size = ((Sprite) parent).getContentSize();
+            }
+            else{
+                size = new Size(Utils.getScreenWidth(), Utils.getScreenHeight());
+            }
+            Log.d("DEBUG", "object: " + getName() + " pos at " + getPosition() + " scale: " + trueScale + " parent pos: " + new Point(getPosition().x/size.width, getPosition().y/size.height));
         }
 
         int[] viewOrder = container.getDrawOrderIndexing(this);
