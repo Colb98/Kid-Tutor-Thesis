@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver;
 import com.mus.kidpartner.R;
 import com.mus.kidpartner.modules.classes.FontCache;
 import com.mus.kidpartner.modules.classes.SceneCache;
+import com.mus.kidpartner.modules.classes.UIManager;
 import com.mus.kidpartner.modules.classes.Utils;
 import com.mus.kidpartner.modules.controllers.AreaMusicManager;
 import com.mus.kidpartner.modules.controllers.Director;
@@ -47,6 +48,10 @@ public class MartScene extends GameScene{
         fruit.setSpriteAnimation(R.drawable.mart_icon_fruit);
         vegetable.setSpriteAnimation(R.drawable.mart_icon_vegetable);
         meat.setSpriteAnimation(R.drawable.mart_icon_meat);
+
+        mappingChild(fruit, "fruit");
+        mappingChild(vegetable, "vegetable");
+        mappingChild(meat, "meat");
 
         float buttonWidth = fruit.getContentSize(false).width;
         float buttonHeight = fruit.getContentSize(false).height;
@@ -96,6 +101,30 @@ public class MartScene extends GameScene{
                             Director.getInstance().loadScene(SceneCache.getScene("map"));
                         else
                             chooseCategory();
+                    }
+                });
+
+                Button fruit = (Button)getChild("fruit");
+                fruit.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(MartScene.this);
+                    }
+                });
+
+                Button vegetable = (Button)getChild("vegetable");
+                vegetable.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(MartScene.this);
+                    }
+                });
+
+                Button meat = (Button)getChild("meat");
+                meat.addTouchEventListener(Sprite.CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        UIManager.getInstance().getNotUnlockedLayer(MartScene.this);
                     }
                 });
             }
