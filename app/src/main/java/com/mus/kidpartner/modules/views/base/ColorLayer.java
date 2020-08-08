@@ -26,7 +26,7 @@ public class ColorLayer extends Sprite {
         if(size.width < width || size.height < height){
             setScale(Math.max(height/size.height, width/size.width));
         }
-        setAlpha(0.5f);
+        setAlpha(0.7f);
 
         GameTextView desc = new GameTextView(this);
         SpannableString string = new SpannableString("Chạm màn hình để tiếp tục");

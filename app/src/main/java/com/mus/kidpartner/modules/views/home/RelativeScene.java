@@ -76,6 +76,7 @@ public class RelativeScene extends FindWordScene {
         bg.setSpriteAnimation(R.drawable.relative_background);
         bg.scaleToMaxHeight(Utils.getScreenHeight());
         bg.setPositionCenterScreen(false, false);
+        mappingChild(bg, "background");
 
         Sprite grandpa  = new Sprite(bg);
         Sprite grandma  = new Sprite(bg);

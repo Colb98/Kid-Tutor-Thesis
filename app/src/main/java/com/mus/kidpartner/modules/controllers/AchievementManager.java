@@ -32,6 +32,7 @@ public class AchievementManager {
 //        put("family", "home");
         put("food", new CategoryInfo("Nhà hàng", "Đầu bếp", "Nhận dạng món ăn trong một nốt nhạc! \nChờ phiên bản sau mới mở khoá nha!", R.drawable.chef_level_1, R.drawable.chef_level_2, R.drawable.chef_level_3));
         put("language", new CategoryInfo("ABC Trường học", "Ngôn ngữ", "Nhiều chữ quá đi! \nHãy cố gắng ghi nhớ để đạt được huy hiệu này!", R.drawable.language_specialist_level_1, R.drawable.language_specialist_level_2, R.drawable.language_specialist_level_3));
+        put("zoo", new CategoryInfo("Sở thú", "Nhà ĐV học", "Nhà động vật học tài ba! \nNhận biết các loài động vật trong sở thú cực nhanh!\n Chờ phiên bản sau để mở khoá nha", R.drawable.language_specialist_level_1, R.drawable.language_specialist_level_2, R.drawable.language_specialist_level_3));
     }};
 
     private static AchievementManager instance;

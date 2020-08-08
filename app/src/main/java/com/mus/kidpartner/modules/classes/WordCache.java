@@ -16,7 +16,7 @@ public class WordCache {
         put("bed", new FlashcardPopup.WordDesc(R.drawable.bedroom_bed, R.raw.sound_us_bed, "Bed", "Cái giường", "/bed/"));
         put("pillow", new FlashcardPopup.WordDesc(R.drawable.bedroom_pillow, R.raw.sound_us_pillow, "Pillow", "Cái gối", "/ˈpɪl.oʊ/"));
         put("blanket", new FlashcardPopup.WordDesc(R.drawable.bedroom_blanket, R.raw.sound_us_blanket, "Blanket", "Cái chăn/mền", "/ˈblæŋ.kɪt/"));
-        put("pot", new FlashcardPopup.WordDesc(R.drawable.bedroom_bonsai_pot, R.raw.sound_us_pot, "Pot", "Cái chậu", "/pɑːt/"));
+        put("pot", new FlashcardPopup.WordDesc(R.drawable.livingroom_bonsai_pot, R.raw.sound_us_pot, "Pot", "Cái chậu", "/pɑːt/"));
         put("carpet", new FlashcardPopup.WordDesc(R.drawable.bedroom_carpet, R.raw.sound_us_carpet, "Carpet", "Tấm thảm", "/ˈkɑːr.pət/"));
         put("grandfather", new FlashcardPopup.WordDesc(R.drawable.relative_grandfather, R.raw.sound_us_grandfather, "Grandfather", "Ông", "/ˈɡræn.fɑː.ðɚ/"));
         put("grandmother", new FlashcardPopup.WordDesc(R.drawable.relative_grandmother, R.raw.sound_us_grandmother, "Grandmother", "Bà", "/ˈɡræn.mʌð.ɚ/"));

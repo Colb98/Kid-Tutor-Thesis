@@ -45,27 +45,6 @@ public class BedroomScene extends FindWordScene {
         initLayer();
     }
 
-    @Override
-    public void openTestScene() {
-        super.openTestScene();
-        setItemTesting(true);
-    }
-
-    @Override
-    public void openLearnScene() {
-        super.openLearnScene();
-        setItemTesting(true);
-    }
-
-    private void setItemTesting(boolean val){
-        HashMap<String, GameView> map = getAllChildrenWithName();
-        for(GameView v : map.values()){
-            if(v instanceof ItemButton){
-                ((ItemButton)v).isTesting = val;
-            }
-        }
-    }
-
     protected void initButtons(){
         super.initButtons();
         final BedroomScene that = this;

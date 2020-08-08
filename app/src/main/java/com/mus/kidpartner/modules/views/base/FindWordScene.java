@@ -13,8 +13,11 @@ import com.mus.kidpartner.modules.classes.Utils;
 import com.mus.kidpartner.modules.classes.WordCache;
 import com.mus.kidpartner.modules.controllers.Sounds;
 import com.mus.kidpartner.modules.views.base.actions.DelayTime;
+import com.mus.kidpartner.modules.views.home.ItemButton;
 import com.mus.kidpartner.modules.views.popup.ConfirmPopup;
 import com.mus.kidpartner.modules.views.popup.ResultPopup;
+
+import java.util.HashMap;
 
 public class FindWordScene extends TestScene {
     protected int[] questionMap;
@@ -152,6 +155,17 @@ public class FindWordScene extends TestScene {
         test.show();
         getChild("testBtn").hide();
         loadQuestion(0);
+        setItemTesting(true);
+    }
+
+
+    private void setItemTesting(boolean val){
+        HashMap<String, GameView> map = getAllChildrenWithName();
+        for(GameView v : map.values()){
+            if(v instanceof ItemButton){
+                ((ItemButton)v).isTesting = val;
+            }
+        }
     }
 
     public void openLearnScene(){
@@ -160,6 +174,7 @@ public class FindWordScene extends TestScene {
         test.hide();
         stopCountDown();
         getChild("testBtn").show();
+        setItemTesting(false);
     }
 
 

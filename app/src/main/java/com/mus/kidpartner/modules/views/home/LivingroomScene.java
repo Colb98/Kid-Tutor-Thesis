@@ -17,6 +17,8 @@ import com.mus.kidpartner.modules.views.base.GameView;
 import com.mus.kidpartner.modules.views.base.ScrollView;
 import com.mus.kidpartner.modules.views.base.Sprite;
 
+import java.util.HashMap;
+
 public class LivingroomScene extends FindWordScene {
     public LivingroomScene(GameView parent){
         super(parent);

@@ -65,6 +65,19 @@ public class SettingUI extends ComplexUI {
                     }
                 });
 
+                Button credits = (Button)getChild("credits");
+                credits.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
+                    @Override
+                    public void run() {
+                        CreditLayer layer = (CreditLayer) getChild("creditLayer");
+                        if(layer == null){
+                            layer = new CreditLayer(SettingUI.this);
+                            mappingChild(layer, "creditLayer");
+                        }
+                        layer.show();
+                    }
+                });
+
                 Button reset = (Button)getChild("reset");
                 reset.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
                     @Override
@@ -168,25 +181,25 @@ public class SettingUI extends ComplexUI {
 //        mappingChild(btnAlarm, "btnAlarm");
 
 
-        Button btnLanguage = new Button(this);
-        btnLanguage.setLabel("Debug");
-        btnLanguage.setPositionDp(350, 240);
-//        btnLanguage.setLabelFont(FontCache.Font.UVNNguyenDu);
-        mappingChild(btnLanguage, "btnLanguage");
+//        Button btnLanguage = new Button(this);
+//        btnLanguage.setLabel("Debug");
+//        btnLanguage.setPositionDp(350, 240);
+////        btnLanguage.setLabelFont(FontCache.Font.UVNNguyenDu);
+//        mappingChild(btnLanguage, "btnLanguage");
+//
+//        btnLanguage.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
+//            @Override
+//            public void run() {
+//                Director.getInstance().debugCurrentState();
+//            }
+//        });
 
-        btnLanguage.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
-            @Override
-            public void run() {
-                Director.getInstance().debugCurrentState();
-            }
-        });
-
-        Button btnAbout = new Button(this);
-        btnAbout.setLabel(Utils.getString(R.string.text_about));
-        btnAbout.setPositionDp(490, 240);
-        btnAbout.setLabelFontSize(18);
-//        btnAbout.setLabelFont(FontCache.Font.UVNNguyenDu);
-        mappingChild(btnAbout, "btnAbout");
+        Button credits = new Button(this);
+        credits.setLabel(Utils.getString(R.string.text_about));
+        credits.setPositionDp(490, 240);
+        credits.setLabelFontSize(18);
+//        credits.setLabelFont(FontCache.Font.UVNNguyenDu);
+        mappingChild(credits, "credits");
 
         GoogleSignInButtonWrapper signIn = new GoogleSignInButtonWrapper(this);
         signIn.setContentSize(260, 115);
