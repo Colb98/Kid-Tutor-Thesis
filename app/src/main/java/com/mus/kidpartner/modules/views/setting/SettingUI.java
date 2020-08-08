@@ -119,6 +119,7 @@ public class SettingUI extends ComplexUI {
 //        setAlpha(0.5f);
         Sprite topBar = new Sprite(this);
 
+        float width = Utils.getScreenWidth(), height = Utils.getScreenHeight();
         topBar.setSpriteAnimation(R.drawable.setting_topbar);
 
         final Button btnBack = new Button(this);
@@ -126,26 +127,22 @@ public class SettingUI extends ComplexUI {
         btnBack.setPosition(50, 50);
         mappingChild(btnBack, "btnBack");
 
-        GameTextView lbBack = new GameTextView(btnBack);
-        lbBack.setText(Utils.getString(R.string.text_back));
-        lbBack.setPosition(150, 15);
-        lbBack.setFont(FontCache.Font.UVNNguyenDu);
-        lbBack.setFontSize(18);
-
+        height = height - topBar.getContentSize().height;
         GameTextView lbMusic = new GameTextView(this);
         lbMusic.setText(Utils.getString(R.string.text_music));
-        lbMusic.setPositionDp(200, 70);
+        lbMusic.setPosition(width*0.25f, topBar.getContentSize().height + height * 0.1f);
         lbMusic.setFont(FontCache.Font.UVNNguyenDu);
         lbMusic.setFontSize(18);
 
         GameTextView lbSfx = new GameTextView(this);
         lbSfx.setText(Utils.getString(R.string.text_sfx));
-        lbSfx.setPositionDp(200,120);
+        lbSfx.setPosition(width*0.25f, topBar.getContentSize().height + height * 0.3f);
         lbSfx.setFont(FontCache.Font.UVNNguyenDu);
         lbSfx.setFontSize(18);
 
         final Slider music = new Slider(this);
-        music.setPositionDp(270, 70);
+        music.setPositionX(lbMusic.getPosition().x + lbMusic.getContentSize().width + 50);
+        music.setPositionY(lbMusic.getPosition().y);
         music.view.setMax(100);
         music.view.setProgress((int)(Sounds.getMusicVolume()*100));
         music.addOnChangeValueCallback(new Runnable() {
@@ -156,7 +153,8 @@ public class SettingUI extends ComplexUI {
         });
 
         final Slider sfx = new Slider(this);
-        sfx.setPositionDp(270, 120);
+        sfx.setPositionX(lbMusic.getPosition().x + lbMusic.getContentSize().width + 50);
+        sfx.setPositionY(lbSfx.getPosition().y);
         sfx.view.setMax(100);
         sfx.view.setProgress((int)(Sounds.getSoundVolume()*100));
         sfx.addOnChangeValueCallback(new Runnable() {
@@ -165,45 +163,11 @@ public class SettingUI extends ComplexUI {
                 Sounds.setSoundVolume(music.view.getProgress()/100f);
             }
         });
-//        slider.view.setIndeterminate(true);
-//        slider.view.setMinimumWidth(200);
-//
-//        GameTextView lbVib = new GameTextView(this);
-//        lbVib.setText(Utils.getString(R.string.text_vibration));
-//        lbVib.setPositionDp(200, 170);
-//        lbVib.setFont(FontCache.Font.UVNNguyenDu);
-//        lbVib.setFontSize(18);
-//
-//        Button btnAlarm = new Button(this);
-////        btnAlarm.setLabel(Utils.getString(R.string.text_alarm));
-//        btnAlarm.setPositionDp(210, 240);
-////        btnAlarm.setLabelFont(FontCache.Font.UVNNguyenDu);
-//        mappingChild(btnAlarm, "btnAlarm");
 
-
-//        Button btnLanguage = new Button(this);
-//        btnLanguage.setLabel("Debug");
-//        btnLanguage.setPositionDp(350, 240);
-////        btnLanguage.setLabelFont(FontCache.Font.UVNNguyenDu);
-//        mappingChild(btnLanguage, "btnLanguage");
-//
-//        btnLanguage.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
-//            @Override
-//            public void run() {
-//                Director.getInstance().debugCurrentState();
-//            }
-//        });
-
-        Button credits = new Button(this);
-        credits.setLabel(Utils.getString(R.string.text_about));
-        credits.setPositionDp(490, 240);
-        credits.setLabelFontSize(18);
-//        credits.setLabelFont(FontCache.Font.UVNNguyenDu);
-        mappingChild(credits, "credits");
 
         GoogleSignInButtonWrapper signIn = new GoogleSignInButtonWrapper(this);
         signIn.setContentSize(260, 115);
-        signIn.setPositionDp(200, 170);
+        signIn.setPosition(lbSfx.getPosition().x, topBar.getContentSize().height + height * 0.5f);
         mappingChild(signIn, "signIn");
 
         GameView signedInGroup = new GameView(this);
@@ -226,9 +190,17 @@ public class SettingUI extends ComplexUI {
         signedInGroup.setVisible(false);
 
         Button reset = new Button(this);
-        reset.setPositionDp(210, 240);
+        reset.setPosition(width * 0.25f, topBar.getContentSize().height + height * 0.7f);
         reset.setLabel("Reset");
         mappingChild(reset, "reset");
+
+
+        Button credits = new Button(this);
+        credits.setLabel(Utils.getString(R.string.text_about));
+        credits.setPosition(width * 0.75f - credits.getContentSize().width, topBar.getContentSize().height + height * 0.7f);
+        credits.setLabelFontSize(18);
+//        credits.setLabelFont(FontCache.Font.UVNNguyenDu);
+        mappingChild(credits, "credits");
     }
 
     public void updateGoogleSignInState(){
