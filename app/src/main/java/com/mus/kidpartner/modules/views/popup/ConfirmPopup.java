@@ -71,10 +71,13 @@ public class ConfirmPopup extends Sprite {
                 onNormalClicked();
             }
         });
-        GameTextView lbNormal = new GameTextView(normal);
+        mappingChild(normal, "normal");
+
+        GameTextView lbNormal = normal.getLabel();
         lbNormal.setText(Utils.getString(R.string.text_stay).toUpperCase(), FontCache.Font.UVNNguyenDu, 18);
         lbNormal.setFontColor(Color.BLACK);
         lbNormal.setPositionCenterParent(false, false);
+        mappingChild(lbNormal, "normalText");
 
         Button red = new Button(background);
         red.setSpriteAnimation(R.drawable.button_red);
@@ -85,12 +88,16 @@ public class ConfirmPopup extends Sprite {
                 onRedClicked();
             }
         });
-        GameTextView lbRed = new GameTextView(red);
+        mappingChild(red, "red");
+
+        GameTextView lbRed = red.getLabel();
         lbRed.setText(Utils.getString(R.string.text_exit).toUpperCase(), FontCache.Font.UVNNguyenDu, 18);
         lbRed.setFontColor(Color.WHITE);
         lbRed.setPositionCenterParent(false, false);
+        mappingChild(lbRed, "redText");
 
         GameTextView message = new GameTextView(background);
+        message.alignCenter();
         message.setText(Utils.getString(R.string.text_confirm_exit), FontCache.Font.UVNChimBienNhe, 18);
         message.setPosition(0, close.getPosition().y + close.getContentSize().height + 5);
         message.setPositionCenterParent(false, true);
@@ -100,16 +107,35 @@ public class ConfirmPopup extends Sprite {
     public void setMessage(CharSequence s){
         GameTextView message = (GameTextView) getChild("message");
         message.setText(s);
+
+        // TODO: refactor this to a cleaner solution
+        // Currently scale the bg image bigger and move the buttons
+        Sprite bg = (Sprite) getChild("background");
+        bg.scaleToMaxHeight(message.getContentSize().height * 2.7f);
+        bg.setPositionCenterScreen(false, false);
+        message.setPositionCenterParent(false, true);
+
+        Button close = (Button) getChild("btnClose");
+        Button red = (Button) getChild("red");
+        Button normal = (Button) getChild("normal");
+        close.setScale(1f/bg.getScale());
+        red.setScale(1f/bg.getScale());
+        normal.setScale(1f/bg.getScale());
+
+        close.setLayoutRule(new LayoutPosition(LayoutPosition.getRule("right", close.getContentSize(false).width + 15), LayoutPosition.getRule("top", 15)));
+        red.setPosition(bg.getContentSize(false).width/2 - red.getContentSize().width - 30, bg.getContentSize().height - red.getContentSize().height - 30);
+        normal.setPosition(bg.getContentSize(false).width/2 + 30, bg.getContentSize().height - normal.getContentSize().height - 30);
+
     }
     
     public void setTextNormal(CharSequence s){
-        GameTextView normalText = (GameTextView) getChild("normalText");
-        normalText.setText(s);
+        Button button = (Button) getChild("normal");
+        button.setLabel(s);
     }
     
     public void setTextRed(CharSequence s){
-        GameTextView redText = (GameTextView) getChild("redText");
-        redText.setText(s);
+        Button button = (Button) getChild("red");
+        button.setLabel(s);
     }
 
     public void onNormalClicked(){

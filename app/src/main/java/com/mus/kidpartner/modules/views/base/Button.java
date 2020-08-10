@@ -45,6 +45,10 @@ public class Button extends Sprite {
         setAnchorPoint(0.5f, 0.5f);
     }
 
+    public GameTextView getLabel(){
+        return label;
+    }
+
     private void initLabel(String s){
         label = new GameTextView(s);
         this.addChild(label);

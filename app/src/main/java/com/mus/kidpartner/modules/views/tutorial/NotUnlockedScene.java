@@ -14,7 +14,7 @@ import com.mus.kidpartner.modules.views.base.GameView;
 import com.mus.kidpartner.modules.views.base.Sprite;
 
 public class NotUnlockedScene extends ColorLayer {
-    private static final CharSequence TEXT = "Ôi! Chỗ này chưa xây xong rồi.\n Quay lại sau nha, tạm thời hãy đến chơi những nơi khác đi bạn ơi!";
+    private static final CharSequence TEXT = "Ôi! Chỗ này chưa xây xong rồi.\nQuay lại sau nha, tạm thời hãy đến chơi những nơi khác đi bạn ơi!";
 
     public NotUnlockedScene(GameView parent) {
         super(parent);

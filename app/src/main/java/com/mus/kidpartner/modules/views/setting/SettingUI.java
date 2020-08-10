@@ -17,6 +17,9 @@ import com.mus.kidpartner.modules.views.base.GoogleSignInButtonWrapper;
 import com.mus.kidpartner.modules.views.base.Slider;
 import com.mus.kidpartner.modules.views.base.Sprite;
 import com.mus.kidpartner.modules.views.base.actions.MoveTo;
+import com.mus.kidpartner.modules.views.popup.ConfirmPopup;
+
+import java.util.Set;
 
 public class SettingUI extends ComplexUI {
     public static String UI_TAG = "setting";
@@ -82,7 +85,17 @@ public class SettingUI extends ComplexUI {
                 reset.addTouchEventListener(CallbackType.ON_CLICK, new Runnable() {
                     @Override
                     public void run() {
-                        Director.getInstance().resetData();
+                        ConfirmPopup p = new ConfirmPopup(SettingUI.this);
+                        p.show();
+                        p.setMessage("Bạn sắp xoá tất cả dữ liệu đã lưu.\nBao gồm thành tích đã đạt được.\nBạn chắc chứ?");
+                        p.setTextNormal("Không xoá");
+                        p.setTextRed("Xoá");
+                        p.addOnRedCallback(new Runnable() {
+                            @Override
+                            public void run() {
+                                Director.getInstance().resetData();
+                            }
+                        });
                     }
                 });
             }

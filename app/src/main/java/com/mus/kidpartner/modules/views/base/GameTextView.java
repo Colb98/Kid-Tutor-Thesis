@@ -72,6 +72,10 @@ public class GameTextView extends Sprite {
         }
     }
 
+    public void alignCenter(){
+        view.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+    }
+
     private void initTextView(){
         view = new TextView(this.getContext());
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
