@@ -220,7 +220,7 @@ public class ABCTestScene extends GameVuforiaScene {
                             showResult();
                         }
                     });
-                    v.runAction(delay);
+                    ans.runAction(delay);
                 }
             }
 
