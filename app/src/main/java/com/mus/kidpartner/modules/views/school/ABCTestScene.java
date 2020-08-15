@@ -205,7 +205,7 @@ public class ABCTestScene extends GameVuforiaScene {
                     v.setText("Null");
                 }
             }
-            FlashcardPopup.WordDesc w = WordCache.getWordDesc(WordCache.listWord[questionMap[question]]);
+            FlashcardPopup.WordDesc w = WordCache.getWordDesc(WordCache.listWord[level * 9 + questionMap[question]]);
             if(detect) {
                 correct++;
                 Sounds.play(w.soundId);
@@ -233,7 +233,7 @@ public class ABCTestScene extends GameVuforiaScene {
 
     public boolean submitAns(String ans){
         if(ans == null) return false;
-        FlashcardPopup.WordDesc w = WordCache.getWordDesc(WordCache.listWord[questionMap[question]]);
+        FlashcardPopup.WordDesc w = WordCache.getWordDesc(WordCache.listWord[level * 9 + questionMap[question]]);
         if(ans.toLowerCase().equals(w.word.substring(0,1).toLowerCase()))
             return true;
         return false;
