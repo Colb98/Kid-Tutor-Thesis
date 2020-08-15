@@ -52,17 +52,18 @@ public class HomeScene extends GameScene{
         relative.setPosition(screenWidth/2 - buttonWidth*1.5f, screenHeight/2 - buttonHeight/2);
         item.setPosition(screenWidth/2 + buttonWidth*0.5f, screenHeight/2 - buttonHeight/2);
 
-        GameTextView lbItem = new GameTextView(item);
+        float height = Utils.getScreenHeight();
+        GameTextView lbItem = new GameTextView(selectCategory);
         lbItem.setText("VẬT DỤNG", FontCache.Font.UVNChimBienNang, 30);
         lbItem.setFontColor(0xFFFFFFFF);
-        lbItem.setPosition(item.getX(), item.getY() + buttonHeight);
-        lbItem.setPositionCenterParent(false, true);
+        lbItem.setPositionXCenterWithView(item);
+        lbItem.setPositionY(height * 3/4);
 
-        GameTextView lbRelative = new GameTextView(relative);
+        GameTextView lbRelative = new GameTextView(selectCategory);
         lbRelative.setText("NGƯỜI THÂN", FontCache.Font.UVNChimBienNang, 30);
         lbRelative.setFontColor(0xFFFFFFFF);
-        lbRelative.setPosition(relative.getX(), relative.getY() + buttonHeight);
-        lbRelative.setPositionCenterParent(false, true);
+        lbRelative.setPositionXCenterWithView(relative);
+        lbRelative.setPositionY(height * 3/4);
 
         Button livingroom = new Button(selectRoom);
         Button bedroom = new Button(selectRoom);
@@ -84,22 +85,22 @@ public class HomeScene extends GameScene{
         mappingChild(kitchen, "kitchen");
         mappingChild(bathroom, "bathroom");
 
-        GameTextView lbLivingroom = new GameTextView(livingroom);
+        GameTextView lbLivingroom = livingroom.getLabel();
         lbLivingroom.setText("PHÒNG KHÁCH", FontCache.Font.UVNChimBienNang, 20);
         lbLivingroom.setFontColor(0xFFFFFFFF);
         lbLivingroom.setPositionCenterParent(false, false);
 
-        GameTextView lbBedroom = new GameTextView(bedroom);
+        GameTextView lbBedroom = bedroom.getLabel();
         lbBedroom.setText("PHÒNG NGỦ", FontCache.Font.UVNChimBienNang, 20);
         lbBedroom.setFontColor(0xFFFFFFFF);
         lbBedroom.setPositionCenterParent(false, false);
 
-        GameTextView lbKitchen = new GameTextView(kitchen);
+        GameTextView lbKitchen = kitchen.getLabel();
         lbKitchen.setText("NHÀ BẾP", FontCache.Font.UVNChimBienNang, 20);
         lbKitchen.setFontColor(0xFFFFFFFF);
         lbKitchen.setPositionCenterParent(false, false);
 
-        GameTextView lbBathroom = new GameTextView(bathroom);
+        GameTextView lbBathroom = bathroom.getLabel();
         lbBathroom.setText("PHÒNG TẮM", FontCache.Font.UVNChimBienNang, 20);
         lbBathroom.setFontColor(0xFFFFFFFF);
         lbBathroom.setPositionCenterParent(false, false);

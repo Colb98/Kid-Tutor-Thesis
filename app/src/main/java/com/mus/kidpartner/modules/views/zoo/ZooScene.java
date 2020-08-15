@@ -62,23 +62,24 @@ public class ZooScene extends GameScene{
         farmAnimal.setPosition(screenWidth/2 - buttonWidth*0.5f, screenHeight/2 - buttonHeight/2);
         wildAnimal.setPosition(screenWidth/2 + buttonWidth*0.5f + 150, screenHeight/2 - buttonHeight/2);
 
-        GameTextView lbPet = new GameTextView(pet);
+        float height = Utils.getScreenHeight();
+        GameTextView lbPet = new GameTextView(selectCategory);
         lbPet.setText("THÚ CƯNG", FontCache.Font.UVNChimBienNang, 30);
         lbPet.setFontColor(0xFFFFFFFF);
-        lbPet.setPosition(pet.getX(), pet.getY() + buttonHeight);
-        lbPet.setPositionCenterParent(false, true);
+        lbPet.setPositionXCenterWithView(pet);
+        lbPet.setPositionY(height * 3 / 4);
 
-        GameTextView lbFarmAnimal = new GameTextView(farmAnimal);
+        GameTextView lbFarmAnimal = new GameTextView(selectCategory);
         lbFarmAnimal.setText("VẬT NUÔI", FontCache.Font.UVNChimBienNang, 30);
         lbFarmAnimal.setFontColor(0xFFFFFFFF);
-        lbFarmAnimal.setPosition(farmAnimal.getX(), farmAnimal.getY() + buttonHeight);
-        lbFarmAnimal.setPositionCenterParent(false, true);
+        lbFarmAnimal.setPositionXCenterWithView(farmAnimal);
+        lbFarmAnimal.setPositionY(height * 3 / 4);
 
-        GameTextView lbWildAnimal = new GameTextView(wildAnimal);
+        GameTextView lbWildAnimal = new GameTextView(selectCategory);
         lbWildAnimal.setText("DÃ THÚ", FontCache.Font.UVNChimBienNang, 30);
         lbWildAnimal.setFontColor(0xFFFFFFFF);
-        lbWildAnimal.setPosition(wildAnimal.getX(), wildAnimal.getY() + buttonHeight);
-        lbWildAnimal.setPositionCenterParent(false, true);
+        lbWildAnimal.setPositionXCenterWithView(wildAnimal);
+        lbWildAnimal.setPositionY(height * 3 / 4);
 
         Button btnBack = new Button(this);
         btnBack.setSpriteAnimation(R.drawable.back_button);

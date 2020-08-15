@@ -62,23 +62,24 @@ public class MartScene extends GameScene{
         vegetable.setPosition(screenWidth/2 - buttonWidth*0.5f, screenHeight/2 - buttonHeight/2);
         meat.setPosition(screenWidth/2 + buttonWidth*0.5f + 150, screenHeight/2 - buttonHeight/2);
 
-        GameTextView lbFruit = new GameTextView(fruit);
+        float height = Utils.getScreenHeight();
+        GameTextView lbFruit = new GameTextView(selectCategory);
         lbFruit.setText("HOA QUẢ", FontCache.Font.UVNChimBienNang, 30);
         lbFruit.setFontColor(0xFFFFFFFF);
-        lbFruit.setPosition(fruit.getX(), fruit.getY() + buttonHeight);
-        lbFruit.setPositionCenterParent(false, true);
+        lbFruit.setPositionXCenterWithView(fruit);
+        lbFruit.setPositionY(height * 3 /4);
 
-        GameTextView lbVegetable = new GameTextView(vegetable);
+        GameTextView lbVegetable = new GameTextView(selectCategory);
         lbVegetable.setText("RAU CỦ", FontCache.Font.UVNChimBienNang, 30);
         lbVegetable.setFontColor(0xFFFFFFFF);
-        lbVegetable.setPosition(vegetable.getX(), vegetable.getY() + buttonHeight);
-        lbVegetable.setPositionCenterParent(false, true);
+        lbVegetable.setPositionXCenterWithView(vegetable);
+        lbVegetable.setPositionY(height * 3 /4);
 
-        GameTextView lbMeat = new GameTextView(meat);
+        GameTextView lbMeat = new GameTextView(selectCategory);
         lbMeat.setText("THỰC PHẨM", FontCache.Font.UVNChimBienNang, 30);
         lbMeat.setFontColor(0xFFFFFFFF);
-        lbMeat.setPosition(meat.getX(), meat.getY() + buttonHeight);
-        lbMeat.setPositionCenterParent(false, true);
+        lbMeat.setPositionXCenterWithView(meat);
+        lbMeat.setPositionY(height * 3 /4);
 
         Button btnBack = new Button(this);
         btnBack.setSpriteAnimation(R.drawable.back_button);

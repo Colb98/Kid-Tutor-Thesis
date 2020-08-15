@@ -199,6 +199,7 @@ public class GameTextView extends Sprite {
         onTextChange();
     }
 
+    public String getString() {return (String) text;}
     public int getTextLength(){
         return text.length();
     }

@@ -62,23 +62,25 @@ public class ResScene extends GameScene{
         food.setPosition(screenWidth/2 - buttonWidth*0.5f, screenHeight/2 - buttonHeight/2);
         juice.setPosition(screenWidth/2 + buttonWidth*0.5f + 150, screenHeight/2 - buttonHeight/2);
 
-        GameTextView lbSpice = new GameTextView(spice);
+        float height = Utils.getScreenHeight();
+        GameTextView lbSpice = new GameTextView(selectCategory);
         lbSpice.setText("GIA VỊ", FontCache.Font.UVNChimBienNang, 30);
         lbSpice.setFontColor(0xFFFFFFFF);
-        lbSpice.setPosition(spice.getX(), spice.getY() + buttonHeight);
-        lbSpice.setPositionCenterParent(false, true);
+        lbSpice.setPositionXCenterWithView(spice);
+        lbSpice.setPositionY(height * 3/4);
 
-        GameTextView lbFood = new GameTextView(food);
+
+        GameTextView lbFood = new GameTextView(selectCategory);
         lbFood.setText("ĐỒ ĂN", FontCache.Font.UVNChimBienNang, 30);
         lbFood.setFontColor(0xFFFFFFFF);
-        lbFood.setPosition(food.getX(), food.getY() + buttonHeight);
-        lbFood.setPositionCenterParent(false, true);
+        lbFood.setPositionXCenterWithView(food);
+        lbFood.setPositionY(height * 3/4);
 
-        GameTextView lbJuice = new GameTextView(juice);
+        GameTextView lbJuice = new GameTextView(selectCategory);
         lbJuice.setText("THỨC UỐNG", FontCache.Font.UVNChimBienNang, 30);
         lbJuice.setFontColor(0xFFFFFFFF);
-        lbJuice.setPosition(juice.getX(), juice.getY() + buttonHeight);
-        lbJuice.setPositionCenterParent(false, true);
+        lbJuice.setPositionXCenterWithView(juice);
+        lbJuice.setPositionY(height * 3/4);
 
         Button btnBack = new Button(this);
         btnBack.setSpriteAnimation(R.drawable.back_button);
